@@ -530,7 +530,7 @@ const refreshSocialData = createSocialRefresher(
     socialMonthlyClose,
     socialUsername
   },
-  (userId) => {
+  (userId: string | null) => {
     socialUserId = userId;
   }
 );
