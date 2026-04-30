@@ -1,0 +1,105 @@
+<div class="routine__app-shell" id="appShell">
+  <header class="routine__header">
+    <div class="routine__header-main">
+      <div class="routine__logo">
+        <div class="routine__logo-mark">P</div>
+        <div class="routine__logo-text">
+          <span class="routine__logo-title">PPLA Workout</span>
+          <span class="routine__logo-subtitle">Train the day that is scheduled</span>
+        </div>
+      </div>
+    </div>
+    <div class="routine__session">
+      <a class="routine__session-btn" href="./index.html">Home</a>
+      <a class="routine__session-btn" href="./full-routine.html">Full routine</a>
+      <button type="button" class="routine__session-btn" id="sessionToggle">Start session</button>
+      <span class="routine__session-info" id="sessionInfo">No active session</span>
+    </div>
+    <div class="routine__weekly" id="weeklyBar">
+      <button type="button" class="routine__weekly-day" data-week-day="monday">L</button>
+      <button type="button" class="routine__weekly-day" data-week-day="tuesday">M</button>
+      <button type="button" class="routine__weekly-day" data-week-day="wednesday">X</button>
+      <button type="button" class="routine__weekly-day" data-week-day="thursday">J</button>
+      <button type="button" class="routine__weekly-day" data-week-day="friday">V</button>
+      <button type="button" class="routine__weekly-day" data-week-day="saturday">S</button>
+      <button type="button" class="routine__weekly-day" data-week-day="sunday">D</button>
+    </div>
+    <div class="routine__timer-global">
+      <div class="routine__timer-circle">
+        <svg viewBox="0 0 40 40" class="routine__timer-svg" aria-hidden="true">
+          <circle class="routine__timer-track" cx="20" cy="20" r="17"></circle>
+          <circle class="routine__timer-progress" cx="20" cy="20" r="17"></circle>
+        </svg>
+        <span class="routine__timer-display" id="restTimerDisplay">00:00</span>
+      </div>
+      <div class="routine__timer-controls">
+        <button type="button" class="routine__timer-btn" data-timer-preset="60">1:00</button>
+        <button type="button" class="routine__timer-btn" data-timer-preset="90">1:30</button>
+        <button type="button" class="routine__timer-btn" data-timer-preset="120">2:00</button>
+        <button type="button" class="routine__timer-btn" data-timer-preset="180">3:00</button>
+        <button type="button" class="routine__timer-btn routine__timer-btn--primary" id="restTimerToggle">
+          Start
+        </button>
+        <button type="button" class="routine__timer-btn" id="restTimerMinus">-15s</button>
+        <button type="button" class="routine__timer-btn" id="restTimerPlus">+15s</button>
+        <button type="button" class="routine__timer-btn" id="restTimerAuto">Auto off</button>
+        <button type="button" class="routine__timer-btn" id="restTimerReset">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="routine__grid">
+    <div class="routine__day-card routine__day-card--push" data-day="monday">
+      <div class="routine__day-header"><span class="routine__day-name">Monday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="monday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--pull" data-day="tuesday">
+      <div class="routine__day-header"><span class="routine__day-name">Tuesday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="tuesday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--leg" data-day="wednesday">
+      <div class="routine__day-header"><span class="routine__day-name">Wednesday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="wednesday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--arm" data-day="thursday">
+      <div class="routine__day-header"><span class="routine__day-name">Thursday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="thursday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="friday">
+      <div class="routine__day-header"><span class="routine__day-name">Friday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="friday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="saturday">
+      <div class="routine__day-header"><span class="routine__day-name">Saturday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="saturday">Reset day</button>
+      </div>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="sunday">
+      <div class="routine__day-header"><span class="routine__day-name">Sunday</span></div>
+      <ul class="routine__exercise-list"></ul>
+      <div class="routine__day-actions">
+        <button type="button" class="routine__day-clear" data-day-clear="sunday">Reset day</button>
+      </div>
+    </div>
+  </div>
+  <footer class="routine__footer">
+    <p>Workout mode · planned day with manual override from weekly bar</p>
+  </footer>
+</div>

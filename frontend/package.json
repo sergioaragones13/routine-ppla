@@ -1,0 +1,46 @@
+{
+  "name": "rutina-ppla",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "node ./node_modules/typescript/bin/tsc -b --pretty false",
+    "lint": "node ./node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "node ./node_modules/eslint/bin/eslint.js . --fix",
+    "format": "node ./node_modules/prettier/bin/prettier.cjs . --write",
+    "format:check": "node ./node_modules/prettier/bin/prettier.cjs . --check",
+    "test": "node ./node_modules/vitest/vitest.mjs run",
+    "test:watch": "node ./node_modules/vitest/vitest.mjs",
+    "test:coverage": "node ./node_modules/vitest/vitest.mjs run --coverage",
+    "build": "node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.19.17",
+    "@vitest/coverage-v8": "^4.1.5",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.59.1",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.5"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "node ./node_modules/eslint/bin/eslint.js --fix"
+    ],
+    "*.{css,md,html,json,yml,yaml}": [
+      "node ./node_modules/prettier/bin/prettier.cjs --write"
+    ]
+  }
+}

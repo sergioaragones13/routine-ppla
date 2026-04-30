@@ -1,0 +1,11 @@
+node_modules
+dist
+frontend/node_modules
+frontend/dist
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+frontend/.env
+frontend/.env.*
+!frontend/.env.example

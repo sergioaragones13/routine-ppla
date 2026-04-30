@@ -1,0 +1,182 @@
+<section class="routine__auth-gate" id="authGate" aria-hidden="false">
+  <div class="routine__page-layout">
+    <header class="routine__page-header">
+      <div class="routine__auth-brand">
+        <span class="routine__auth-brand-mark">P</span>
+        <div class="routine__auth-brand-copy">
+          <h1 class="routine__auth-title">PPLA Routine</h1>
+          <p class="routine__auth-text">Sign in to continue</p>
+        </div>
+      </div>
+    </header>
+    <main class="routine__page-body">
+      <div class="routine__auth-card">
+        <p class="routine__auth-text" id="authGateStatus" role="status" aria-live="polite">
+          Login required to use the app.
+        </p>
+        <div class="routine__auth-onboarding routine__auth-onboarding--open">
+          <input id="authGateEmail" class="routine__editor-input" placeholder="Email" />
+          <input id="authGatePassword" class="routine__editor-input" type="password" placeholder="Password" />
+          <div class="routine__editor-actions">
+            <button type="button" class="routine__session-btn" id="authGateSignIn">Sign in</button>
+            <button type="button" class="routine__session-btn" id="authGateSignUp">Sign up</button>
+          </div>
+          <button type="button" class="routine__session-btn" id="authGateLoginGoogle">
+            Continue with Google
+          </button>
+        </div>
+        <div class="routine__auth-onboarding" id="authGateOnboarding">
+          <input id="authGateUsername" class="routine__editor-input" placeholder="Choose your username" />
+          <button type="button" class="routine__session-btn" id="authGateSaveUsername">Continue</button>
+        </div>
+      </div>
+    </main>
+    <footer class="routine__page-footer">
+      <p>PPLA Routine · Secure access by Supabase Auth</p>
+    </footer>
+  </div>
+</section>
+
+<section class="routine__confirm-modal" id="logoutConfirmModal" aria-hidden="true">
+  <div class="routine__confirm-modal-card">
+    <h3 class="routine__editor-day-title">Log out?</h3>
+    <p class="routine__editor-hint">You will need to sign in again to continue using the app.</p>
+    <div class="routine__editor-actions">
+      <button type="button" class="routine__session-btn" id="logoutConfirmCancel">Cancel</button>
+      <button type="button" class="routine__notes-save routine__notes-save--danger" id="logoutConfirmProceed">
+        Log out
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="routine__home routine__home--hidden" id="homeScreen" aria-hidden="true">
+  <div class="routine__page-layout">
+    <header class="routine__page-header">
+      <h2 class="routine__home-title">Welcome back</h2>
+      <p class="routine__home-subtitle">Choose what you want to do right now</p>
+    </header>
+    <main class="routine__page-body">
+      <div class="routine__home-card-wrap">
+        <div class="routine__home-grid">
+          <a class="routine__home-card" href="./full-routine.html">
+            <span class="routine__home-card-title">Full routine</span>
+            <span class="routine__home-card-text">See all days and exercise blocks</span>
+          </a>
+          <a class="routine__home-card" href="./workout.html">
+            <span class="routine__home-card-title">Start your day</span>
+            <span class="routine__home-card-text">Jump directly to today's workout</span>
+          </a>
+          <button type="button" class="routine__home-card" id="homeOpenLeaderboard">
+            <span class="routine__home-card-title">Social</span>
+            <span class="routine__home-card-text">Check rankings and social progress</span>
+          </button>
+          <button type="button" class="routine__home-card" id="homeOpenSettings">
+            <span class="routine__home-card-title">Settings</span>
+            <span class="routine__home-card-text">Account options and configuration</span>
+          </button>
+        </div>
+      </div>
+    </main>
+    <footer class="routine__page-footer">
+      <p>PPLA Routine · Home</p>
+    </footer>
+  </div>
+</section>
+
+<section class="routine__page" id="settingsPage" aria-hidden="true">
+  <div class="routine__page-layout">
+    <header class="routine__page-header">
+      <h2 class="routine__home-title">Settings</h2>
+      <p class="routine__home-subtitle">Manage profile, training preferences and app behavior</p>
+    </header>
+    <main class="routine__page-body">
+      <div class="routine__modal-content">
+        <button class="routine__modal-close" id="settingsBackHome" aria-label="Back">←</button>
+        <div class="routine__settings-grid">
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Profile</h3>
+            <p class="routine__editor-hint">Public username shown in social and leaderboard.</p>
+            <div class="routine__editor-row">
+              <input id="socialUsername" class="routine__editor-input" placeholder="username" />
+              <button type="button" class="routine__notes-save" id="socialSaveUsername">Save username</button>
+            </div>
+            <p class="routine__settings-status" id="socialAuthStatus" role="status" aria-live="polite">Not connected.</p>
+          </section>
+
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Workout Preferences</h3>
+            <p class="routine__editor-hint">Customize your default training flow.</p>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Auto-start rest timer after sets</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Show planned day first on workout page</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" />
+              <span>Vibration + sound alerts when timer ends</span>
+            </label>
+          </section>
+
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Notifications</h3>
+            <p class="routine__editor-hint">Control social and training notifications.</p>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Friend request notifications</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Leaderboard changes</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" />
+              <span>Daily reminder to check-in</span>
+            </label>
+          </section>
+
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Privacy & Social</h3>
+            <p class="routine__editor-hint">How your activity appears to others.</p>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Show me in friend leaderboard</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" checked />
+              <span>Share training streak with friends</span>
+            </label>
+            <label class="routine__settings-toggle">
+              <input type="checkbox" />
+              <span>Share extra sports activity</span>
+            </label>
+          </section>
+
+          <section class="routine__settings-card routine__settings-card--danger">
+            <h3 class="routine__editor-day-title">Session</h3>
+            <p class="routine__editor-hint">Security actions for your current account session.</p>
+            <div class="routine__editor-actions">
+              <button type="button" class="routine__notes-save routine__notes-save--danger" id="socialLogout">
+                Logout
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <div class="routine__settings-footer-actions">
+          <div class="routine__editor-actions">
+            <button type="button" class="routine__session-btn" id="settingsBackHomeBottom">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="routine__page-footer routine__page-footer--legal">
+      <p>Copyright © PPLA Routine. All rights reserved.</p>
+      <p>Security and privacy controls are managed through Supabase authentication and RLS policies.</p>
+    </footer>
+  </div>
+</section>
+

@@ -1,0 +1,76 @@
+<div class="routine__app-shell" id="appShell">
+  <header class="routine__header">
+    <div class="routine__header-main">
+      <div class="routine__logo">
+        <div class="routine__logo-mark">P</div>
+        <div class="routine__logo-text">
+          <span class="routine__logo-title">PPLA Full Routine</span>
+          <span class="routine__logo-subtitle">Configure your full week</span>
+        </div>
+      </div>
+    </div>
+    <div class="routine__session">
+      <a class="routine__session-btn" href="./index.html">Home</a>
+      <a class="routine__session-btn" href="./workout.html">Start your day</a>
+      <button type="button" class="routine__session-btn" id="routineEditOpen">Edit routine</button>
+    </div>
+  </header>
+
+  <div class="routine__grid">
+    <div class="routine__day-card routine__day-card--push" data-day="monday">
+      <div class="routine__day-header"><span class="routine__day-name">Monday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--pull" data-day="tuesday">
+      <div class="routine__day-header"><span class="routine__day-name">Tuesday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--leg" data-day="wednesday">
+      <div class="routine__day-header"><span class="routine__day-name">Wednesday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--arm" data-day="thursday">
+      <div class="routine__day-header"><span class="routine__day-name">Thursday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="friday">
+      <div class="routine__day-header"><span class="routine__day-name">Friday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="saturday">
+      <div class="routine__day-header"><span class="routine__day-name">Saturday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+    <div class="routine__day-card routine__day-card--custom" data-day="sunday">
+      <div class="routine__day-header"><span class="routine__day-name">Sunday</span></div>
+      <ul class="routine__exercise-list"></ul>
+    </div>
+  </div>
+
+  <footer class="routine__footer">
+    <p>Full routine mode · no timer · no workout controls</p>
+  </footer>
+</div>
+
+<section class="routine__page" id="routineEditorModal" aria-hidden="true">
+  <div class="routine__page-layout">
+    <header class="routine__page-header">
+      <h2 class="routine__home-title">Routine editor</h2>
+    </header>
+    <main class="routine__page-body">
+      <div class="routine__modal-content">
+        <button class="routine__modal-close" id="routineEditorClose" aria-label="Back">←</button>
+        <p class="routine__editor-hint">Edit exercises by day. Changes are saved locally on this device.</p>
+        <div id="routineEditorBody" class="routine__editor-body"></div>
+        <div class="routine__editor-actions">
+          <button type="button" class="routine__notes-save" id="routineEditorReset">
+            Use default template
+          </button>
+          <button type="button" class="routine__notes-save routine__timer-btn--primary" id="routineEditorSave">
+            Save routine
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>

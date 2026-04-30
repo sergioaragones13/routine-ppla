@@ -1,0 +1,98 @@
+<section class="routine__page routine__modal--open" id="socialModal" aria-hidden="false">
+  <div class="routine__page-layout">
+    <header class="routine__page-header">
+      <h2 class="routine__home-title">Social</h2>
+      <p class="routine__home-subtitle">Friends, check-ins and leaderboard</p>
+    </header>
+    <main class="routine__page-body">
+      <div class="routine__modal-content">
+        <button class="routine__modal-close" id="socialClose" aria-label="Back">←</button>
+        <div class="routine__editor-day">
+          <h3 class="routine__editor-day-title">Daily check-in</h3>
+          <div class="routine__checkin-actions">
+            <button type="button" class="routine__checkin-btn routine__checkin-btn--trained" id="socialCheckinOpenSports">I trained today</button>
+            <button type="button" class="routine__checkin-btn routine__checkin-btn--missed" id="socialCheckinMissed">
+              I missed today
+            </button>
+          </div>
+          <p class="routine__editor-hint">
+            Gym gives <strong>+10 pts</strong>. Any other sport gives <strong>+6 pts</strong>.
+          </p>
+          <div class="routine__checkin-feedback" id="socialCheckinFeedback" aria-live="polite"></div>
+          <div class="routine__sport-picker" id="socialSportPicker" aria-hidden="true">
+            <div class="routine__sport-picker-dialog">
+              <div class="routine__sport-picker-header">
+                <h4 class="routine__sport-picker-title">Select your activity</h4>
+                <button type="button" class="routine__sport-picker-close" id="socialSportPickerClose" aria-label="Close">
+                  ×
+                </button>
+              </div>
+              <input
+                id="socialSportSearch"
+                class="routine__sport-search"
+                placeholder="Search sport..."
+                autocomplete="off"
+              />
+              <div class="routine__sport-grid">
+                <button type="button" class="routine__sport-option" data-sport-mode="gym" data-sport-label="Gym" data-sport-points="10"><span class="routine__sport-icon">🏋️</span><span class="routine__sport-label">Gym</span><span class="routine__sport-points">+10</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Cycling" data-sport-points="6"><span class="routine__sport-icon">🚴</span><span class="routine__sport-label">Cycling</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Swimming" data-sport-points="6"><span class="routine__sport-icon">🏊</span><span class="routine__sport-label">Swimming</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Running" data-sport-points="6"><span class="routine__sport-icon">🏃</span><span class="routine__sport-label">Running</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Football" data-sport-points="6"><span class="routine__sport-icon">⚽</span><span class="routine__sport-label">Football</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Tennis" data-sport-points="6"><span class="routine__sport-icon">🎾</span><span class="routine__sport-label">Tennis</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Hiking" data-sport-points="6"><span class="routine__sport-icon">🥾</span><span class="routine__sport-label">Hiking</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Yoga" data-sport-points="6"><span class="routine__sport-icon">🧘</span><span class="routine__sport-label">Yoga</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Pilates" data-sport-points="6"><span class="routine__sport-icon">🤸</span><span class="routine__sport-label">Pilates</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="HIIT" data-sport-points="6"><span class="routine__sport-icon">⚡</span><span class="routine__sport-label">HIIT</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="CrossFit" data-sport-points="6"><span class="routine__sport-icon">🏋️‍♂️</span><span class="routine__sport-label">CrossFit</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Kickboxing" data-sport-points="6"><span class="routine__sport-icon">🥊</span><span class="routine__sport-label">Kickboxing</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Boxing" data-sport-points="6"><span class="routine__sport-icon">🥋</span><span class="routine__sport-label">Boxing</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Basketball" data-sport-points="6"><span class="routine__sport-icon">🏀</span><span class="routine__sport-label">Basketball</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Padel" data-sport-points="6"><span class="routine__sport-icon">🏓</span><span class="routine__sport-label">Padel</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Volleyball" data-sport-points="6"><span class="routine__sport-icon">🏐</span><span class="routine__sport-label">Volleyball</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Rowing" data-sport-points="6"><span class="routine__sport-icon">🚣</span><span class="routine__sport-label">Rowing</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Climbing" data-sport-points="6"><span class="routine__sport-icon">🧗</span><span class="routine__sport-label">Climbing</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Skating" data-sport-points="6"><span class="routine__sport-icon">🛼</span><span class="routine__sport-label">Skating</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Martial Arts" data-sport-points="6"><span class="routine__sport-icon">🥋</span><span class="routine__sport-label">Martial Arts</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Dance" data-sport-points="6"><span class="routine__sport-icon">💃</span><span class="routine__sport-label">Dance</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Ski" data-sport-points="6"><span class="routine__sport-icon">⛷️</span><span class="routine__sport-label">Ski</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Surf" data-sport-points="6"><span class="routine__sport-icon">🏄</span><span class="routine__sport-label">Surf</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Rugby" data-sport-points="6"><span class="routine__sport-icon">🏉</span><span class="routine__sport-label">Rugby</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Handball" data-sport-points="6"><span class="routine__sport-icon">🤾</span><span class="routine__sport-label">Handball</span><span class="routine__sport-points">+6</span></button>
+                <button type="button" class="routine__sport-option" data-sport-mode="extra" data-sport-label="Walking" data-sport-points="6"><span class="routine__sport-icon">🚶</span><span class="routine__sport-label">Walking</span><span class="routine__sport-points">+6</span></button>
+              </div>
+              <div class="routine__sport-empty routine__sport-empty--hidden" id="socialSportEmpty">
+                No sports found.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="routine__editor-day">
+          <h3 class="routine__editor-day-title">Friends</h3>
+          <div class="routine__editor-row">
+            <input id="socialFriendUsername" class="routine__editor-input" placeholder="friend username" />
+            <button type="button" class="routine__notes-save" id="socialSendRequest">Send request</button>
+          </div>
+          <div id="socialRequests" class="routine__social-list" aria-live="polite"></div>
+        </div>
+        <div class="routine__editor-day">
+          <h3 class="routine__editor-day-title" id="socialLeaderboardTitle">Leaderboard · Current month</h3>
+          <div id="socialLeaderboard" class="routine__social-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </main>
+    <footer class="routine__page-footer">
+      <p>PPLA Routine · Social</p>
+    </footer>
+  </div>
+</section>
+
+<section class="routine__confirm-modal" id="socialMonthlyModal" aria-hidden="true">
+  <div class="routine__confirm-modal-card">
+    <h3 class="routine__editor-day-title" id="socialMonthlyTitle">Monthly record</h3>
+    <div class="routine__social-list" id="socialMonthlyBody"></div>
+    <div class="routine__editor-actions">
+      <button type="button" class="routine__session-btn" id="socialMonthlyClose">Close</button>
+    </div>
+  </div>
+</section>
