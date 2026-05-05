@@ -112,10 +112,6 @@ export function initSocialController(
     return next;
   }
 
-  function firstDayOfMonth(year: number, monthIndex: number): Date {
-    return new Date(year, monthIndex, 1);
-  }
-
   function mondayIndex(date: Date): number {
     const jsDay = date.getDay();
     return (jsDay + 6) % 7;
