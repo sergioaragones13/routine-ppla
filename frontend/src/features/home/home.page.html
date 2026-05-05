@@ -133,6 +133,16 @@
     <main class="routine__page-body">
       <div class="routine__modal-content">
         <div class="routine__settings-grid">
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Profile</h3>
+            <p class="routine__editor-hint">Update your public username.</p>
+            <div class="routine__editor-row">
+              <input id="socialUsername" class="routine__editor-input" placeholder="username" />
+              <button type="button" class="routine__notes-save" id="socialSaveUsername">Save username</button>
+            </div>
+            <p class="routine__settings-status" id="socialAuthStatus" role="status" aria-live="polite">Ready.</p>
+          </section>
+
           <section class="routine__settings-card routine__settings-card--danger">
             <h3 class="routine__editor-day-title">Session</h3>
             <p class="routine__editor-hint">Security actions for your current account session.</p>

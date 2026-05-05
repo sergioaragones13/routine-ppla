@@ -133,6 +133,7 @@ export function initSocialController(
   let selectedDateIso = toLocalIsoDate(new Date());
   let weekCursor = startOfWeek(new Date());
   let weekStatusByIso: Record<string, CheckinMode | null> = {};
+  let weekLabelByIso: Record<string, string> = {};
 
   function renderCheckinCalendar(): void {
     if (!socialCalendar || !socialCalendarWeekLabel) return;
@@ -156,6 +157,7 @@ export function initSocialController(
         const isSelected = iso === selectedDateIso;
         const isFuture = iso > todayIso;
         const status = weekStatusByIso[iso] || null;
+        const label = weekLabelByIso[iso] || "";
         const className = [
           "routine__social-calendar-day",
           isToday ? "routine__social-calendar-day--today" : "",
@@ -168,7 +170,7 @@ export function initSocialController(
           .join(" ");
         return `<button type="button" class="${className}" data-social-date="${iso}" ${
           isFuture ? "disabled" : ""
-        }><span>${dateObj.getDate()}</span><span class="routine__social-calendar-dot"></span></button>`;
+        }><span>${dateObj.getDate()}</span><span class="routine__social-calendar-label">${label}</span><span class="routine__social-calendar-dot"></span></button>`;
       })
       .join("");
   }
@@ -186,11 +188,20 @@ export function initSocialController(
     }
     const logs = await loadUserActivityLogsInRange(sessionUser.id, fromIso, toIso);
     const nextMap: Record<string, CheckinMode | null> = {};
+    const nextLabelMap: Record<string, string> = {};
     logs.forEach((entry) => {
       if (!entry.dateIso) return;
       nextMap[entry.dateIso] = entry.activityType;
+      if (entry.activityType === "gym") {
+        nextLabelMap[entry.dateIso] = "Gym";
+      } else if (entry.activityType === "extra") {
+        nextLabelMap[entry.dateIso] = entry.sportName || "Extra";
+      } else {
+        nextLabelMap[entry.dateIso] = "Missed";
+      }
     });
     weekStatusByIso = nextMap;
+    weekLabelByIso = nextLabelMap;
     renderCheckinCalendar();
   }
 
