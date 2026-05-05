@@ -10,7 +10,6 @@ import {
 import { supabaseClient } from "./lib/supabase";
 import { getPplaSnapshot } from "./lib/pplaSnapshot";
 import { bindAuthFormActions } from "./features/auth/bindAuthForms";
-import { openFullRoutinePage } from "./features/full-routine/page";
 import { bindHomeScreenActions, setHomeScreenVisible } from "./features/home/homeScreen";
 import homePageTemplate from "./features/home/home.page.html?raw";
 import { createSocialRefresher } from "./features/social/refreshSocialData";
@@ -18,7 +17,6 @@ import { initSocialController } from "./features/social/socialController";
 import socialPageTemplate from "./features/social/social.page.html?raw";
 import { openSettingsPanel } from "./features/settings/settingsPanel";
 import { createDayController } from "./features/workout/dayController";
-import { openWorkoutPage } from "./features/workout/page";
 import workoutPageTemplate from "./features/workout/workout.page.html?raw";
 import retoPageTemplate from "./features/reto/reto.page.html?raw";
 import { initRetoPage } from "./features/reto/page";
