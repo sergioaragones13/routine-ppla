@@ -1494,12 +1494,10 @@ bindHomeScreenActions(
   },
   {
     openRoutine: () => {
-      openFullRoutinePage(setHomeVisible, showAllDays);
+      window.location.href = "./?page=full-routine";
     },
     startToday: () => {
-      const plannedDay = loadPlannedWorkoutDay();
-      dayController.setActiveDayView(plannedDay);
-      openWorkoutPage(setHomeVisible, showDay, plannedDay);
+      window.location.href = "./?page=workout";
     },
     openLeaderboard: () => {
       window.location.href = "./?page=social";
