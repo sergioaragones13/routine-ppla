@@ -9,10 +9,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(rootDir, "index.html"),
-        workout: resolve(rootDir, "workout.html"),
-        fullRoutine: resolve(rootDir, "full-routine.html"),
-        social: resolve(rootDir, "social.html")
+        index: resolve(rootDir, "index.html")
       }
     }
   }

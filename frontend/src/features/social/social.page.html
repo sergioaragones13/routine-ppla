@@ -1,18 +1,43 @@
-<section class="routine__page routine__modal--open" id="socialModal" aria-hidden="false">
+<section class="routine__page routine__modal--open routine__page--social" id="socialModal" aria-hidden="false">
   <div class="routine__page-layout">
-    <header class="routine__page-header">
-      <h2 class="routine__home-title">Social</h2>
-      <p class="routine__home-subtitle">Friends, check-ins and leaderboard</p>
+    <header class="routine__header routine__header--planner">
+      <div class="routine__header-row">
+        <div class="routine__header-main">
+          <div class="routine__logo">
+            <div class="routine__logo-mark">P</div>
+            <div class="routine__logo-text">
+              <span class="routine__logo-title">PPLA Social</span>
+              <span class="routine__logo-subtitle">Log activity, friends, and leaderboard</span>
+            </div>
+          </div>
+        </div>
+        <nav class="routine__nav-chips" aria-label="Social navigation">
+          <a class="routine__session-btn routine__nav-chip routine__nav-chip--home" href="./?page=home">
+            Home
+          </a>
+        </nav>
+      </div>
     </header>
     <main class="routine__page-body">
-      <div class="routine__modal-content">
-        <button class="routine__modal-close" id="socialClose" aria-label="Back">←</button>
-        <div class="routine__editor-day">
+      <div class="routine__modal-content routine__modal-content--social">
+        <div class="routine__editor-day routine__social-panel">
           <h3 class="routine__editor-day-title">Daily check-in</h3>
+          <div class="routine__editor-row routine__social-date-input--hidden">
+            <input id="socialCheckinDate" class="routine__editor-input" type="date" aria-hidden="true" tabindex="-1" />
+          </div>
+          <div class="routine__social-calendar-head">
+            <button type="button" class="routine__notes-save" id="socialCalendarPrevWeek">Prev</button>
+            <span class="routine__social-calendar-month" id="socialCalendarWeekLabel">-</span>
+            <button type="button" class="routine__notes-save" id="socialCalendarNextWeek">Next</button>
+          </div>
+          <div class="routine__social-calendar-weekdays">
+            <span>Lun</span><span>Mar</span><span>Mie</span><span>Jue</span><span>Vie</span><span>Sab</span><span>Dom</span>
+          </div>
+          <div class="routine__social-calendar" id="socialCheckinCalendar" aria-live="polite"></div>
           <div class="routine__checkin-actions">
-            <button type="button" class="routine__checkin-btn routine__checkin-btn--trained" id="socialCheckinOpenSports">I trained today</button>
+            <button type="button" class="routine__checkin-btn routine__checkin-btn--trained" id="socialCheckinOpenSports">I trained this date</button>
             <button type="button" class="routine__checkin-btn routine__checkin-btn--missed" id="socialCheckinMissed">
-              I missed today
+              I missed this date
             </button>
           </div>
           <p class="routine__editor-hint">
@@ -67,17 +92,24 @@
             </div>
           </div>
         </div>
-        <div class="routine__editor-day">
+        <div class="routine__editor-day routine__social-panel">
+          <h3 class="routine__editor-day-title" id="socialLeaderboardTitle">Leaderboard · Current month</h3>
+          <div class="routine__social-periods" role="group" aria-label="Leaderboard period">
+            <button type="button" class="routine__social-period routine__social-period--active" data-social-period="month">
+              This month
+            </button>
+            <button type="button" class="routine__social-period" data-social-period="30d">Last 30 days</button>
+            <button type="button" class="routine__social-period" data-social-period="all">All time</button>
+          </div>
+          <div id="socialLeaderboard" class="routine__social-list" aria-live="polite"></div>
+        </div>
+        <div class="routine__editor-day routine__social-panel">
           <h3 class="routine__editor-day-title">Friends</h3>
           <div class="routine__editor-row">
             <input id="socialFriendUsername" class="routine__editor-input" placeholder="friend username" />
             <button type="button" class="routine__notes-save" id="socialSendRequest">Send request</button>
           </div>
           <div id="socialRequests" class="routine__social-list" aria-live="polite"></div>
-        </div>
-        <div class="routine__editor-day">
-          <h3 class="routine__editor-day-title" id="socialLeaderboardTitle">Leaderboard · Current month</h3>
-          <div id="socialLeaderboard" class="routine__social-list" aria-live="polite"></div>
         </div>
       </div>
     </main>

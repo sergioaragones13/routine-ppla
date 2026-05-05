@@ -1,0 +1,68 @@
+<div class="routine__app-shell routine__shell">
+  <header class="routine__header routine__header--planner">
+    <div class="routine__header-row">
+      <div class="routine__header-main">
+        <div class="routine__logo">
+          <div class="routine__logo-mark">P</div>
+          <div class="routine__logo-text">
+            <span class="routine__logo-title">PPLA Challenge</span>
+            <span class="routine__logo-subtitle">Commit and check every day</span>
+          </div>
+        </div>
+      </div>
+      <nav class="routine__nav-chips" aria-label="App sections">
+        <a class="routine__session-btn routine__nav-chip routine__nav-chip--home" href="./?page=home">Home</a>
+        <a class="routine__session-btn routine__nav-chip" href="./?page=workout">Train</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="routine__challenge">
+    <section class="routine__challenge-card">
+      <h2 class="routine__home-title">Challenge calendar</h2>
+      <p class="routine__home-subtitle">Define start and end dates. Track your progress from Social check-ins.</p>
+      <div class="routine__challenge-status" id="challengeStatusBar">
+        <span class="routine__challenge-status-pill" id="challengeStatusPill">No active challenge</span>
+        <span class="routine__challenge-status-days" id="challengeDaysLeft">0 days left</span>
+      </div>
+      <div class="routine__challenge-setup" id="challengeSetup">
+        <label class="routine__notes-label" for="challengeStartInput">Challenge start date</label>
+        <div class="routine__challenge-setup-row">
+          <input
+            id="challengeStartInput"
+            class="routine__editor-input"
+            type="date"
+          />
+          <input
+            id="challengeEndInput"
+            class="routine__editor-input"
+            type="date"
+          />
+          <button type="button" class="routine__timer-btn routine__timer-btn--primary" id="challengeStartBtn">
+            Save range
+          </button>
+        </div>
+        <p class="routine__editor-hint" id="challengeMeta">No active challenge yet.</p>
+      </div>
+      <div class="routine__challenge-edit" id="challengeEditActions">
+        <button type="button" class="routine__timer-btn" id="challengeEditBtn">Edit challenge</button>
+      </div>
+    </section>
+
+    <section class="routine__challenge-card">
+      <div class="routine__challenge-progress-row">
+        <h3 class="routine__editor-day-title">Calendar</h3>
+        <span class="routine__day-progress" id="challengeProgress">0 trained · 0 failed</span>
+      </div>
+      <div class="routine__challenge-calendar-head">
+        <button type="button" class="routine__notes-save" id="challengePrevMonth">Prev</button>
+        <span class="routine__challenge-month" id="challengeMonthLabel">-</span>
+        <button type="button" class="routine__notes-save" id="challengeNextMonth">Next</button>
+      </div>
+      <div class="routine__challenge-weekdays">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+      <div class="routine__challenge-calendar" id="challengeCalendar" aria-live="polite"></div>
+    </section>
+  </main>
+</div>

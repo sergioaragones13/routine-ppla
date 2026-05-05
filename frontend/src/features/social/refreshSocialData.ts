@@ -32,6 +32,22 @@ function getMonthRange(now: Date): { from: string; to: string; label: string } {
   };
 }
 
+function getPeriodRange(
+  period: "month" | "30d" | "all",
+  now: Date
+): { from: string; to: string; label: string } {
+  if (period === "30d") {
+    const to = toLocalIsoDate(now);
+    const fromDate = new Date(now);
+    fromDate.setDate(fromDate.getDate() - 29);
+    return { from: toLocalIsoDate(fromDate), to, label: "Last 30 days" };
+  }
+  if (period === "all") {
+    return { from: "2000-01-01", to: "2100-12-31", label: "All time" };
+  }
+  return getMonthRange(now);
+}
+
 export function createSocialRefresher(
   getClient: ClientFactory,
   elements: SocialElements,
@@ -48,6 +64,18 @@ export function createSocialRefresher(
     socialMonthlyClose,
     socialUsername
   } = elements;
+  let activePeriod: "month" | "30d" | "all" = "month";
+  const periodButtons = document.querySelectorAll<HTMLButtonElement>("[data-social-period]");
+  periodButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const period = (btn.dataset.socialPeriod as "month" | "30d" | "all" | undefined) || "month";
+      activePeriod = period;
+      periodButtons.forEach((item) => {
+        item.classList.toggle("routine__social-period--active", item === btn);
+      });
+      void refresh();
+    });
+  });
 
   const openMonthlyModal = async (
     client: SupabaseClient,
@@ -226,64 +254,38 @@ export function createSocialRefresher(
         ])
       );
 
-      const { from, to, label } = getMonthRange(new Date());
+      const { from, to, label } = getPeriodRange(activePeriod, new Date());
       if (socialLeaderboardTitle) {
         socialLeaderboardTitle.textContent = `Leaderboard · ${label}`;
       }
-
-      const { data: monthlyActivities } = await client
-        .from("workout_activity_logs")
-        .select("user_id,activity_type,points")
-        .in("user_id", userIds)
-        .gte("activity_date", from)
-        .lte("activity_date", to);
-
-      const monthlyByUserId = new Map<string, { points: number; trainedDays: number; extraDays: number }>();
-      userIds.forEach((id) => {
-        monthlyByUserId.set(id, { points: 0, trainedDays: 0, extraDays: 0 });
+      const { data: ranked, error: rankedError } = await client.rpc("get_friend_leaderboard_period", {
+        p_from: from,
+        p_to: to
       });
-
-      (monthlyActivities || []).forEach((row) => {
-        const userId = (row.user_id as string | undefined) || "";
-        const bucket = monthlyByUserId.get(userId);
-        if (!bucket) return;
-        const mode = String(row.activity_type || "").toLowerCase();
-        const points = Number(row.points || 0);
-        bucket.points += points;
-        if (mode === "extra") bucket.extraDays += 1;
-        if (mode === "gym" || mode === "extra") bucket.trainedDays += 1;
-      });
-
-      const ranked = userIds
-        .map((id) => {
-          const monthStats = monthlyByUserId.get(id) || { points: 0, trainedDays: 0, extraDays: 0 };
-          return {
-            user_id: id,
-            username: usernameById.get(id) || "Unknown",
-            score: monthStats.points,
-            streak: monthStats.trainedDays,
-            extra_sessions: monthStats.extraDays
-          };
-        })
-        .sort((a, b) => b.score - a.score);
+      if (rankedError) throw rankedError;
 
       if (socialLeaderboard) {
         socialLeaderboard.innerHTML = "";
-        if ((monthlyActivities || []).length === 0) {
+        if (!ranked || ranked.length === 0) {
           const warn = document.createElement("div");
           warn.className = "routine__social-item routine__social-item--empty";
-          warn.textContent = "No activities have been recorded for the current month yet.";
+          warn.textContent = "No leaderboard data for this period yet.";
           socialLeaderboard.appendChild(warn);
         }
-        ranked.forEach((entry, index) => {
-          const isMe = entry.user_id === user.id;
+        (ranked || []).forEach((entry: Record<string, unknown>, index: number) => {
+          const entryUserId = String(entry.user_id || "");
+          const entryUsername = (String(entry.username || "").trim() || usernameById.get(entryUserId) || "Unknown");
+          const entryScore = Number(entry.score || 0);
+          const entryStreak = Number(entry.streak || 0);
+          const entryExtra = Number(entry.extra_sessions || 0);
+          const isMe = entryUserId === user.id;
           const row = document.createElement("div");
           row.className = isMe
             ? "routine__social-item routine__social-item--me"
             : "routine__social-item";
-          row.innerHTML = `<span>#${index + 1} ${isMe ? "You" : entry.username}</span><span>${entry.score} pts · 🔥 ${entry.streak} · 🚴 ${entry.extra_sessions}</span>`;
+          row.innerHTML = `<span>#${index + 1} ${isMe ? "You" : entryUsername}</span><span>${entryScore} pts · 🔥 ${entryStreak} · ✨ ${entryExtra}</span>`;
           row.addEventListener("click", () => {
-            void openMonthlyModal(client, entry.user_id, isMe ? "You" : entry.username);
+            void openMonthlyModal(client, entryUserId, isMe ? "You" : entryUsername);
           });
           row.style.cursor = "pointer";
           socialLeaderboard.appendChild(row);

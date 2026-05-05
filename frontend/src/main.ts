@@ -14,11 +14,15 @@ import { openFullRoutinePage } from "./features/full-routine/page";
 import { bindHomeScreenActions, setHomeScreenVisible } from "./features/home/homeScreen";
 import homePageTemplate from "./features/home/home.page.html?raw";
 import { createSocialRefresher } from "./features/social/refreshSocialData";
+import { initSocialController } from "./features/social/socialController";
 import socialPageTemplate from "./features/social/social.page.html?raw";
 import { openSettingsPanel } from "./features/settings/settingsPanel";
 import { createDayController } from "./features/workout/dayController";
 import { openWorkoutPage } from "./features/workout/page";
 import workoutPageTemplate from "./features/workout/workout.page.html?raw";
+import retoPageTemplate from "./features/reto/reto.page.html?raw";
+import { initRetoPage } from "./features/reto/page";
+import exerciseModalFragment from "./features/shared/exercise-modal.fragment.html?raw";
 import {
   areUsersFriends,
   assignTemplateToUser,
@@ -26,10 +30,11 @@ import {
   findUserIdByUsername,
   hasPendingFriendRequest,
   getProfileUsername,
+  getSessionUser,
+  loadUserActivityLogsInRange,
   loadUserExerciseChecks,
   loadUserExerciseNotes,
   loadUserExercisePrs,
-  loadUserSessionState,
   loadUserTimerState,
   loadRoutineTemplateById,
   saveCloudPayload,
@@ -37,7 +42,6 @@ import {
   saveUserExerciseNote,
   saveUserExercisePr,
   saveProfileUsername,
-  saveUserSessionState,
   saveUserTimerState,
   saveUserRoutineTemplate,
   sendFriendRequest,
@@ -52,11 +56,11 @@ import type {
   ExercisePR,
   RestTimerState,
   RoutineByDay,
-  RoutineExercise,
-  SessionState
+  RoutineExercise
 } from "./types/app";
 
-const pageType = document.body.dataset.page || "home";
+const queryPage = new URLSearchParams(window.location.search).get("page");
+const pageType = queryPage || document.body.dataset.page || "home";
 type ToastKind = "success" | "error" | "info";
 
 let toastHost: HTMLElement | null = null;
@@ -98,13 +102,14 @@ function showToast(message: string, kind: ToastKind = "info"): void {
 }
 
 function redirectToLoginPage(): void {
-  if (pageType !== "home") {
-    window.location.replace("./index.html");
+  if (pageType !== "home" && pageType !== "reto") {
+    window.location.replace("./?page=home");
   }
 }
 
 function forceRedirectToLoginPage(): void {
-  window.location.replace(`./index.html?login=${Date.now()}`);
+  if (pageType === "reto") return;
+  window.location.replace(`./?page=home&login=${Date.now()}`);
 }
 const appRoot = document.getElementById("app");
 if (appRoot && appRoot.innerHTML.trim().length === 0) {
@@ -114,9 +119,17 @@ if (appRoot && appRoot.innerHTML.trim().length === 0) {
     appRoot.innerHTML = fullRoutinePageTemplate;
   } else if (pageType === "social") {
     appRoot.innerHTML = socialPageTemplate;
+  } else if (pageType === "reto") {
+    appRoot.innerHTML = retoPageTemplate;
   } else {
     appRoot.innerHTML = homePageTemplate;
   }
+}
+if (!document.getElementById("exerciseModal")) {
+  document.body.insertAdjacentHTML("beforeend", exerciseModalFragment);
+}
+if (pageType === "reto") {
+  initRetoPage();
 }
 const authGate = document.getElementById("authGate") as HTMLElement | null;
 const authGateStatus = document.getElementById("authGateStatus") as HTMLElement | null;
@@ -169,9 +182,7 @@ const restTimerPresetButtons = document.querySelectorAll<HTMLButtonElement>(
   ".routine__timer-btn[data-timer-preset]"
 );
 let items = document.querySelectorAll<HTMLElement>(".routine__exercise-item");
-const sessionToggle = document.getElementById("sessionToggle") as HTMLButtonElement | null;
 const routineEditOpen = document.getElementById("routineEditOpen") as HTMLButtonElement | null;
-const sessionInfo = document.getElementById("sessionInfo") as HTMLElement | null;
 const weeklyDays = document.querySelectorAll<HTMLButtonElement>(".routine__weekly-day");
 const dayResetButtons = document.querySelectorAll<HTMLButtonElement>(".routine__day-clear");
 const routineEditorModal = document.getElementById("routineEditorModal") as HTMLElement | null;
@@ -213,6 +224,7 @@ const socialCheckinOpenSports = document.getElementById(
 const socialCheckinMissed = document.getElementById(
   "socialCheckinMissed"
 ) as HTMLButtonElement | null;
+const socialCheckinDate = document.getElementById("socialCheckinDate") as HTMLInputElement | null;
 const socialCheckinFeedback = document.getElementById("socialCheckinFeedback") as HTMLElement | null;
 const socialSportPicker = document.getElementById("socialSportPicker") as HTMLElement | null;
 const socialSportPickerClose = document.getElementById(
@@ -245,14 +257,13 @@ let autoCloudSyncTimer: number | null = null;
 let remoteNotesState: Record<string, string> = {};
 let remotePrState: Record<string, ExercisePR> = {};
 let remoteChecksState: Record<string, boolean> = {};
-let remoteSessionState: SessionState | null = null;
 let remoteTimerState: RestTimerState | null = null;
 const volatileNotesState: Record<string, string> = {};
 const volatilePrState: Record<string, ExercisePR> = {};
 const volatileChecksState: Record<string, boolean> = {};
-let volatileSessionState: SessionState = { startedAt: null };
 let volatileTimerState: RestTimerState | null = null;
 let volatileCustomRoutine: RoutineByDay | null = null;
+let socialUiController: { closeSportPicker: () => void; closeSocialModal: () => void } | null = null;
 
 function updateTimerControlsState(): void {
   if (!restTimerToggle) return;
@@ -398,11 +409,10 @@ async function syncRoutineFromBackend(userId: string): Promise<boolean> {
 
 async function syncTrainingStateFromBackend(userId: string): Promise<boolean> {
   try {
-    const [notes, prs, checks, sessionStateDb, timerStateDb] = await Promise.all([
+    const [notes, prs, checks, timerStateDb] = await Promise.all([
       loadUserExerciseNotes(userId),
       loadUserExercisePrs(userId),
       loadUserExerciseChecks(userId),
-      loadUserSessionState(userId),
       loadUserTimerState(userId)
     ]);
 
@@ -410,13 +420,11 @@ async function syncTrainingStateFromBackend(userId: string): Promise<boolean> {
       notes: remoteNotesState,
       prs: remotePrState,
       checks: remoteChecksState,
-      session: remoteSessionState,
       timer: remoteTimerState
     });
     remoteNotesState = notes;
     remotePrState = prs;
     remoteChecksState = checks;
-    remoteSessionState = { startedAt: sessionStateDb?.startedAt ?? null };
     remoteTimerState = timerStateDb
       ? {
           seconds: timerStateDb.seconds,
@@ -430,7 +438,6 @@ async function syncTrainingStateFromBackend(userId: string): Promise<boolean> {
       notes: remoteNotesState,
       prs: remotePrState,
       checks: remoteChecksState,
-      session: remoteSessionState,
       timer: remoteTimerState
     });
     return prev !== next;
@@ -455,7 +462,7 @@ async function initAuthAutoSync(): Promise<void> {
       socialModal.classList.remove("routine__modal--open");
       socialModal.setAttribute("aria-hidden", "true");
     }
-    closeSportPicker();
+    socialUiController?.closeSportPicker();
     setAuthGateVisible(true);
     setHomeVisible(false);
     setAuthGateOnboarding(false);
@@ -499,14 +506,13 @@ async function initAuthAutoSync(): Promise<void> {
       remoteNotesState = {};
       remotePrState = {};
       remoteChecksState = {};
-      remoteSessionState = null;
       remoteTimerState = null;
       setSettingsVisible(false);
       if (socialModal) {
         socialModal.classList.remove("routine__modal--open");
         socialModal.setAttribute("aria-hidden", "true");
       }
-      closeSportPicker();
+      socialUiController?.closeSportPicker();
       setAuthGateVisible(true);
       setHomeVisible(false);
       setAuthGateOnboarding(false);
@@ -835,24 +841,6 @@ function clearPR(exerciseName: string): void {
   queueAutoCloudSync();
 }
 
-function loadSessionState(): SessionState {
-  if (socialUserId && remoteSessionState) {
-    return { startedAt: remoteSessionState.startedAt };
-  }
-  return { startedAt: volatileSessionState.startedAt };
-}
-
-function saveSessionState(state: SessionState): void {
-  if (socialUserId) {
-    remoteSessionState = { startedAt: state.startedAt };
-    void saveUserSessionState(socialUserId, { startedAt: state.startedAt });
-    queueAutoCloudSync();
-    return;
-  }
-  volatileSessionState = { startedAt: state.startedAt };
-  queueAutoCloudSync();
-}
-
 function renderMedia(exerciseName: string): void {
   if (!modalMedia) return;
 
@@ -1074,10 +1062,10 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     return;
   }
   if (event.key === "Escape" && socialModal?.classList.contains("routine__modal--open")) {
-    closeSocialModal();
+    socialUiController?.closeSocialModal();
   }
   if (event.key === "Escape" && socialSportPicker?.classList.contains("routine__sport-picker--open")) {
-    closeSportPicker();
+    socialUiController?.closeSportPicker();
   }
 });
 
@@ -1290,24 +1278,6 @@ routineEditorReset?.addEventListener("click", () => {
   window.location.reload();
 });
 
-function openSocialModal(): void {
-  if (!socialModal) return;
-  setHomeVisible(false);
-  setSettingsVisible(false);
-  socialModal.classList.add("routine__modal--open");
-  socialModal.setAttribute("aria-hidden", "false");
-  updateAppShellVisibility();
-  void refreshSocialData();
-}
-
-function closeSocialModal(): void {
-  if (!socialModal) return;
-  socialModal.classList.remove("routine__modal--open");
-  socialModal.setAttribute("aria-hidden", "true");
-  setHomeVisible(true);
-  updateAppShellVisibility();
-}
-
 function openSettingsPage(): void {
   setHomeVisible(false);
   setSettingsVisible(true);
@@ -1334,13 +1304,45 @@ async function runWithBusyState(
   }
 }
 
-socialOpen?.addEventListener("click", openSocialModal);
-socialClose?.addEventListener("click", () => {
-  if (pageType === "social") {
-    window.location.href = "./index.html";
-    return;
-  }
-  closeSocialModal();
+socialUiController = initSocialController({
+  pageType,
+  socialModal,
+  socialOpen,
+  socialClose,
+  socialLogout,
+  socialSaveUsername,
+  socialUsername,
+  socialSendRequest,
+  socialFriendUsername,
+  socialAuthStatus,
+  socialCheckinOpenSports,
+  socialCheckinMissed,
+  socialCheckinDate,
+  socialCheckinFeedback,
+  socialSportPicker,
+  socialSportPickerClose,
+  socialSportSearch,
+  socialSportOptions,
+  socialSportEmpty,
+  setHomeVisible,
+  setSettingsVisible,
+  updateAppShellVisibility,
+  refreshSocialData,
+  runWithBusyState,
+  getSupabaseClientFromSavedConfig,
+  forceRedirectToLoginPage,
+  showToast,
+  loadCustomRoutine,
+  getDefaultRoutine: () => defaultRoutine,
+  saveProfileUsername,
+  signOutSession,
+  findUserIdByUsername,
+  areUsersFriends,
+  hasPendingFriendRequest,
+  sendFriendRequest,
+  getSessionUser,
+  loadUserActivityLogsInRange,
+  submitDailyCheckin
 });
 settingsBackHome?.addEventListener("click", () => {
   setSettingsVisible(false);
@@ -1477,98 +1479,6 @@ authGateSaveUsername?.addEventListener("click", async () => {
   });
 });
 
-async function executeLogoutFlow(): Promise<void> {
-  const setup = getSupabaseClientFromSavedConfig();
-  if (!setup) {
-    forceRedirectToLoginPage();
-    return;
-  }
-  try {
-    await signOutSession();
-    await refreshSocialData();
-  } catch (error) {
-    if (socialAuthStatus) {
-      socialAuthStatus.textContent = error instanceof Error ? error.message : "Logout failed.";
-    }
-    showToast(error instanceof Error ? error.message : "Logout failed.", "error");
-  } finally {
-    showToast("Session closed.", "info");
-    forceRedirectToLoginPage();
-  }
-}
-
-socialLogout?.addEventListener("click", async () => {
-  await runWithBusyState(socialLogout, executeLogoutFlow);
-});
-
-socialSaveUsername?.addEventListener("click", async () => {
-  const setup = getSupabaseClientFromSavedConfig();
-  if (!setup) return;
-  const { data: sessionData } = await setup.client.auth.getSession();
-  const user = sessionData.session?.user;
-  if (!user || !socialUsername) return;
-  const username = socialUsername.value.trim();
-  if (!username) return;
-  await saveProfileUsername(user.id, username);
-  await refreshSocialData();
-});
-
-socialSendRequest?.addEventListener("click", async () => {
-  const setup = getSupabaseClientFromSavedConfig();
-  if (!setup || !socialFriendUsername || !socialUserId) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "Login required to send friend requests.";
-    showToast("Login required to send friend requests.", "error");
-    return;
-  }
-  const username = socialFriendUsername.value.trim();
-  if (!username) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "Type a username first.";
-    showToast("Type a username first.", "error");
-    return;
-  }
-  const targetUserId = await findUserIdByUsername(username);
-  if (!targetUserId) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "Username not found.";
-    showToast("Username not found.", "error");
-    return;
-  }
-  if (targetUserId === socialUserId) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "You cannot add yourself.";
-    showToast("You cannot add yourself.", "error");
-    return;
-  }
-  const alreadyFriends = await areUsersFriends(socialUserId, targetUserId);
-  if (alreadyFriends) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "You are already friends.";
-    showToast("You are already friends.", "info");
-    return;
-  }
-  const pending = await hasPendingFriendRequest(socialUserId, targetUserId);
-  if (pending) {
-    if (socialAuthStatus) socialAuthStatus.textContent = "A pending request already exists.";
-    showToast("A pending request already exists.", "info");
-    return;
-  }
-  const { error } = await sendFriendRequest(socialUserId, targetUserId);
-  if (error) {
-    if (socialAuthStatus) {
-      socialAuthStatus.textContent =
-        error.code === "23505"
-          ? "Friend request already pending."
-          : error.message || "Could not send request.";
-    }
-    showToast(
-      error.code === "23505" ? "Friend request already pending." : error.message || "Could not send request.",
-      "error"
-    );
-    return;
-  }
-  socialFriendUsername.value = "";
-  if (socialAuthStatus) socialAuthStatus.textContent = "Request sent.";
-  showToast("Friend request sent.", "success");
-  await refreshSocialData();
-});
-
 authGatePassword?.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
   event.preventDefault();
@@ -1579,88 +1489,6 @@ authGateEmail?.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
   event.preventDefault();
   authGateSignIn?.click();
-});
-
-function setCheckinFeedback(message: string, kind: "success" | "error"): void {
-  if (!socialCheckinFeedback) return;
-  socialCheckinFeedback.textContent = message;
-  socialCheckinFeedback.classList.remove("routine__checkin-feedback--success", "routine__checkin-feedback--error");
-  socialCheckinFeedback.classList.add(
-    kind === "success" ? "routine__checkin-feedback--success" : "routine__checkin-feedback--error"
-  );
-}
-
-function openSportPicker(): void {
-  if (!socialSportPicker) return;
-  socialSportPicker.classList.add("routine__sport-picker--open");
-  socialSportPicker.setAttribute("aria-hidden", "false");
-  socialSportEmpty?.classList.add("routine__sport-empty--hidden");
-  if (socialSportSearch) {
-    socialSportSearch.value = "";
-    socialSportOptions.forEach((option) => {
-      option.style.display = "";
-    });
-    socialSportSearch.focus();
-  }
-}
-
-function closeSportPicker(): void {
-  if (!socialSportPicker) return;
-  socialSportPicker.classList.remove("routine__sport-picker--open");
-  socialSportPicker.setAttribute("aria-hidden", "true");
-}
-
-async function submitSocialCheckin(
-  didTrain: boolean,
-  mode: "gym" | "extra" | "missed",
-  label: string,
-  points: number
-): Promise<void> {
-  const setup = getSupabaseClientFromSavedConfig();
-  if (!setup) return;
-  const today = toLocalIsoDate(new Date());
-  const sportName = didTrain ? label : null;
-  const { error } = await submitDailyCheckin(didTrain, today, mode, sportName);
-  if (error) {
-    setCheckinFeedback(error.message || "Check-in failed.", "error");
-    showToast(error.message || "Check-in failed.", "error");
-    return;
-  }
-  const signedPoints = points > 0 ? `+${points}` : `${points}`;
-  setCheckinFeedback(`${label} saved (${signedPoints} pts).`, "success");
-  showToast(`${label} saved (${signedPoints} pts).`, "success");
-  await refreshSocialData();
-}
-
-socialCheckinOpenSports?.addEventListener("click", openSportPicker);
-socialSportPickerClose?.addEventListener("click", closeSportPicker);
-socialSportPicker?.addEventListener("click", (event) => {
-  if (event.target === socialSportPicker) closeSportPicker();
-});
-socialSportOptions.forEach((option) => {
-  option.addEventListener("click", async () => {
-    const mode = (option.dataset.sportMode as "gym" | "extra" | undefined) || "extra";
-    const label = option.dataset.sportLabel || "Training";
-    const points = Number(option.dataset.sportPoints || "6");
-    await submitSocialCheckin(true, mode, label, points);
-    closeSportPicker();
-  });
-});
-
-socialSportSearch?.addEventListener("input", () => {
-  const query = socialSportSearch.value.trim().toLowerCase();
-  let visibleCount = 0;
-  socialSportOptions.forEach((option) => {
-    const label = (option.dataset.sportLabel || "").toLowerCase();
-    const visible = !query || label.includes(query);
-    option.style.display = visible ? "" : "none";
-    if (visible) visibleCount += 1;
-  });
-  socialSportEmpty?.classList.toggle("routine__sport-empty--hidden", visibleCount > 0);
-});
-
-socialCheckinMissed?.addEventListener("click", async () => {
-  await submitSocialCheckin(false, "missed", "Missed", -12);
 });
 
 bindHomeScreenActions(
@@ -1681,7 +1509,7 @@ bindHomeScreenActions(
       openWorkoutPage(setHomeVisible, showDay, plannedDay);
     },
     openLeaderboard: () => {
-      window.location.href = "./social.html";
+      window.location.href = "./?page=social";
     },
     openSettings: () => {
       openSettingsPanel(openSettingsPage);
@@ -1733,8 +1561,10 @@ if (pageType === "full-routine") {
   document.body.classList.remove("routine--full-routine-mode");
   showDay(initialPlannedDay);
 }
-void initAuthAutoSync();
-void refreshSocialData();
+if (pageType !== "reto") {
+  void initAuthAutoSync();
+  void refreshSocialData();
+}
 
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
@@ -1815,41 +1645,5 @@ items.forEach((item) => {
   });
 });
 
-function formatDuration(ms: number): string {
-  const total = Math.floor(ms / 1000);
-  const m = Math.floor(total / 60);
-  const s = total % 60;
-  return `${m}m ${s}s`;
-}
-
-function updateSessionUI(state: SessionState): void {
-  if (!sessionToggle || !sessionInfo) return;
-  if (state.startedAt) {
-    sessionToggle.textContent = "End session";
-    sessionToggle.classList.add("routine__session-btn--active");
-    sessionInfo.textContent = `Started ${new Date(state.startedAt).toLocaleTimeString()}`;
-  } else {
-    sessionToggle.textContent = "Start session";
-    sessionToggle.classList.remove("routine__session-btn--active");
-    sessionInfo.textContent = "No active session";
-  }
-}
-
-let sessionState = loadSessionState();
 setupAudioUnlock();
 updateTimerControlsState();
-updateSessionUI(sessionState);
-
-sessionToggle?.addEventListener("click", () => {
-  if (!sessionState.startedAt) {
-    sessionState = { startedAt: Date.now() };
-    saveSessionState(sessionState);
-    updateSessionUI(sessionState);
-    return;
-  }
-  const durationMs = Date.now() - sessionState.startedAt;
-  sessionState = { startedAt: null };
-  saveSessionState(sessionState);
-  if (sessionInfo) sessionInfo.textContent = `Last session: ${formatDuration(durationMs)}`;
-  updateSessionUI(sessionState);
-});

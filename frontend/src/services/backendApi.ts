@@ -107,6 +107,27 @@ export async function submitDailyCheckin(
   });
 }
 
+export type ActivityLogType = "gym" | "extra" | "missed";
+
+export async function loadUserActivityLogsInRange(
+  userId: string,
+  startDateIso: string,
+  endDateIso: string
+): Promise<Array<{ dateIso: string; activityType: ActivityLogType; sportName: string | null }>> {
+  const { data } = await requireClient()
+    .from("workout_activity_logs")
+    .select("activity_date,activity_type,sport_name")
+    .eq("user_id", userId)
+    .gte("activity_date", startDateIso)
+    .lte("activity_date", endDateIso)
+    .order("activity_date", { ascending: true });
+  return (data || []).map((row) => ({
+    dateIso: (row.activity_date as string) || "",
+    activityType: (row.activity_type as ActivityLogType) || "missed",
+    sportName: (row.sport_name as string | null) || null
+  }));
+}
+
 type AssignmentRow = { template_id: string; planned_day_key: DayKey };
 
 function normalizeDayKey(value: string | null | undefined): DayKey {

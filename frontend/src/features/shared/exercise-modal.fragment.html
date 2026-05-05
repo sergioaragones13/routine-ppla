@@ -1,0 +1,101 @@
+<div class="routine__modal" id="exerciseModal" aria-hidden="true">
+  <button
+    type="button"
+    class="routine__modal-overlay"
+    id="exerciseModalOverlay"
+    aria-label="Close exercise details"
+  ></button>
+  <div
+    class="routine__modal-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="exerciseModalTitle"
+  >
+    <button type="button" class="routine__modal-close" id="exerciseModalClose" aria-label="Close">
+      ×
+    </button>
+    <h2 class="routine__modal-title" id="exerciseModalTitle"></h2>
+    <div class="routine__modal-tabs">
+      <button
+        type="button"
+        class="routine__modal-tab routine__modal-tab--active"
+        data-modal-panel="overview"
+      >
+        Technique
+      </button>
+      <button type="button" class="routine__modal-tab" data-modal-panel="notes">Notes</button>
+      <button type="button" class="routine__modal-tab" data-modal-panel="pr">PR</button>
+    </div>
+    <section
+      class="routine__modal-panel routine__modal-panel--active"
+      data-modal-panel-content="overview"
+      aria-hidden="false"
+    >
+      <ol class="routine__modal-steps" id="exerciseModalSteps"></ol>
+      <div class="routine__media">
+        <div class="routine__media-toolbar">
+          <button
+            type="button"
+            class="routine__media-tab routine__media-tab--active"
+            data-media-view="youtube"
+          >
+            Video
+          </button>
+          <button type="button" class="routine__media-tab" data-media-view="image">Image</button>
+        </div>
+        <div class="routine__media-content" id="exerciseModalMedia"></div>
+      </div>
+    </section>
+    <section class="routine__modal-panel" data-modal-panel-content="notes" aria-hidden="true">
+      <div class="routine__notes">
+        <label class="routine__notes-label" for="exerciseNotes">Session notes</label>
+        <textarea
+          id="exerciseNotes"
+          class="routine__notes-textarea"
+          placeholder="Notes for this exercise"
+        ></textarea>
+        <div class="routine__notes-actions">
+          <button type="button" class="routine__notes-save" id="exerciseNotesClear">Clear</button>
+          <button type="button" class="routine__notes-save" id="exerciseNotesSave">Save</button>
+        </div>
+      </div>
+    </section>
+    <section class="routine__modal-panel" data-modal-panel-content="pr" aria-hidden="true">
+      <div class="routine__pr">
+        <div class="routine__pr-grid">
+          <input
+            id="prWeight"
+            class="routine__pr-input"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="Weight (kg)"
+          />
+          <input
+            id="prReps"
+            class="routine__pr-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="Reps"
+          />
+          <input
+            id="prRir"
+            class="routine__pr-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="RIR"
+          />
+        </div>
+        <p class="routine__pr-last" id="prLastValue">No PR saved yet</p>
+        <div class="routine__notes-actions">
+          <button type="button" class="routine__notes-save" id="prClear">Clear PR</button>
+          <button type="button" class="routine__notes-save routine__timer-btn--primary" id="prSave">
+            Save PR
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
