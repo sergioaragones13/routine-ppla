@@ -39,6 +39,18 @@ export async function saveProfileUsername(userId: string, username: string) {
   return requireClient().from("profiles").upsert({ id: userId, username }, { onConflict: "id" });
 }
 
+export async function getProfileTheme(userId: string): Promise<"light" | "dark" | null> {
+  const client = requireClient();
+  const { data } = await client.from("profiles").select("theme_mode").eq("id", userId).maybeSingle();
+  const themeMode = data?.theme_mode;
+  if (themeMode === "light" || themeMode === "dark") return themeMode;
+  return null;
+}
+
+export async function saveProfileTheme(userId: string, theme: "light" | "dark") {
+  return requireClient().from("profiles").upsert({ id: userId, theme_mode: theme }, { onConflict: "id" });
+}
+
 export async function saveCloudPayload(userId: string, payload: Record<string, string>) {
   return requireClient()
     .from("ppla_profiles")

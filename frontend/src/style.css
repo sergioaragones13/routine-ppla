@@ -7,72 +7,72 @@
 }
 
 :root {
-  --bg: #192229;
-  --surface: #1d2830;
-  --surface-2: #212e36;
-  --surface-raised: #24323b;
-  --surface-panel: #212e36;
-  --surface-modal: #212e36;
-  --surface-contrast: #161f25;
-  --surface-contrast-2: #2a3b47;
-  --surface-gradient-start: rgba(42, 59, 71, 0.92);
-  --surface-gradient-end: rgba(25, 34, 41, 0.96);
-  --header-surface: rgba(33, 46, 54, 0.84);
-  --icon-bg: rgba(82, 165, 224, 0.2);
-  --icon-fg: #eff3f5;
-  --brand-bg: rgba(82, 165, 224, 0.24);
-  --brand-fg: #eff3f5;
-  --brand-border: rgba(82, 165, 224, 0.44);
-  --brand-glow: 0 8px 18px rgba(25, 34, 41, 0.45);
-  --border: #2a3b47;
-  --border-soft: rgba(160, 167, 172, 0.26);
-  --day-push: #52a5e0;
-  --day-pull: #4d93c7;
-  --day-leg: #76b4e4;
-  --day-arm: #8ec0e6;
-  --day-custom: #6da9d5;
-  --day-push-soft: rgba(82, 165, 224, 0.22);
-  --day-pull-soft: rgba(77, 147, 199, 0.22);
-  --day-leg-soft: rgba(118, 180, 228, 0.22);
-  --day-arm-soft: rgba(142, 192, 230, 0.22);
-  --day-custom-soft: rgba(109, 169, 213, 0.22);
+  --bg: #0f0f10;
+  --surface: #17181a;
+  --surface-2: #1b1d20;
+  --surface-raised: #1f2124;
+  --surface-panel: #181a1d;
+  --surface-modal: #1a1c1f;
+  --surface-contrast: #121315;
+  --surface-contrast-2: #24272b;
+  --surface-gradient-start: rgba(36, 39, 43, 0.9);
+  --surface-gradient-end: rgba(15, 15, 16, 0.96);
+  --header-surface: rgba(23, 24, 26, 0.86);
+  --icon-bg: rgba(199, 203, 209, 0.12);
+  --icon-fg: #f2f3f5;
+  --brand-bg: rgba(199, 203, 209, 0.14);
+  --brand-fg: #f2f3f5;
+  --brand-border: rgba(154, 161, 171, 0.34);
+  --brand-glow: 0 8px 18px rgba(8, 8, 9, 0.5);
+  --border: #2b2f34;
+  --border-soft: rgba(154, 161, 171, 0.2);
+  --day-push: #b7bcc3;
+  --day-pull: #adb3bb;
+  --day-leg: #a5abb4;
+  --day-arm: #9ea5ae;
+  --day-custom: #979ea8;
+  --day-push-soft: rgba(183, 188, 195, 0.16);
+  --day-pull-soft: rgba(173, 179, 187, 0.16);
+  --day-leg-soft: rgba(165, 171, 180, 0.16);
+  --day-arm-soft: rgba(158, 165, 174, 0.16);
+  --day-custom-soft: rgba(151, 158, 168, 0.16);
   --push: var(--day-push);
   --pull: var(--day-pull);
   --leg: var(--day-leg);
   --arm: var(--day-arm);
-  --text: #c8cdd0;
-  --text-strong: #eff3f5;
-  --text-soft: rgba(200, 205, 208, 0.84);
-  --muted: #a0a7ac;
-  --gold: #52a5e0;
-  --accent: #52a5e0;
-  --accent-strong: #7fbee9;
-  --warning-soft: rgba(82, 165, 224, 0.2);
-  --warning-border: rgba(127, 190, 233, 0.46);
-  --warning-text: #a3d1f0;
-  --interactive-hover: rgba(160, 167, 172, 0.14);
-  --interactive-active: rgba(160, 167, 172, 0.24);
-  --timer-track: #2a3b47;
-  --timer-progress: #52a5e0;
-  --success-soft: rgba(91, 165, 130, 0.2);
-  --success-border: rgba(125, 199, 165, 0.36);
-  --success-text: #b7e2cd;
-  --danger-soft: rgba(172, 108, 118, 0.2);
-  --danger-border: rgba(208, 145, 156, 0.34);
-  --danger-text: #ecc9cf;
-  --shadow-soft: 0 12px 36px rgba(25, 34, 41, 0.5);
-  --shadow-strong: 0 24px 56px rgba(25, 34, 41, 0.62);
+  --text: #c7cbd1;
+  --text-strong: #f2f3f5;
+  --text-soft: rgba(199, 203, 209, 0.82);
+  --muted: #9aa1ab;
+  --gold: #b5bbc4;
+  --accent: #b5bbc4;
+  --accent-strong: #d5d9df;
+  --warning-soft: rgba(181, 187, 196, 0.17);
+  --warning-border: rgba(181, 187, 196, 0.4);
+  --warning-text: #d5d9df;
+  --interactive-hover: rgba(199, 203, 209, 0.12);
+  --interactive-active: rgba(199, 203, 209, 0.2);
+  --timer-track: #2b2f34;
+  --timer-progress: #d5d9df;
+  --success-soft: rgba(149, 163, 149, 0.16);
+  --success-border: rgba(166, 180, 166, 0.32);
+  --success-text: #d8e0d8;
+  --danger-soft: rgba(156, 140, 143, 0.16);
+  --danger-border: rgba(183, 166, 170, 0.3);
+  --danger-text: #e3d5d8;
+  --shadow-soft: 0 12px 36px rgba(8, 8, 9, 0.48);
+  --shadow-strong: 0 24px 56px rgba(8, 8, 9, 0.62);
   --radius-xl: 18px;
   --radius-lg: 14px;
   --radius-md: 10px;
   --radius-sm: 8px;
-  --focus-ring: 0 0 0 2px rgba(82, 165, 224, 0.4);
+  --focus-ring: 0 0 0 2px rgba(199, 203, 209, 0.36);
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-display: "Bebas Neue", system-ui, sans-serif;
-  --bg-grad-1: rgba(82, 165, 224, 0.18);
-  --bg-grad-2: rgba(42, 59, 71, 0.26);
-  --bg-grad-3: rgba(25, 34, 41, 0.28);
-  --overlay-backdrop: rgba(25, 34, 41, 0.72);
+  --bg-grad-1: rgba(60, 63, 68, 0.14);
+  --bg-grad-2: rgba(43, 47, 52, 0.22);
+  --bg-grad-3: rgba(21, 22, 24, 0.3);
+  --overlay-backdrop: rgba(10, 10, 11, 0.74);
   --card-accent-gold-top: color-mix(in srgb, var(--accent-strong) 90%, var(--surface-raised));
   --card-accent-gold-bottom: var(--accent);
   --card-accent-slate-top: color-mix(in srgb, var(--day-pull) 74%, var(--text-strong) 26%);
@@ -81,6 +81,14 @@
   --card-accent-violet-bottom: color-mix(in srgb, var(--day-arm) 72%, var(--surface-contrast));
   --card-accent-muted-top: color-mix(in srgb, var(--day-custom) 70%, var(--text-strong) 30%);
   --card-accent-muted-bottom: color-mix(in srgb, var(--day-custom) 70%, var(--surface-contrast));
+  --theme-switch-track-day: #2196f3;
+  --theme-switch-track-night: #0d1117;
+  --theme-switch-sun: #ffd54f;
+  --theme-switch-moon: #f5f7ff;
+  --theme-switch-star: #ffffff;
+  --theme-switch-cloud-dark: #cfd6e0;
+  --theme-switch-cloud-light: #eef3f8;
+  --theme-switch-ray: rgba(255, 255, 255, 0.22);
 }
 
 :root[data-theme="light"] {
@@ -148,6 +156,14 @@
   --card-accent-violet-bottom: color-mix(in srgb, var(--day-arm) 72%, var(--surface-contrast));
   --card-accent-muted-top: color-mix(in srgb, var(--day-custom) 82%, white 18%);
   --card-accent-muted-bottom: color-mix(in srgb, var(--day-custom) 72%, var(--surface-contrast));
+  --theme-switch-track-day: #6bb5ff;
+  --theme-switch-track-night: #1f2a39;
+  --theme-switch-sun: #ffc76a;
+  --theme-switch-moon: #f6f7fb;
+  --theme-switch-star: #ffffff;
+  --theme-switch-cloud-dark: #b9c5d3;
+  --theme-switch-cloud-light: #f4f6fb;
+  --theme-switch-ray: rgba(255, 255, 255, 0.24);
 }
 
 body {
@@ -676,7 +692,7 @@ body.routine--workout-mode {
   overflow: hidden;
   z-index: 0;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-contrast) 74%, var(--surface-raised));
+  background: var(--theme-switch-track-day);
   transition:
     background 0.4s ease,
     border-color 0.3s ease,
@@ -694,15 +710,15 @@ body.routine--workout-mode {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--warning-text);
+  background: var(--theme-switch-sun);
   transition:
     transform 0.4s ease,
     background 0.4s ease;
 }
 
 .routine__theme-switch-input:checked + .routine__theme-switch-slider {
-  background: color-mix(in srgb, var(--surface) 30%, var(--surface-raised));
-  border-color: var(--warning-border);
+  background: var(--theme-switch-track-night);
+  border-color: color-mix(in srgb, var(--theme-switch-track-night) 64%, var(--border));
 }
 
 .routine__theme-switch-input:focus-visible + .routine__theme-switch-slider {
@@ -711,7 +727,7 @@ body.routine--workout-mode {
 
 .routine__theme-switch-input:checked + .routine__theme-switch-slider .routine__theme-switch-sun-moon {
   transform: translateX(26px);
-  background: color-mix(in srgb, var(--text-strong) 92%, white 8%);
+  background: var(--theme-switch-moon);
   animation: routineThemeSwitchRotate 0.6s ease-in-out both;
 }
 
@@ -750,8 +766,8 @@ body.routine--workout-mode {
 .routine__theme-switch-light-ray {
   position: absolute;
   z-index: -1;
-  fill: color-mix(in srgb, var(--text-strong) 82%, transparent);
-  opacity: 0.18;
+  fill: var(--theme-switch-ray);
+  opacity: 1;
 }
 
 .routine__theme-switch-light-ray--1 {
@@ -781,13 +797,13 @@ body.routine--workout-mode {
 }
 
 .routine__theme-switch-cloud--light {
-  fill: color-mix(in srgb, var(--surface) 24%, var(--text-strong));
+  fill: var(--theme-switch-cloud-light);
 }
 
 .routine__theme-switch-cloud--dark-1,
 .routine__theme-switch-cloud--dark-2,
 .routine__theme-switch-cloud--dark-3 {
-  fill: color-mix(in srgb, var(--surface-contrast) 38%, var(--text));
+  fill: var(--theme-switch-cloud-dark);
   animation-delay: 1s;
 }
 
@@ -835,7 +851,7 @@ body.routine--workout-mode {
 
 .routine__theme-switch-star {
   position: absolute;
-  fill: color-mix(in srgb, var(--text-strong) 90%, white 10%);
+  fill: var(--theme-switch-star);
   transition: 0.4s;
   animation: routineThemeSwitchTwinkle 2s infinite;
 }
@@ -1251,10 +1267,24 @@ body.routine--workout-mode {
     color-mix(in srgb, var(--success-text) 24%, transparent),
     color-mix(in srgb, var(--success-soft) 84%, transparent)
   );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--success-text) 24%, transparent),
+    0 2px 8px color-mix(in srgb, var(--success-text) 18%, transparent);
 }
 
 .routine__challenge-day--trained .routine__challenge-day-dot {
   background: var(--success-text);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success-text) 24%, transparent);
+}
+
+.routine__challenge-day--trained .routine__challenge-day-number {
+  color: color-mix(in srgb, var(--text-strong) 78%, var(--success-text));
+  font-weight: 800;
+}
+
+.routine__challenge-day--trained .routine__challenge-day-activity {
+  color: color-mix(in srgb, var(--text-strong) 74%, var(--success-text));
+  font-weight: 700;
 }
 
 .routine__challenge-day--failed {
@@ -1449,8 +1479,10 @@ body.routine--workout-mode .routine__week-panel .routine__weekly {
 }
 
 .routine__weekly-day--done {
-  background: color-mix(in srgb, var(--warning-text) 14%, var(--surface-2));
-  color: var(--warning-text);
+  border-color: color-mix(in srgb, var(--success-border) 82%, transparent);
+  background: color-mix(in srgb, var(--success-soft) 72%, var(--surface-2));
+  color: color-mix(in srgb, var(--text-strong) 72%, var(--success-text));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--success-text) 22%, transparent);
 }
 
 body.routine--workout-mode .routine__weekly-day {
@@ -2553,11 +2585,24 @@ body.routine--timer-active .routine__time-picker {
 
 .routine__social-calendar-day--trained {
   border-color: var(--success-border);
-  background: var(--success-soft);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--success-text) 16%, transparent),
+    color-mix(in srgb, var(--success-soft) 90%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--success-text) 22%, transparent),
+    0 1px 5px color-mix(in srgb, var(--success-text) 16%, transparent);
 }
 
 .routine__social-calendar-day--trained .routine__social-calendar-dot {
   background: var(--success-text);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success-text) 22%, transparent);
+}
+
+.routine__social-calendar-day--trained .routine__social-calendar-label {
+  color: color-mix(in srgb, var(--text-strong) 74%, var(--success-text));
+  font-weight: 700;
 }
 
 .routine__social-calendar-day--missed {

@@ -26,6 +26,7 @@ import {
   assignTemplateToUser,
   ensureUserRoutineAssignment,
   findUserIdByUsername,
+  getProfileTheme,
   hasPendingFriendRequest,
   getProfileUsername,
   getSessionUser,
@@ -40,6 +41,7 @@ import {
   saveUserExerciseNote,
   saveUserExercisePr,
   saveProfileUsername,
+  saveProfileTheme,
   saveUserTimerState,
   saveUserRoutineTemplate,
   sendFriendRequest,
@@ -276,7 +278,7 @@ function applyTheme(theme: ThemeMode): void {
   window.localStorage.setItem("theme", theme);
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   if (themeMeta) {
-    themeMeta.setAttribute("content", theme === "light" ? "#f4f6fb" : "#192229");
+    themeMeta.setAttribute("content", theme === "light" ? "#f4f6fb" : "#0f0f10");
   }
   if (themeToggle) {
     themeToggle.checked = theme === "light";
@@ -289,15 +291,43 @@ function applyTheme(theme: ThemeMode): void {
   }
 }
 
-function initThemeControls(): void {
-  const currentTheme = (document.documentElement.getAttribute("data-theme") as ThemeMode | null)
-    || resolvePreferredTheme();
+async function resolveThemeForCurrentUser(): Promise<ThemeMode> {
+  const sessionUser = await getSessionUser();
+  if (sessionUser?.id) {
+    try {
+      const profileTheme = await getProfileTheme(sessionUser.id);
+      if (profileTheme) return profileTheme;
+    } catch {
+      // Keep local fallback when profile theme is unavailable.
+    }
+  }
+  const attrTheme = document.documentElement.getAttribute("data-theme");
+  if (attrTheme === "light" || attrTheme === "dark") return attrTheme;
+  return resolvePreferredTheme();
+}
+
+async function persistThemeForCurrentUser(theme: ThemeMode): Promise<void> {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser?.id) return;
+  try {
+    await saveProfileTheme(sessionUser.id, theme);
+  } catch {
+    // Avoid blocking UI theme changes when backend write fails.
+  }
+}
+
+async function initThemeControls(): Promise<void> {
+  const currentTheme = await resolveThemeForCurrentUser();
   applyTheme(currentTheme);
   themeToggle?.addEventListener("change", () => {
-    applyTheme(themeToggle.checked ? "light" : "dark");
+    const nextTheme: ThemeMode = themeToggle.checked ? "light" : "dark";
+    applyTheme(nextTheme);
+    void persistThemeForCurrentUser(nextTheme);
   });
   homeThemeToggle?.addEventListener("change", () => {
-    applyTheme(homeThemeToggle.checked ? "light" : "dark");
+    const nextTheme: ThemeMode = homeThemeToggle.checked ? "light" : "dark";
+    applyTheme(nextTheme);
+    void persistThemeForCurrentUser(nextTheme);
   });
 }
 
@@ -1751,4 +1781,4 @@ items.forEach((item) => {
 setupAudioUnlock();
 initTimePickerWheels();
 updateTimerControlsState();
-initThemeControls();
+void initThemeControls();
