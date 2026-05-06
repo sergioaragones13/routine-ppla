@@ -292,6 +292,9 @@ function applyTheme(theme: ThemeMode): void {
 }
 
 async function resolveThemeForCurrentUser(): Promise<ThemeMode> {
+  const savedTheme = window.localStorage.getItem("theme");
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+
   const sessionUser = await getSessionUser();
   if (sessionUser?.id) {
     try {
