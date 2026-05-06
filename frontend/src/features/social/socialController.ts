@@ -486,6 +486,7 @@ export function initSocialController(
     socialCheckinDate.value = selectedDateIso;
   }
   renderCheckinCalendar();
+  void syncWeekStatuses();
 
   socialCheckinMissed?.addEventListener("click", async () => {
     await submitSocialCheckin(false, "missed", "Missed", -12);

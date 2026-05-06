@@ -7,37 +7,154 @@
 }
 
 :root {
-  --bg: #060607;
-  --surface: #0e0e10;
-  --surface-2: #131316;
-  --surface-raised: #18181c;
-  --border: #25252b;
-  --border-soft: rgba(255, 255, 255, 0.08);
-  --push: #e85d2f;
-  --pull: #4d9fff;
-  --leg: #34d399;
-  --arm: #b97cff;
-  --text: #f4f1ec;
-  --text-soft: rgba(244, 241, 236, 0.78);
-  --muted: #7c7c86;
-  --gold: #f0c94c;
-  --accent: #f0c94c;
-  --shadow-soft: 0 12px 36px rgba(0, 0, 0, 0.42);
-  --shadow-strong: 0 24px 56px rgba(0, 0, 0, 0.55);
+  --bg: #192229;
+  --surface: #1d2830;
+  --surface-2: #212e36;
+  --surface-raised: #24323b;
+  --surface-panel: #212e36;
+  --surface-modal: #212e36;
+  --surface-contrast: #161f25;
+  --surface-contrast-2: #2a3b47;
+  --surface-gradient-start: rgba(42, 59, 71, 0.92);
+  --surface-gradient-end: rgba(25, 34, 41, 0.96);
+  --header-surface: rgba(33, 46, 54, 0.84);
+  --icon-bg: rgba(82, 165, 224, 0.2);
+  --icon-fg: #eff3f5;
+  --brand-bg: rgba(82, 165, 224, 0.24);
+  --brand-fg: #eff3f5;
+  --brand-border: rgba(82, 165, 224, 0.44);
+  --brand-glow: 0 8px 18px rgba(25, 34, 41, 0.45);
+  --border: #2a3b47;
+  --border-soft: rgba(160, 167, 172, 0.26);
+  --day-push: #52a5e0;
+  --day-pull: #4d93c7;
+  --day-leg: #76b4e4;
+  --day-arm: #8ec0e6;
+  --day-custom: #6da9d5;
+  --day-push-soft: rgba(82, 165, 224, 0.22);
+  --day-pull-soft: rgba(77, 147, 199, 0.22);
+  --day-leg-soft: rgba(118, 180, 228, 0.22);
+  --day-arm-soft: rgba(142, 192, 230, 0.22);
+  --day-custom-soft: rgba(109, 169, 213, 0.22);
+  --push: var(--day-push);
+  --pull: var(--day-pull);
+  --leg: var(--day-leg);
+  --arm: var(--day-arm);
+  --text: #c8cdd0;
+  --text-strong: #eff3f5;
+  --text-soft: rgba(200, 205, 208, 0.84);
+  --muted: #a0a7ac;
+  --gold: #52a5e0;
+  --accent: #52a5e0;
+  --accent-strong: #7fbee9;
+  --warning-soft: rgba(82, 165, 224, 0.2);
+  --warning-border: rgba(127, 190, 233, 0.46);
+  --warning-text: #a3d1f0;
+  --interactive-hover: rgba(160, 167, 172, 0.14);
+  --interactive-active: rgba(160, 167, 172, 0.24);
+  --timer-track: #2a3b47;
+  --timer-progress: #52a5e0;
+  --success-soft: rgba(91, 165, 130, 0.2);
+  --success-border: rgba(125, 199, 165, 0.36);
+  --success-text: #b7e2cd;
+  --danger-soft: rgba(172, 108, 118, 0.2);
+  --danger-border: rgba(208, 145, 156, 0.34);
+  --danger-text: #ecc9cf;
+  --shadow-soft: 0 12px 36px rgba(25, 34, 41, 0.5);
+  --shadow-strong: 0 24px 56px rgba(25, 34, 41, 0.62);
   --radius-xl: 18px;
   --radius-lg: 14px;
   --radius-md: 10px;
   --radius-sm: 8px;
-  --focus-ring: 0 0 0 2px rgba(240, 201, 76, 0.28);
+  --focus-ring: 0 0 0 2px rgba(82, 165, 224, 0.4);
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-display: "Bebas Neue", system-ui, sans-serif;
+  --bg-grad-1: rgba(82, 165, 224, 0.18);
+  --bg-grad-2: rgba(42, 59, 71, 0.26);
+  --bg-grad-3: rgba(25, 34, 41, 0.28);
+  --overlay-backdrop: rgba(25, 34, 41, 0.72);
+  --card-accent-gold-top: color-mix(in srgb, var(--accent-strong) 90%, var(--surface-raised));
+  --card-accent-gold-bottom: var(--accent);
+  --card-accent-slate-top: color-mix(in srgb, var(--day-pull) 74%, var(--text-strong) 26%);
+  --card-accent-slate-bottom: color-mix(in srgb, var(--day-pull) 72%, var(--surface-contrast));
+  --card-accent-violet-top: color-mix(in srgb, var(--day-arm) 74%, var(--text-strong) 26%);
+  --card-accent-violet-bottom: color-mix(in srgb, var(--day-arm) 72%, var(--surface-contrast));
+  --card-accent-muted-top: color-mix(in srgb, var(--day-custom) 70%, var(--text-strong) 30%);
+  --card-accent-muted-bottom: color-mix(in srgb, var(--day-custom) 70%, var(--surface-contrast));
+}
+
+:root[data-theme="light"] {
+  --bg: #edede9;
+  --surface: #f5ebe0;
+  --surface-2: #e3d5ca;
+  --surface-raised: #d6ccc2;
+  --surface-panel: #f5ebe0;
+  --surface-modal: #f5ebe0;
+  --surface-contrast: #c8b2a3;
+  --surface-contrast-2: #d4c1b3;
+  --surface-gradient-start: rgba(245, 235, 224, 0.96);
+  --surface-gradient-end: rgba(227, 213, 202, 0.94);
+  --header-surface: rgba(245, 235, 224, 0.86);
+  --icon-bg: rgba(154, 102, 64, 0.16);
+  --icon-fg: #5f3d28;
+  --brand-bg: rgba(154, 102, 64, 0.14);
+  --brand-fg: #5f3d28;
+  --brand-border: rgba(154, 102, 64, 0.35);
+  --brand-glow: 0 8px 16px rgba(79, 57, 45, 0.18);
+  --border: #d5bdaf;
+  --border-soft: rgba(84, 69, 57, 0.22);
+  --text: #2d2420;
+  --text-strong: #1f1814;
+  --text-soft: rgba(45, 36, 32, 0.82);
+  --muted: #6b5a50;
+  --accent: #9a6640;
+  --accent-strong: #7d4f2f;
+  --warning-soft: rgba(154, 102, 64, 0.14);
+  --warning-border: rgba(154, 102, 64, 0.46);
+  --warning-text: #7d4f2f;
+  --gold: #9a6640;
+  --interactive-hover: rgba(154, 102, 64, 0.12);
+  --interactive-active: rgba(154, 102, 64, 0.2);
+  --timer-track: #c9b7aa;
+  --timer-progress: #c89a78;
+  --success-soft: rgba(79, 127, 96, 0.16);
+  --success-border: rgba(79, 127, 96, 0.42);
+  --success-text: #365d46;
+  --danger-soft: rgba(142, 83, 78, 0.16);
+  --danger-border: rgba(142, 83, 78, 0.4);
+  --danger-text: #6f3836;
+  --day-push: #9e6b4e;
+  --day-pull: #7d8898;
+  --day-leg: #6f8d75;
+  --day-arm: #8c7696;
+  --day-custom: #7d7f8e;
+  --day-push-soft: rgba(158, 107, 78, 0.18);
+  --day-pull-soft: rgba(125, 136, 152, 0.18);
+  --day-leg-soft: rgba(111, 141, 117, 0.18);
+  --day-arm-soft: rgba(140, 118, 150, 0.18);
+  --day-custom-soft: rgba(125, 127, 142, 0.18);
+  --shadow-soft: 0 10px 24px rgba(79, 57, 45, 0.12);
+  --shadow-strong: 0 20px 38px rgba(79, 57, 45, 0.16);
+  --focus-ring: 0 0 0 2px rgba(154, 102, 64, 0.28);
+  --bg-grad-1: rgba(213, 189, 175, 0.3);
+  --bg-grad-2: rgba(227, 213, 202, 0.32);
+  --bg-grad-3: rgba(214, 204, 194, 0.34);
+  --overlay-backdrop: rgba(45, 36, 32, 0.42);
+  --card-accent-gold-top: color-mix(in srgb, var(--accent-strong) 78%, white 22%);
+  --card-accent-gold-bottom: var(--accent);
+  --card-accent-slate-top: color-mix(in srgb, var(--day-pull) 82%, white 18%);
+  --card-accent-slate-bottom: color-mix(in srgb, var(--day-pull) 72%, var(--surface-contrast));
+  --card-accent-violet-top: color-mix(in srgb, var(--day-arm) 82%, white 18%);
+  --card-accent-violet-bottom: color-mix(in srgb, var(--day-arm) 72%, var(--surface-contrast));
+  --card-accent-muted-top: color-mix(in srgb, var(--day-custom) 82%, white 18%);
+  --card-accent-muted-bottom: color-mix(in srgb, var(--day-custom) 72%, var(--surface-contrast));
 }
 
 body {
   background:
-    radial-gradient(900px 520px at 100% 0%, rgba(168, 85, 247, 0.1), transparent 55%),
-    radial-gradient(900px 520px at 0% 0%, rgba(59, 130, 246, 0.09), transparent 55%),
-    radial-gradient(1100px 640px at 50% 100%, rgba(232, 93, 47, 0.07), transparent 55%), var(--bg);
+    radial-gradient(900px 520px at 100% 0%, var(--bg-grad-1), transparent 55%),
+    radial-gradient(900px 520px at 0% 0%, var(--bg-grad-2), transparent 55%),
+    radial-gradient(1100px 640px at 50% 100%, var(--bg-grad-3), transparent 55%), var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   min-height: 100vh;
@@ -81,7 +198,7 @@ body.routine--workout-mode {
   max-width: 320px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: #141414;
+  background: var(--surface-modal);
   color: var(--text);
   padding: 10px 12px;
   font-size: 0.78rem;
@@ -92,15 +209,15 @@ body.routine--workout-mode {
 }
 
 .routine__toast--success {
-  border-color: rgba(63, 187, 110, 0.55);
+  border-color: var(--success-border);
 }
 
 .routine__toast--error {
-  border-color: rgba(210, 74, 74, 0.6);
+  border-color: var(--danger-border);
 }
 
 .routine__toast--info {
-  border-color: rgba(243, 208, 81, 0.55);
+  border-color: var(--warning-border);
 }
 
 .routine__toast--hide {
@@ -114,7 +231,7 @@ body.routine--workout-mode {
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.62);
+  background: var(--overlay-backdrop);
   z-index: 130;
   padding: 16px;
 }
@@ -127,7 +244,7 @@ body.routine--workout-mode {
   width: min(420px, 100%);
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #141414;
+  background: var(--surface-modal);
   padding: 14px;
   box-shadow: var(--shadow-soft);
 }
@@ -150,11 +267,10 @@ body.routine--workout-mode {
   gap: 14px;
 }
 
-.routine__page-header,
-.routine__page-footer {
+.routine__page-header {
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #111111;
+  background: var(--surface-panel);
   padding: 12px 14px;
 }
 
@@ -165,16 +281,6 @@ body.routine--workout-mode {
   flex: 1;
 }
 
-.routine__page-footer {
-  color: var(--muted);
-  font-size: 0.72rem;
-}
-
-.routine__page-footer--legal {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
 
 .routine__auth-gate--hidden {
   display: none;
@@ -184,12 +290,12 @@ body.routine--workout-mode {
   width: min(420px, 100%);
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(12, 12, 12, 0.98));
+  background: linear-gradient(180deg, var(--surface-gradient-start), var(--surface-gradient-end));
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
+  box-shadow: var(--shadow-soft);
 }
 
 .routine__auth-title {
@@ -208,14 +314,12 @@ body.routine--workout-mode {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  border: 1px solid rgba(243, 208, 81, 0.55);
+  border: 1px solid var(--brand-border);
   display: grid;
   place-items: center;
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.2rem;
-  color: #1a1a1a;
-  background: linear-gradient(135deg, #f5c842, #ffdd7a);
-  box-shadow: 0 8px 18px rgba(245, 200, 66, 0.25);
+  color: var(--brand-fg);
+  background: var(--brand-bg);
+  box-shadow: var(--brand-glow);
 }
 
 .routine__auth-brand-copy {
@@ -257,7 +361,7 @@ body.routine--workout-mode {
   width: min(860px, 100%);
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95), rgba(12, 12, 12, 0.95));
+  background: linear-gradient(180deg, var(--surface-gradient-start), var(--surface-gradient-end));
   padding: 18px;
 }
 
@@ -309,7 +413,7 @@ body.routine--workout-mode {
 .routine__page-header--home {
   text-align: center;
   border: 1px solid var(--border-soft);
-  background: linear-gradient(165deg, rgba(24, 24, 28, 0.95), rgba(12, 12, 14, 0.98));
+  background: linear-gradient(165deg, var(--surface-gradient-start), var(--surface-gradient-end));
 }
 
 .routine__home-lead {
@@ -332,7 +436,7 @@ body.routine--workout-mode {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  min-height: 96px;
+  min-height: 102px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
@@ -362,24 +466,24 @@ body.routine--workout-mode {
 }
 
 .routine__home-card--accent-gold::before {
-  background: linear-gradient(180deg, #ffe08a, var(--gold));
+  background: linear-gradient(180deg, var(--card-accent-gold-top), var(--card-accent-gold-bottom));
 }
 
 .routine__home-card--accent-slate::before {
-  background: linear-gradient(180deg, #9ca3af, #4b5563);
+  background: linear-gradient(180deg, var(--card-accent-slate-top), var(--card-accent-slate-bottom));
 }
 
 .routine__home-card--accent-violet::before {
-  background: linear-gradient(180deg, #d8b4fe, var(--arm));
+  background: linear-gradient(180deg, var(--card-accent-violet-top), var(--card-accent-violet-bottom));
 }
 
 .routine__home-card--accent-muted::before {
-  background: linear-gradient(180deg, #6b7280, #374151);
+  background: linear-gradient(180deg, var(--card-accent-muted-top), var(--card-accent-muted-bottom));
 }
 
 .routine__home-card:hover {
   border-color: rgba(240, 201, 76, 0.35);
-  background: #1c1c22;
+  background: color-mix(in srgb, var(--surface-contrast-2) 36%, var(--surface-raised));
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);
 }
@@ -391,28 +495,20 @@ body.routine--workout-mode {
   border-radius: var(--radius-md);
   display: grid;
   place-items: center;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: 0.04em;
-  color: #111;
-  background: linear-gradient(135deg, rgba(240, 201, 76, 0.95), rgba(255, 228, 160, 0.9));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  color: var(--icon-fg);
+  background: var(--icon-bg);
+  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 10%, transparent);
 }
 
-.routine__home-card--accent-slate .routine__home-card-icon {
-  background: linear-gradient(135deg, #e5e7eb, #9ca3af);
-}
-
-.routine__home-card--accent-violet .routine__home-card-icon {
-  background: linear-gradient(135deg, #e9d5ff, #a855f7);
-  color: #1a0a24;
-}
-
-.routine__home-card--accent-muted .routine__home-card-icon {
-  background: linear-gradient(135deg, #4b5563, #1f2937);
-  color: #e5e7eb;
-  font-size: 1.05rem;
+.routine__home-card-icon-svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .routine__home-card-body {
@@ -439,6 +535,12 @@ body.routine--workout-mode {
 .routine__header {
   max-width: 980px;
   margin: 0 auto 28px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--header-surface);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  padding: 12px 14px;
+  backdrop-filter: blur(8px);
 }
 
 .routine__title {
@@ -478,16 +580,23 @@ body.routine--workout-mode {
   width: 34px;
   height: 34px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(245, 200, 66, 0.95), rgba(255, 221, 122, 0.95));
-  border: 1px solid rgba(243, 208, 81, 0.5);
+  background: var(--brand-bg);
+  border: 1px solid var(--brand-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.4rem;
-  letter-spacing: 0.08em;
-  color: #1a1a1a;
-  box-shadow: 0 6px 14px rgba(245, 200, 66, 0.2);
+  color: var(--brand-fg);
+  box-shadow: var(--brand-glow);
+}
+
+.routine__brand-mark-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .routine__logo-text {
@@ -498,8 +607,9 @@ body.routine--workout-mode {
 
 .routine__logo-title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.4rem;
-  letter-spacing: 0.12em;
+  font-size: 1.32rem;
+  letter-spacing: 0.1em;
+  color: var(--text-strong);
 }
 
 .routine__logo-subtitle {
@@ -531,29 +641,301 @@ body.routine--workout-mode {
   gap: 8px;
 }
 
+.routine__header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.routine__home-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  padding: 4px 2px 0;
+}
+
+.routine__theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.routine__theme-switch-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.routine__theme-switch-slider {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-contrast) 74%, var(--surface-raised));
+  transition:
+    background 0.4s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.routine__theme-switch-slider--round {
+  border-radius: 999px;
+}
+
+.routine__theme-switch-sun-moon {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--warning-text);
+  transition:
+    transform 0.4s ease,
+    background 0.4s ease;
+}
+
+.routine__theme-switch-input:checked + .routine__theme-switch-slider {
+  background: color-mix(in srgb, var(--surface) 30%, var(--surface-raised));
+  border-color: var(--warning-border);
+}
+
+.routine__theme-switch-input:focus-visible + .routine__theme-switch-slider {
+  box-shadow: var(--focus-ring);
+}
+
+.routine__theme-switch-input:checked + .routine__theme-switch-slider .routine__theme-switch-sun-moon {
+  transform: translateX(26px);
+  background: color-mix(in srgb, var(--text-strong) 92%, white 8%);
+  animation: routineThemeSwitchRotate 0.6s ease-in-out both;
+}
+
+.routine__theme-switch-moon-dot {
+  position: absolute;
+  fill: color-mix(in srgb, var(--surface-2) 70%, var(--muted));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.routine__theme-switch-input:checked + .routine__theme-switch-slider .routine__theme-switch-moon-dot {
+  opacity: 1;
+}
+
+.routine__theme-switch-moon-dot--1 {
+  left: 10px;
+  top: 3px;
+  width: 6px;
+  height: 6px;
+}
+
+.routine__theme-switch-moon-dot--2 {
+  left: 2px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+.routine__theme-switch-moon-dot--3 {
+  left: 16px;
+  top: 18px;
+  width: 3px;
+  height: 3px;
+}
+
+.routine__theme-switch-light-ray {
+  position: absolute;
+  z-index: -1;
+  fill: color-mix(in srgb, var(--text-strong) 82%, transparent);
+  opacity: 0.18;
+}
+
+.routine__theme-switch-light-ray--1 {
+  left: -8px;
+  top: -8px;
+  width: 43px;
+  height: 43px;
+}
+
+.routine__theme-switch-light-ray--2 {
+  left: -14px;
+  top: -14px;
+  width: 55px;
+  height: 55px;
+}
+
+.routine__theme-switch-light-ray--3 {
+  left: -18px;
+  top: -18px;
+  width: 60px;
+  height: 60px;
+}
+
+.routine__theme-switch-cloud {
+  position: absolute;
+  animation: routineThemeSwitchCloudMove 6s infinite;
+}
+
+.routine__theme-switch-cloud--light {
+  fill: color-mix(in srgb, var(--surface) 24%, var(--text-strong));
+}
+
+.routine__theme-switch-cloud--dark-1,
+.routine__theme-switch-cloud--dark-2,
+.routine__theme-switch-cloud--dark-3 {
+  fill: color-mix(in srgb, var(--surface-contrast) 38%, var(--text));
+  animation-delay: 1s;
+}
+
+.routine__theme-switch-cloud--dark-1 {
+  left: 30px;
+  top: 15px;
+  width: 40px;
+}
+
+.routine__theme-switch-cloud--dark-2 {
+  left: 44px;
+  top: 10px;
+  width: 20px;
+}
+
+.routine__theme-switch-cloud--dark-3 {
+  left: 18px;
+  top: 24px;
+  width: 30px;
+}
+
+.routine__theme-switch-cloud--light-1 {
+  left: 36px;
+  top: 18px;
+  width: 40px;
+}
+
+.routine__theme-switch-cloud--light-2 {
+  left: 48px;
+  top: 14px;
+  width: 20px;
+}
+
+.routine__theme-switch-cloud--light-3 {
+  left: 22px;
+  top: 26px;
+  width: 30px;
+}
+
+.routine__theme-switch-stars {
+  transform: translateY(-32px);
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.routine__theme-switch-star {
+  position: absolute;
+  fill: color-mix(in srgb, var(--text-strong) 90%, white 10%);
+  transition: 0.4s;
+  animation: routineThemeSwitchTwinkle 2s infinite;
+}
+
+.routine__theme-switch-input:checked + .routine__theme-switch-slider .routine__theme-switch-stars {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.routine__theme-switch-star--1 {
+  width: 20px;
+  top: 2px;
+  left: 3px;
+  animation-delay: 0.3s;
+}
+
+.routine__theme-switch-star--2 {
+  width: 6px;
+  top: 16px;
+  left: 3px;
+}
+
+.routine__theme-switch-star--3 {
+  width: 12px;
+  top: 20px;
+  left: 10px;
+  animation-delay: 0.6s;
+}
+
+.routine__theme-switch-star--4 {
+  width: 18px;
+  top: 0;
+  left: 18px;
+  animation-delay: 1.3s;
+}
+
+@keyframes routineThemeSwitchCloudMove {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  80% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes routineThemeSwitchTwinkle {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  80% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes routineThemeSwitchRotate {
+  0% {
+    transform: translateX(26px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(26px) rotate(360deg);
+  }
+}
+
 .routine__nav-chip {
   text-decoration: none;
+  min-height: 36px;
 }
 
 .routine__nav-chip--home {
-  border-color: rgba(240, 201, 76, 0.42);
-  color: #ffe7a3;
-  background: rgba(240, 201, 76, 0.08);
+  border-color: var(--warning-border);
+  color: var(--warning-text);
+  background: var(--warning-soft);
 }
 
 .routine__nav-chip--primary {
-  border-color: rgba(240, 201, 76, 0.45);
-  color: #ffe9a8;
-  background: rgba(240, 201, 76, 0.1);
+  border-color: var(--warning-border);
+  color: var(--warning-text);
+  background: var(--warning-soft);
 }
+
 
 .routine__control-deck {
   margin-top: 16px;
   padding: 14px 14px 16px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-soft);
-  background: linear-gradient(180deg, rgba(22, 22, 26, 0.95), rgba(12, 12, 14, 0.88));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  background: linear-gradient(180deg, var(--surface-gradient-start), var(--surface-gradient-end));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -617,9 +999,13 @@ body.routine--workout-mode {
   padding-right: clamp(12px, 2.5vw, 28px);
   padding-bottom: 12px;
   padding-left: clamp(12px, 2.5vw, 28px);
-  background: linear-gradient(180deg, rgba(6, 6, 7, 0.97) 55%, rgba(6, 6, 7, 0.88) 100%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bg) 92%, transparent) 55%,
+    color-mix(in srgb, var(--bg) 82%, transparent) 100%
+  );
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
 }
 
 .routine__header--planner {
@@ -665,7 +1051,7 @@ body.routine--workout-mode {
 .routine__challenge-card {
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, rgba(20, 20, 24, 0.94), rgba(10, 10, 12, 0.96));
+  background: linear-gradient(180deg, var(--surface-gradient-start), var(--surface-gradient-end));
   padding: 14px;
 }
 
@@ -689,7 +1075,7 @@ body.routine--workout-mode {
   padding: 10px 12px;
   border: 1px solid var(--border-soft);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  background: color-mix(in srgb, var(--surface-raised) 86%, transparent);
 }
 
 .routine__challenge-status-pill {
@@ -701,20 +1087,20 @@ body.routine--workout-mode {
   font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--border-soft);
   color: var(--muted);
 }
 
 .routine__challenge-status-pill--live {
-  border-color: rgba(63, 187, 110, 0.6);
-  color: #b6f3cc;
-  background: rgba(63, 187, 110, 0.14);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  background: var(--success-soft);
 }
 
 .routine__challenge-status-pill--done {
-  border-color: rgba(240, 201, 76, 0.6);
-  color: #f5d98a;
-  background: rgba(240, 201, 76, 0.14);
+  border-color: var(--warning-border);
+  color: var(--warning-text);
+  background: var(--warning-soft);
 }
 
 .routine__challenge-status-days {
@@ -792,13 +1178,13 @@ body.routine--workout-mode {
   padding: 14px;
   text-align: center;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.01);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
 }
 
 .routine__challenge-day {
   border: 1px solid var(--border-soft);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: color-mix(in srgb, var(--surface-raised) 90%, transparent);
   min-height: 68px;
   padding: 6px 4px;
   display: flex;
@@ -821,16 +1207,16 @@ body.routine--workout-mode {
 }
 
 .routine__challenge-day--disabled {
-  background: rgba(255, 255, 255, 0.01);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
 }
 
 .routine__challenge-day--in-range:hover {
-  border-color: rgba(240, 201, 76, 0.5);
+  border-color: var(--warning-border);
   transform: translateY(-1px);
 }
 
 .routine__challenge-day--today {
-  box-shadow: 0 0 0 2px rgba(240, 201, 76, 0.35);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--warning-text) 42%, transparent);
 }
 
 .routine__challenge-day-number {
@@ -843,7 +1229,7 @@ body.routine--workout-mode {
   font-size: 0.52rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(244, 241, 236, 0.72);
+  color: var(--text-soft);
   line-height: 1.15;
   max-width: 100%;
   overflow: hidden;
@@ -855,25 +1241,33 @@ body.routine--workout-mode {
   width: 9px;
   height: 9px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
+  background: color-mix(in srgb, var(--text) 28%, transparent);
 }
 
 .routine__challenge-day--trained {
-  border-color: rgba(63, 187, 110, 0.6);
-  background: linear-gradient(160deg, rgba(63, 187, 110, 0.26), rgba(63, 187, 110, 0.12));
+  border-color: var(--success-border);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--success-text) 24%, transparent),
+    color-mix(in srgb, var(--success-soft) 84%, transparent)
+  );
 }
 
 .routine__challenge-day--trained .routine__challenge-day-dot {
-  background: #9ef2bf;
+  background: var(--success-text);
 }
 
 .routine__challenge-day--failed {
-  border-color: rgba(210, 74, 74, 0.58);
-  background: linear-gradient(160deg, rgba(210, 74, 74, 0.24), rgba(210, 74, 74, 0.1));
+  border-color: var(--danger-border);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--danger-text) 22%, transparent),
+    color-mix(in srgb, var(--danger-soft) 84%, transparent)
+  );
 }
 
 .routine__challenge-day--failed .routine__challenge-day-dot {
-  background: #ffb2b2;
+  background: var(--danger-text);
 }
 
 .routine__challenge-day--rest {
@@ -887,7 +1281,7 @@ body.routine--workout-mode {
       rgba(124, 138, 158, 0.08) 6px,
       rgba(124, 138, 158, 0.08) 12px
     ),
-    rgba(255, 255, 255, 0.015);
+    color-mix(in srgb, var(--surface) 92%, transparent);
 }
 
 .routine__challenge-day--rest .routine__challenge-day-dot {
@@ -906,14 +1300,14 @@ body.routine--workout-mode {
 }
 
 .routine__challenge-day--required {
-  border-color: rgba(240, 201, 76, 0.72);
+  border-color: var(--warning-border);
   box-shadow:
-    inset 0 0 0 1px rgba(240, 201, 76, 0.48),
-    0 0 0 1px rgba(240, 201, 76, 0.2);
+    inset 0 0 0 1px color-mix(in srgb, var(--warning-text) 45%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--warning-text) 20%, transparent);
 }
 
 .routine__challenge-day--required .routine__challenge-day-activity {
-  color: #f3d081;
+  color: var(--warning-text);
   font-weight: 600;
 }
 
@@ -959,8 +1353,8 @@ body.routine--full-routine-mode .routine__exercise-item:focus-visible {
 .routine__session-btn {
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid #2f2f2f;
-  background: #181818;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
   color: var(--text);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
@@ -975,8 +1369,8 @@ body.routine--full-routine-mode .routine__exercise-item:focus-visible {
 
 .routine__session-btn:hover {
   transform: translateY(-1px);
-  border-color: #3b3b3b;
-  background: #1d1d1d;
+  border-color: var(--border-soft);
+  background: var(--interactive-hover);
 }
 
 .routine__session-btn--active {
@@ -1022,8 +1416,8 @@ body.routine--workout-mode .routine__week-panel .routine__weekly {
   width: auto;
   padding: 0 8px;
   border-radius: 999px;
-  border: 1px solid #2a2a2a;
-  background: #131313;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 600;
@@ -1033,27 +1427,30 @@ body.routine--workout-mode .routine__week-panel .routine__weekly {
     transform 0.15s ease,
     background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .routine__weekly-day:hover {
   transform: translateY(-1px);
-  border-color: #3a3a3a;
+  border-color: var(--border-soft);
   color: var(--text);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--text) 12%, transparent) inset;
 }
 
 .routine__weekly-day--active {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--warning-border);
+  color: var(--warning-text);
+  background: color-mix(in srgb, var(--warning-soft) 86%, var(--surface-2));
 }
 
 .routine__weekly-day--today {
-  box-shadow: 0 0 0 2px rgba(243, 208, 81, 0.45);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--warning-text) 42%, transparent);
 }
 
 .routine__weekly-day--done {
-  background: #1f1a0d;
-  color: var(--gold);
+  background: color-mix(in srgb, var(--warning-text) 14%, var(--surface-2));
+  color: var(--warning-text);
 }
 
 body.routine--workout-mode .routine__weekly-day {
@@ -1113,7 +1510,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__day-card:hover {
   transform: translateY(-4px);
-  border-color: #313131;
+  border-color: var(--border-soft);
   box-shadow: var(--shadow-strong);
 }
 
@@ -1132,19 +1529,19 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__day-card--push::before {
-  background: var(--push);
+  background: var(--day-push);
 }
 .routine__day-card--pull::before {
-  background: var(--pull);
+  background: var(--day-pull);
 }
 .routine__day-card--leg::before {
-  background: var(--leg);
+  background: var(--day-leg);
 }
 .routine__day-card--arm::before {
-  background: var(--arm);
+  background: var(--day-arm);
 }
 .routine__day-card--custom::before {
-  background: #64748b;
+  background: var(--day-custom);
 }
 
 .routine__day-header {
@@ -1159,8 +1556,8 @@ body.routine--workout-mode .routine__weekly-day {
   font-size: 0.62rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
-  border: 1px solid #2a2a2a;
-  background: #131313;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--muted);
   border-radius: 999px;
   padding: 4px 8px;
@@ -1169,7 +1566,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__day-clear:hover {
-  border-color: #3a3a3a;
+  border-color: var(--border-soft);
   color: var(--text);
 }
 
@@ -1187,20 +1584,35 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__day-card--push .routine__day-name {
-  color: var(--push);
+  color: var(--day-push);
+}
+.routine__day-card--push .routine__day-header {
+  background: linear-gradient(180deg, var(--day-push-soft), transparent);
 }
 .routine__day-card--pull .routine__day-name {
-  color: var(--pull);
+  color: var(--day-pull);
+}
+.routine__day-card--pull .routine__day-header {
+  background: linear-gradient(180deg, var(--day-pull-soft), transparent);
 }
 .routine__day-card--leg .routine__day-name {
-  color: var(--leg);
+  color: var(--day-leg);
+}
+.routine__day-card--leg .routine__day-header {
+  background: linear-gradient(180deg, var(--day-leg-soft), transparent);
 }
 .routine__day-card--arm .routine__day-name {
-  color: var(--arm);
+  color: var(--day-arm);
+}
+.routine__day-card--arm .routine__day-header {
+  background: linear-gradient(180deg, var(--day-arm-soft), transparent);
 }
 
 .routine__day-card--custom .routine__day-name {
-  color: #94a3b8;
+  color: var(--day-custom);
+}
+.routine__day-card--custom .routine__day-header {
+  background: linear-gradient(180deg, var(--day-custom-soft), transparent);
 }
 
 .routine__day-type {
@@ -1223,7 +1635,7 @@ body.routine--workout-mode .routine__weekly-day {
   gap: 12px;
   font-size: 0.83rem;
   line-height: 1.35;
-  border-bottom: 1px solid #161616;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
   transition:
     background 0.18s ease,
     opacity 0.18s ease;
@@ -1234,7 +1646,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__exercise-item:hover {
-  background: #161616;
+  background: color-mix(in srgb, var(--surface-contrast) 24%, var(--surface));
 }
 .routine__exercise-item:focus-visible {
   outline: 2px solid var(--gold);
@@ -1277,9 +1689,13 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__exercise-check:hover {
   transform: translateY(-1px);
-  border-color: rgba(240, 201, 76, 0.6);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(240, 201, 76, 0.06));
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.24);
+  border-color: var(--warning-border);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--surface-raised) 86%, transparent),
+    color-mix(in srgb, var(--warning-text) 10%, transparent)
+  );
+  box-shadow: var(--shadow-soft);
 }
 
 .routine__exercise-check:active {
@@ -1289,14 +1705,14 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__exercise-check:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(245, 200, 66, 0.45);
+  box-shadow: var(--focus-ring);
 }
 
 .routine__exercise-check-mark {
   width: 12px;
   height: 2px;
   border-radius: 2px;
-  background: rgba(240, 201, 76, 0.85);
+  background: color-mix(in srgb, var(--warning-text) 82%, transparent);
   transform: scaleX(0);
   transform-origin: left center;
   opacity: 0.35;
@@ -1306,11 +1722,15 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__exercise-check--done {
-  border-color: rgba(255, 223, 132, 0.92);
-  background: linear-gradient(150deg, rgba(255, 233, 168, 0.35), rgba(240, 201, 76, 0.14));
+  border-color: var(--warning-border);
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--warning-text) 28%, transparent),
+    color-mix(in srgb, var(--warning-text) 14%, transparent)
+  );
   box-shadow:
-    0 0 0 1px rgba(240, 201, 76, 0.26),
-    0 8px 16px rgba(240, 201, 76, 0.18);
+    0 0 0 1px color-mix(in srgb, var(--warning-text) 30%, transparent),
+    0 8px 16px color-mix(in srgb, var(--warning-text) 18%, transparent);
 }
 
 .routine__exercise-check--done .routine__exercise-check-mark {
@@ -1319,8 +1739,12 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__exercise-check--done:hover {
-  border-color: rgba(255, 223, 132, 0.95);
-  background: linear-gradient(150deg, rgba(255, 240, 190, 0.4), rgba(240, 201, 76, 0.18));
+  border-color: color-mix(in srgb, var(--warning-text) 70%, transparent);
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--warning-text) 34%, transparent),
+    color-mix(in srgb, var(--warning-text) 18%, transparent)
+  );
 }
 
 .routine__day-card--push .routine__exercise-check--done .routine__exercise-check-mark {
@@ -1356,7 +1780,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__exercise-name {
   flex: 1;
-  color: var(--text);
+  color: var(--text-strong);
   transition: color 0.2s ease;
 }
 
@@ -1370,9 +1794,11 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__exercise-sets {
   font-size: 0.72rem;
-  color: var(--muted);
+  color: var(--text-soft);
   white-space: nowrap;
   padding-top: 2px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .routine__star-badge {
@@ -1396,19 +1822,41 @@ body.routine--workout-mode .routine__weekly-day {
   gap: 2px;
 }
 
+/* Full Routine: improve scannability for titles and sets/reps */
+body.routine--full-routine-mode .routine__day-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-contrast-2) 30%, var(--surface-2)),
+    color-mix(in srgb, var(--surface-contrast) 18%, var(--surface))
+  );
+}
+
+body.routine--full-routine-mode .routine__exercise-item {
+  border-bottom-color: color-mix(in srgb, var(--border) 86%, transparent);
+}
+
+body.routine--full-routine-mode .routine__exercise-item:hover {
+  background: color-mix(in srgb, var(--surface-contrast) 30%, var(--surface-raised));
+}
+
+body.routine--full-routine-mode .routine__exercise-name {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
+body.routine--full-routine-mode .routine__exercise-sets {
+  color: color-mix(in srgb, var(--text-strong) 82%, var(--muted));
+  font-weight: 700;
+}
+
+body.routine--full-routine-mode .routine__exercise-number {
+  color: color-mix(in srgb, var(--text) 74%, var(--muted));
+}
+
 .routine__exercise-main {
   flex: 1;
 }
 
-.routine__footer {
-  text-align: center;
-  margin-top: 48px;
-  color: var(--muted);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.8;
-}
 
 .routine__modal {
   position: fixed;
@@ -1428,7 +1876,7 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__modal-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.74);
+  background: var(--overlay-backdrop);
   border: 0;
 }
 
@@ -1437,8 +1885,8 @@ body.routine--workout-mode .routine__weekly-day {
   width: min(680px, 100%);
   max-height: 90vh;
   overflow: auto;
-  background: #121212;
-  border: 1px solid #2a2a2a;
+  background: var(--surface-modal);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 22px 22px 18px;
   z-index: 2;
@@ -1453,8 +1901,8 @@ body.routine--workout-mode .routine__weekly-day {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1px solid #2f2f2f;
-  background: #1c1c1c;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
   color: var(--text);
   cursor: pointer;
   transition:
@@ -1464,7 +1912,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__modal-close:hover {
   transform: scale(1.04);
-  background: #252525;
+  background: var(--interactive-hover);
 }
 
 .routine__modal-title {
@@ -1478,14 +1926,14 @@ body.routine--workout-mode .routine__weekly-day {
   margin-top: 12px;
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid #222222;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 10px;
 }
 
 .routine__modal-tab {
-  border: 1px solid #2d2d2d;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: #171717;
+  background: var(--surface-2);
   color: var(--text-soft);
   font-size: 0.64rem;
   letter-spacing: 0.09em;
@@ -1499,7 +1947,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__modal-tab:hover {
-  background: #202020;
+  background: var(--interactive-hover);
   color: var(--text);
 }
 
@@ -1520,29 +1968,29 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__modal-steps {
   margin-top: 10px;
   padding-left: 16px;
-  color: #ded9d2;
+  color: var(--text-soft);
 }
 
 .routine__media {
   margin-top: 14px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  background: #0d0d0d;
+  background: var(--surface);
 }
 
 .routine__media-toolbar {
   display: flex;
   gap: 8px;
   padding: 10px;
-  border-bottom: 1px solid #222222;
-  background: #141414;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-modal);
 }
 
 .routine__media-tab {
-  border: 1px solid #2d2d2d;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #1b1b1b;
+  background: var(--surface-raised);
   color: var(--text);
   font-size: 0.66rem;
   letter-spacing: 0.08em;
@@ -1568,7 +2016,7 @@ body.routine--workout-mode .routine__weekly-day {
   padding: 10px 14px;
   gap: 8px;
   border: 0;
-  background: #181818;
+  background: var(--surface-raised);
   color: var(--text);
   text-decoration: none;
   font-size: 0.78rem;
@@ -1578,7 +2026,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__media-link:hover {
-  background: #222222;
+  background: var(--surface-2);
 }
 
 .routine__media-image {
@@ -1586,8 +2034,8 @@ body.routine--workout-mode .routine__weekly-day {
   max-height: 260px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #2a2a2a;
-  background: #0f0f0f;
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .routine__modal-step {
@@ -1597,17 +2045,24 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__timer {
   margin-top: 16px;
-  padding: 10px 10px 8px;
-  border-radius: 10px;
-  border: 1px solid #222222;
-  background: #111111;
+  padding: 12px 12px 10px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border) 75%, var(--surface-contrast));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-contrast) 82%, var(--surface-panel)),
+    color-mix(in srgb, var(--surface-contrast-2) 76%, var(--surface-panel))
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text) 10%, transparent),
+    0 8px 18px color-mix(in srgb, var(--surface-contrast) 35%, transparent);
 }
 
 .routine__timer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .routine__timer-label {
@@ -1619,26 +2074,26 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__timer-circle {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 108px;
+  height: 108px;
 }
 
 .routine__timer-svg {
-  width: 100px;
-  height: 100px;
+  width: 108px;
+  height: 108px;
   transform: rotate(-90deg);
 }
 
 .routine__timer-track {
   fill: none;
-  stroke: #242424;
-  stroke-width: 3;
+  stroke: var(--timer-track);
+  stroke-width: 4;
 }
 
 .routine__timer-progress {
   fill: none;
-  stroke: var(--gold);
-  stroke-width: 3;
+  stroke: var(--timer-progress);
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-dasharray: 106.8;
   stroke-dashoffset: 106.8;
@@ -1652,29 +2107,120 @@ body.routine--workout-mode .routine__weekly-day {
   align-items: center;
   justify-content: center;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
+  color: var(--text-strong);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--surface-contrast) 35%, transparent);
   letter-spacing: 0.12em;
+}
+
+.routine__time-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: min(320px, 100%);
+}
+
+body.routine--timer-active .routine__time-picker {
+  display: none !important;
+}
+
+.routine__time-wheel-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.routine__time-wheel-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.routine__time-wheel {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, var(--surface-contrast));
+  background: color-mix(in srgb, var(--surface-contrast-2) 78%, var(--surface-raised));
+  padding: 43px 0;
+}
+
+.routine__time-wheel::-webkit-scrollbar {
+  display: none;
+}
+
+.routine__time-wheel::before,
+.routine__time-wheel::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 26px;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.routine__time-wheel::before {
+  top: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface-panel) 90%, transparent), transparent);
+}
+
+.routine__time-wheel::after {
+  bottom: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--surface-panel) 90%, transparent), transparent);
+}
+
+.routine__time-option {
+  width: 100%;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: var(--text-soft);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  scroll-snap-align: center;
+  cursor: pointer;
+}
+
+.routine__time-option--active {
+  color: var(--text-strong);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--surface-contrast) 35%, transparent);
+}
+
+.routine__time-option:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--warning-text) 30%, transparent);
 }
 
 .routine__timer-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   justify-content: center;
 }
 
 .routine__timer-btn {
-  padding: 5px 10px;
+  padding: 6px 11px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  font-size: 0.64rem;
+  border: 1px solid color-mix(in srgb, var(--border-soft) 85%, var(--surface-contrast));
+  background: color-mix(in srgb, var(--surface-contrast-2) 80%, var(--surface-raised));
+  color: var(--text-strong);
+  font-size: 0.65rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   cursor: pointer;
   font-weight: 600;
-  min-height: 30px;
+  min-height: 32px;
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
@@ -1684,41 +2230,44 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__timer-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.24);
+  background: color-mix(in srgb, var(--interactive-hover) 75%, var(--surface-contrast-2));
+  border-color: color-mix(in srgb, var(--warning-border) 55%, var(--border-soft));
+  transform: translateY(-1px);
 }
 
 .routine__timer-btn:active {
-  background: rgba(255, 255, 255, 0.13);
+  background: var(--interactive-active);
+  transform: translateY(0);
 }
 
 .routine__timer-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(245, 200, 66, 0.35);
+  box-shadow: var(--focus-ring);
 }
 
 .routine__timer-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(240, 237, 232, 0.62);
+  border-color: color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
 }
 
 .routine__timer-btn--primary {
-  border-color: rgba(245, 200, 66, 0.55);
-  color: #ffdf84;
-  background: rgba(245, 200, 66, 0.08);
+  border-color: color-mix(in srgb, var(--warning-border) 85%, var(--surface-contrast));
+  color: var(--warning-text);
+  background: color-mix(in srgb, var(--warning-soft) 90%, var(--surface-contrast-2));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--warning-text) 24%, transparent) inset;
 }
 
 .routine__timer-display--done {
-  color: var(--gold);
+  color: var(--timer-progress);
 }
 
 .routine__timer-btn--preset-active {
-  border-color: rgba(245, 200, 66, 0.65);
-  color: var(--gold);
-  background: rgba(245, 200, 66, 0.13);
+  border-color: color-mix(in srgb, var(--warning-text) 78%, transparent);
+  color: var(--warning-text);
+  background: color-mix(in srgb, var(--warning-text) 16%, transparent);
 }
 
 .routine__notes {
@@ -1747,7 +2296,7 @@ body.routine--workout-mode .routine__weekly-day {
   resize: none;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #181818;
+  background: var(--surface-raised);
   color: var(--text);
   font-family: inherit;
   font-size: 0.8rem;
@@ -1759,15 +2308,15 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__notes-textarea::placeholder {
-  color: #7b7b7b;
+  color: var(--muted);
 }
 
 .routine__notes-save {
   align-self: flex-end;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid #2f2f2f;
-  background: #1c1c1c;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
   color: var(--text);
   font-size: 0.7rem;
   letter-spacing: 0.12em;
@@ -1780,7 +2329,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__notes-save:hover {
-  background: #242424;
+  background: var(--interactive-hover);
   transform: translateY(-1px);
 }
 
@@ -1805,7 +2354,7 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__pr-input {
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #181818;
+  background: var(--surface-raised);
   color: var(--text);
   font-family: inherit;
   font-size: 0.78rem;
@@ -1818,7 +2367,7 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__pr-input:focus {
   outline: none;
   border-color: var(--gold);
-  background: #1d1d1d;
+  background: var(--surface-2);
 }
 
 .routine__editor-hint {
@@ -1838,7 +2387,7 @@ body.routine--workout-mode .routine__weekly-day {
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px;
-  background: #131313;
+  background: var(--surface-2);
 }
 
 .routine__editor-day-title {
@@ -1859,7 +2408,7 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__editor-select {
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #181818;
+  background: var(--surface-raised);
   color: var(--text);
   font-family: inherit;
   font-size: 0.76rem;
@@ -1874,9 +2423,9 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__editor-remove,
 .routine__editor-add {
-  border: 1px solid #2f2f2f;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #1c1c1c;
+  background: var(--surface-raised);
   color: var(--text);
   cursor: pointer;
 }
@@ -1986,13 +2535,13 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__social-calendar-day--today {
-  border-color: rgba(240, 201, 76, 0.5);
+  border-color: var(--warning-border);
 }
 
 .routine__social-calendar-day--selected {
-  border-color: rgba(240, 201, 76, 0.8);
-  background: rgba(240, 201, 76, 0.16);
-  box-shadow: inset 0 0 0 1px rgba(240, 201, 76, 0.4);
+  border-color: color-mix(in srgb, var(--warning-text) 72%, transparent);
+  background: color-mix(in srgb, var(--warning-text) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warning-text) 40%, transparent);
 }
 
 .routine__social-calendar-dot {
@@ -2003,21 +2552,21 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__social-calendar-day--trained {
-  border-color: rgba(63, 187, 110, 0.58);
-  background: rgba(63, 187, 110, 0.14);
+  border-color: var(--success-border);
+  background: var(--success-soft);
 }
 
 .routine__social-calendar-day--trained .routine__social-calendar-dot {
-  background: #9ef2bf;
+  background: var(--success-text);
 }
 
 .routine__social-calendar-day--missed {
-  border-color: rgba(210, 74, 74, 0.58);
-  background: rgba(210, 74, 74, 0.14);
+  border-color: var(--danger-border);
+  background: var(--danger-soft);
 }
 
 .routine__social-calendar-day--missed .routine__social-calendar-dot {
-  background: #ffb2b2;
+  background: var(--danger-text);
 }
 
 .routine__social-periods {
@@ -2029,7 +2578,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__social-period {
   border: 1px solid var(--border);
-  background: #1a1a1a;
+  background: var(--surface-raised);
   color: var(--muted);
   border-radius: 999px;
   padding: 5px 10px;
@@ -2041,13 +2590,13 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__social-period--active {
   border-color: var(--accent);
   color: var(--text);
-  background: rgba(243, 208, 81, 0.18);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 .routine__social-item {
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #171717;
+  background: var(--surface-raised);
   padding: 8px 10px;
   display: flex;
   justify-content: space-between;
@@ -2058,8 +2607,8 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__social-item--me {
   border-color: var(--accent);
-  background: linear-gradient(90deg, rgba(243, 208, 81, 0.2), rgba(23, 23, 23, 0.95));
-  box-shadow: 0 0 0 1px rgba(243, 208, 81, 0.25) inset;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 24%, transparent), var(--surface-raised));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent) inset;
 }
 
 .routine__social-actions {
@@ -2087,15 +2636,15 @@ body.routine--workout-mode .routine__weekly-day {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
-  background: #141414;
+  background: var(--surface-modal);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .routine__settings-card--danger {
-  border-color: rgba(210, 74, 74, 0.4);
-  background: rgba(210, 74, 74, 0.08);
+  border-color: var(--danger-border);
+  background: color-mix(in srgb, var(--danger-soft) 78%, transparent);
 }
 
 .routine__settings-status {
@@ -2112,8 +2661,58 @@ body.routine--workout-mode .routine__weekly-day {
   color: var(--text);
 }
 
-.routine__settings-toggle input {
-  accent-color: var(--gold);
+.routine__theme-toggle {
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.routine__theme-toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.routine__theme-toggle-track {
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  position: relative;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.routine__theme-toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--text);
+  transition: transform 0.2s ease;
+}
+
+.routine__theme-toggle-input:checked + .routine__theme-toggle-track {
+  border-color: var(--warning-border);
+  background: var(--warning-soft);
+}
+
+.routine__theme-toggle-input:checked + .routine__theme-toggle-track::after {
+  transform: translateX(18px);
+}
+
+.routine__theme-toggle-input:focus-visible + .routine__theme-toggle-track {
+  box-shadow: var(--focus-ring);
+}
+
+.routine__theme-toggle-label {
+  font-size: 0.78rem;
+  color: var(--text-soft);
 }
 
 .routine__settings-footer-actions {
@@ -2123,9 +2722,9 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__notes-save--danger {
-  background: rgba(210, 74, 74, 0.25);
-  border-color: rgba(210, 74, 74, 0.55);
-  color: #ffd5d5;
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+  color: var(--danger-text);
 }
 
 .routine__checkin-actions {
@@ -2135,28 +2734,34 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__checkin-btn {
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .routine__checkin-btn:hover {
   transform: translateY(-1px);
+  box-shadow: 0 5px 12px color-mix(in srgb, var(--surface-contrast) 26%, transparent);
 }
 
 .routine__checkin-btn--trained {
-  background: rgba(63, 187, 110, 0.18);
-  border-color: rgba(63, 187, 110, 0.55);
-  color: #9ef2bf;
+  background: color-mix(in srgb, var(--success-soft) 88%, var(--surface-contrast-2));
+  border-color: var(--success-border);
+  color: var(--success-text);
 }
 
 .routine__checkin-btn--missed {
-  background: rgba(210, 74, 74, 0.2);
-  border-color: rgba(210, 74, 74, 0.55);
-  color: #ffb2b2;
+  background: color-mix(in srgb, var(--danger-soft) 88%, var(--surface-contrast-2));
+  border-color: var(--danger-border);
+  color: var(--danger-text);
 }
 
 .routine__checkin-feedback {
@@ -2167,20 +2772,22 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__checkin-feedback--success {
-  color: #9ef2bf;
+  color: var(--success-text);
   animation: routineCheckinPulse 0.42s ease;
+  font-weight: 600;
 }
 
 .routine__checkin-feedback--error {
-  color: #ffb2b2;
+  color: var(--danger-text);
   animation: routineCheckinPulse 0.42s ease;
+  font-weight: 600;
 }
 
 .routine__sport-picker {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.62);
+  background: var(--overlay-backdrop);
   align-items: center;
   justify-content: center;
   z-index: 70;
@@ -2195,13 +2802,18 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__sport-picker-dialog {
   width: min(680px, 100%);
   max-height: min(84vh, 760px);
-  background: #151515;
-  border: 1px solid var(--border);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface-modal) 88%, var(--surface-contrast) 12%),
+    var(--surface-modal)
+  );
+  border: 1px solid var(--border-soft);
   border-radius: 14px;
   padding: 14px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: var(--shadow-strong);
 }
 
 .routine__sport-picker-header {
@@ -2218,7 +2830,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__sport-picker-close {
   border: 1px solid var(--border);
-  background: #121212;
+  background: var(--surface-raised);
   color: var(--text);
   border-radius: 8px;
   width: 30px;
@@ -2230,11 +2842,17 @@ body.routine--workout-mode .routine__weekly-day {
   width: 100%;
   margin-bottom: 10px;
   border: 1px solid var(--border);
-  background: #101010;
+  background: var(--surface-raised);
   color: var(--text);
   border-radius: 10px;
   padding: 9px 10px;
   font-size: 0.82rem;
+}
+
+.routine__sport-search:focus-visible,
+.routine__sport-picker-close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .routine__sport-grid {
@@ -2259,7 +2877,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__sport-option {
   border: 1px solid var(--border);
-  background: #171717;
+  background: var(--surface-raised);
   border-radius: 10px;
   padding: 10px 8px;
   display: flex;
@@ -2272,7 +2890,7 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__sport-option:hover {
   transform: translateY(-1px);
-  border-color: rgba(243, 208, 81, 0.55);
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent);
 }
 
 .routine__sport-icon {
@@ -2342,7 +2960,7 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__logo-mark {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--brand-glow);
 }
 
 .routine__logo-title {
@@ -2392,7 +3010,7 @@ body.routine--workout-mode .routine__weekly-day {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #ffe8a0;
+  color: var(--warning-text);
 }
 
 .routine__day-card--today .routine__day-name::after {
@@ -2402,9 +3020,9 @@ body.routine--workout-mode .routine__weekly-day {
   justify-content: center;
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(245, 200, 66, 0.55);
-  background: rgba(245, 200, 66, 0.16);
-  color: var(--gold);
+  border: 1px solid var(--warning-border);
+  background: var(--warning-soft);
+  color: var(--warning-text);
   font-family: "DM Sans", sans-serif;
   font-size: 0.5rem;
   font-weight: 700;
@@ -2426,21 +3044,22 @@ body.routine--workout-mode .routine__weekly-day {
 .routine__day-progress {
   font-size: 0.62rem;
   letter-spacing: 0.11em;
-  color: rgba(240, 237, 232, 0.72);
+  color: var(--text-soft);
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid color-mix(in srgb, var(--border-soft) 78%, transparent);
+  background: color-mix(in srgb, var(--surface-contrast-2) 60%, var(--surface));
   white-space: nowrap;
   min-width: 68px;
   text-align: center;
   font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 
 .routine__day-card--today .routine__day-progress {
-  border-color: rgba(245, 200, 66, 0.35);
-  color: var(--gold);
-  background: rgba(245, 200, 66, 0.08);
+  border-color: var(--warning-border);
+  color: var(--warning-text);
+  background: color-mix(in srgb, var(--warning-soft) 90%, var(--surface));
 }
 
 .routine__exercise-list {
@@ -2449,11 +3068,11 @@ body.routine--workout-mode .routine__weekly-day {
 
 .routine__exercise-item {
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-soft) 70%, transparent);
 }
 
 .routine__exercise-item:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: color-mix(in srgb, var(--surface-contrast) 16%, var(--surface));
 }
 
 .routine__exercise-item--done .routine__exercise-name {
@@ -2465,7 +3084,8 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__exercise-sets {
-  color: rgba(240, 237, 232, 0.6);
+  color: color-mix(in srgb, var(--text-strong) 74%, var(--muted));
+  font-weight: 700;
 }
 
 .routine__star-badge {
@@ -2484,15 +3104,23 @@ body.routine--workout-mode .routine__weekly-day {
 }
 
 .routine__timer-track {
-  stroke: rgba(255, 255, 255, 0.15);
+  stroke: color-mix(in srgb, var(--timer-track) 85%, var(--surface));
 }
 
 .routine__timer-display {
   font-size: 1.34rem;
+  color: var(--text-strong);
 }
 
 .routine__timer-btn {
-  border: 1px solid var(--border-soft);
+  border: 1px solid color-mix(in srgb, var(--border-soft) 85%, var(--surface-contrast));
+  background: color-mix(in srgb, var(--surface-contrast-2) 78%, var(--surface-raised));
+  color: var(--text-strong);
+}
+
+.routine__timer-btn:hover {
+  background: color-mix(in srgb, var(--interactive-hover) 70%, var(--surface-contrast-2));
+  border-color: color-mix(in srgb, var(--warning-border) 52%, var(--border-soft));
 }
 
 .routine__modal-content {
@@ -2656,6 +3284,21 @@ body.routine--workout-mode .routine__weekly-day {
 
   .routine__timer-display {
     font-size: 1.1rem;
+  }
+
+  .routine__time-picker {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .routine__time-wheel {
+    height: 112px;
+    padding: 39px 0;
+  }
+
+  .routine__time-option {
+    height: 34px;
+    font-size: 0.9rem;
   }
 
   .routine__timer-controls {

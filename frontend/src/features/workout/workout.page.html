@@ -4,9 +4,17 @@
       <div class="routine__header-row">
         <div class="routine__header-main">
           <div class="routine__logo">
-            <div class="routine__logo-mark">P</div>
+            <div class="routine__logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__brand-mark-icon">
+                <path d="M3.5 9.5h1.8v5H3.5z"></path>
+                <path d="M5.8 8h2.2v8H5.8z"></path>
+                <path d="M8.6 11h6.8v2H8.6z"></path>
+                <path d="M16 8h2.2v8H16z"></path>
+                <path d="M18.7 9.5h1.8v5h-1.8z"></path>
+              </svg>
+            </div>
             <div class="routine__logo-text">
-              <span class="routine__logo-title">PPLA Workout</span>
+              <span class="routine__logo-title">Workout</span>
               <span class="routine__logo-subtitle">Pick a day · log sets · rest timer</span>
             </div>
           </div>
@@ -44,18 +52,25 @@
             </svg>
             <span class="routine__timer-display" id="restTimerDisplay">00:00</span>
           </div>
+          <div class="routine__time-picker" aria-label="Time picker">
+            <div class="routine__time-wheel-wrap">
+              <span class="routine__time-wheel-label">H</span>
+              <div class="routine__time-wheel" id="timerHoursWheel" aria-label="Hours" tabindex="0"></div>
+            </div>
+            <div class="routine__time-wheel-wrap">
+              <span class="routine__time-wheel-label">M</span>
+              <div class="routine__time-wheel" id="timerMinutesWheel" aria-label="Minutes" tabindex="0"></div>
+            </div>
+            <div class="routine__time-wheel-wrap">
+              <span class="routine__time-wheel-label">S</span>
+              <div class="routine__time-wheel" id="timerSecondsWheel" aria-label="Seconds" tabindex="0"></div>
+            </div>
+          </div>
           <div class="routine__timer-controls">
-            <button type="button" class="routine__timer-btn" data-timer-preset="60">1:00</button>
-            <button type="button" class="routine__timer-btn" data-timer-preset="90">1:30</button>
-            <button type="button" class="routine__timer-btn" data-timer-preset="120">2:00</button>
-            <button type="button" class="routine__timer-btn" data-timer-preset="180">3:00</button>
             <button type="button" class="routine__timer-btn routine__timer-btn--primary" id="restTimerToggle">
               Start
             </button>
-            <button type="button" class="routine__timer-btn" id="restTimerMinus">−15s</button>
-            <button type="button" class="routine__timer-btn" id="restTimerPlus">+15s</button>
-            <button type="button" class="routine__timer-btn" id="restTimerAuto">Auto off</button>
-            <button type="button" class="routine__timer-btn" id="restTimerReset">Reset</button>
+            <button type="button" class="routine__timer-btn" id="restTimerCancel">Cancel</button>
           </div>
         </div>
       </div>
@@ -113,7 +128,4 @@
       </div>
     </div>
   </div>
-  <footer class="routine__footer">
-    <p>Tap a row for cues and media · checkbox logs the set</p>
-  </footer>
 </div>

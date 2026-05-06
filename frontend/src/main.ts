@@ -60,6 +60,7 @@ import type {
 const queryPage = new URLSearchParams(window.location.search).get("page");
 const pageType = queryPage || document.body.dataset.page || "home";
 type ToastKind = "success" | "error" | "info";
+type ThemeMode = "dark" | "light";
 
 let toastHost: HTMLElement | null = null;
 const recentToastMap = new Map<string, number>();
@@ -172,13 +173,12 @@ const notesSaveBtn = document.getElementById("exerciseNotesSave") as HTMLButtonE
 const logo = document.querySelector<HTMLElement>(".routine__logo");
 const restTimerDisplay = document.getElementById("restTimerDisplay") as HTMLElement | null;
 const restTimerToggle = document.getElementById("restTimerToggle") as HTMLButtonElement | null;
-const restTimerReset = document.getElementById("restTimerReset") as HTMLButtonElement | null;
-const restTimerPlus = document.getElementById("restTimerPlus") as HTMLButtonElement | null;
-const restTimerMinus = document.getElementById("restTimerMinus") as HTMLButtonElement | null;
-const restTimerAuto = document.getElementById("restTimerAuto") as HTMLButtonElement | null;
-const restTimerPresetButtons = document.querySelectorAll<HTMLButtonElement>(
-  ".routine__timer-btn[data-timer-preset]"
-);
+const restTimerCancel = document.getElementById("restTimerCancel") as HTMLButtonElement | null;
+const restTimerCircle = document.querySelector<HTMLElement>(".routine__timer-circle");
+const restTimePicker = document.querySelector<HTMLElement>(".routine__time-picker");
+const timerHoursWheel = document.getElementById("timerHoursWheel") as HTMLElement | null;
+const timerMinutesWheel = document.getElementById("timerMinutesWheel") as HTMLElement | null;
+const timerSecondsWheel = document.getElementById("timerSecondsWheel") as HTMLElement | null;
 let items = document.querySelectorAll<HTMLElement>(".routine__exercise-item");
 const routineEditOpen = document.getElementById("routineEditOpen") as HTMLButtonElement | null;
 const weeklyDays = document.querySelectorAll<HTMLButtonElement>(".routine__weekly-day");
@@ -231,6 +231,9 @@ const socialSportPickerClose = document.getElementById(
 const socialSportSearch = document.getElementById("socialSportSearch") as HTMLInputElement | null;
 const socialSportOptions = document.querySelectorAll<HTMLButtonElement>(".routine__sport-option");
 const socialSportEmpty = document.getElementById("socialSportEmpty") as HTMLElement | null;
+const themeToggle = document.getElementById("themeToggle") as HTMLInputElement | null;
+const homeThemeToggle = document.getElementById("homeThemeToggle") as HTMLInputElement | null;
+const themeToggleLabel = document.getElementById("themeToggleLabel") as HTMLElement | null;
 const notesClearBtn = document.getElementById("exerciseNotesClear") as HTMLButtonElement | null;
 const prWeight = document.getElementById("prWeight") as HTMLInputElement | null;
 const prReps = document.getElementById("prReps") as HTMLInputElement | null;
@@ -245,7 +248,6 @@ let restTimerRunning = false;
 let restTimerId: number | null = null;
 let restTimerTarget: number | null = null;
 let lastFocusedElement: HTMLElement | null = null;
-let autoStartTimer = false;
 let notificationAudioContext: AudioContext | null = null;
 let audioUnlocked = false;
 let restTimerEndAt: number | null = null;
@@ -263,15 +265,60 @@ let volatileTimerState: RestTimerState | null = null;
 let volatileCustomRoutine: RoutineByDay | null = null;
 let socialUiController: { closeSportPicker: () => void; closeSocialModal: () => void } | null = null;
 
+function resolvePreferredTheme(): ThemeMode {
+  const saved = window.localStorage.getItem("theme");
+  if (saved === "light" || saved === "dark") return saved;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function applyTheme(theme: ThemeMode): void {
+  document.documentElement.setAttribute("data-theme", theme);
+  window.localStorage.setItem("theme", theme);
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (themeMeta) {
+    themeMeta.setAttribute("content", theme === "light" ? "#f4f6fb" : "#192229");
+  }
+  if (themeToggle) {
+    themeToggle.checked = theme === "light";
+  }
+  if (homeThemeToggle) {
+    homeThemeToggle.checked = theme === "light";
+  }
+  if (themeToggleLabel) {
+    themeToggleLabel.textContent = `Theme: ${theme === "light" ? "Light" : "Dark"}`;
+  }
+}
+
+function initThemeControls(): void {
+  const currentTheme = (document.documentElement.getAttribute("data-theme") as ThemeMode | null)
+    || resolvePreferredTheme();
+  applyTheme(currentTheme);
+  themeToggle?.addEventListener("change", () => {
+    applyTheme(themeToggle.checked ? "light" : "dark");
+  });
+  homeThemeToggle?.addEventListener("change", () => {
+    applyTheme(homeThemeToggle.checked ? "light" : "dark");
+  });
+}
+
 function updateTimerControlsState(): void {
   if (!restTimerToggle) return;
   const hasTime = restTimerSeconds > 0;
-  restTimerToggle.disabled = !hasTime && !restTimerRunning;
+  const selectedTime = readSecondsFromTimePicker();
+  const isPaused = !restTimerRunning && hasTime && (restTimerTarget || 0) > 0;
+  const readyToStart = hasTime || selectedTime > 0;
+  const showActiveTimer = restTimerRunning || isPaused;
+  document.body.classList.toggle("routine--timer-active", showActiveTimer);
+  if (restTimerCircle) restTimerCircle.hidden = !showActiveTimer;
+  if (restTimePicker) restTimePicker.hidden = showActiveTimer;
+  if (restTimerCancel) restTimerCancel.hidden = !showActiveTimer;
+  restTimerToggle.hidden = false;
+  restTimerToggle.disabled = !restTimerRunning && !readyToStart;
   if (restTimerRunning) {
     restTimerToggle.textContent = "Pause";
     return;
   }
-  restTimerToggle.textContent = hasTime ? "Start" : "Set time";
+  restTimerToggle.textContent = hasTime ? "Resume" : "Start";
 }
 
 function normalizeExerciseName(value: string): string {
@@ -568,11 +615,131 @@ const genericGuide = [
 ];
 
 function formatSeconds(totalSeconds: number): string {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+  const safeTotal = Math.max(totalSeconds, 0);
+  const hours = Math.floor(safeTotal / 3600);
+  const minutes = Math.floor((safeTotal % 3600) / 60);
+  const seconds = safeTotal % 60;
+  const hh = hours.toString().padStart(2, "0");
   const mm = minutes.toString().padStart(2, "0");
   const ss = seconds.toString().padStart(2, "0");
+  if (hours > 0) return `${hh}:${mm}:${ss}`;
   return `${mm}:${ss}`;
+}
+
+function buildTimeWheel(wheel: HTMLElement, maxValue: number): void {
+  const options = Array.from({ length: maxValue + 1 }, (_, value) => {
+    const option = document.createElement("button");
+    option.type = "button";
+    option.className = "routine__time-option";
+    option.dataset.value = String(value);
+    option.textContent = value.toString().padStart(2, "0");
+    option.setAttribute("aria-selected", "false");
+    return option;
+  });
+  wheel.replaceChildren(...options);
+}
+
+function getWheelOptions(wheel: HTMLElement): HTMLElement[] {
+  return Array.from(wheel.querySelectorAll<HTMLElement>(".routine__time-option"));
+}
+
+function clampWheelValue(wheel: HTMLElement, maxValue: number, value: number): number {
+  const clamped = Math.max(0, Math.min(maxValue, value));
+  const options = getWheelOptions(wheel);
+  options.forEach((option, index) => {
+    const selected = index === clamped;
+    option.classList.toggle("routine__time-option--active", selected);
+    option.setAttribute("aria-selected", selected ? "true" : "false");
+  });
+  return clamped;
+}
+
+function scrollWheelToValue(wheel: HTMLElement, value: number, smooth = false): void {
+  const options = getWheelOptions(wheel);
+  const option = options[value];
+  if (!option) return;
+  const targetTop = option.offsetTop - (wheel.clientHeight - option.clientHeight) / 2;
+  wheel.scrollTo({ top: Math.max(targetTop, 0), behavior: smooth ? "smooth" : "auto" });
+}
+
+function getCenteredWheelValue(wheel: HTMLElement, maxValue: number): number {
+  const options = getWheelOptions(wheel);
+  if (options.length === 0) return 0;
+  const wheelRect = wheel.getBoundingClientRect();
+  const wheelCenter = wheelRect.top + wheelRect.height / 2;
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+  options.forEach((option, index) => {
+    const rect = option.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const distance = Math.abs(center - wheelCenter);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+  return clampWheelValue(wheel, maxValue, closestIndex);
+}
+
+function setWheelValue(wheel: HTMLElement, maxValue: number, value: number, smooth = false): number {
+  const next = clampWheelValue(wheel, maxValue, value);
+  scrollWheelToValue(wheel, next, smooth);
+  return next;
+}
+
+function getWheelValue(wheel: HTMLElement, maxValue: number): number {
+  return getCenteredWheelValue(wheel, maxValue);
+}
+
+function syncTimePickerFromSeconds(totalSeconds: number): void {
+  if (!timerHoursWheel || !timerMinutesWheel || !timerSecondsWheel) return;
+  const safeTotal = Math.max(totalSeconds, 0);
+  const hours = Math.floor(safeTotal / 3600);
+  const minutes = Math.floor((safeTotal % 3600) / 60);
+  const seconds = safeTotal % 60;
+  setWheelValue(timerHoursWheel, 23, hours);
+  setWheelValue(timerMinutesWheel, 59, minutes);
+  setWheelValue(timerSecondsWheel, 59, seconds);
+}
+
+function readSecondsFromTimePicker(): number {
+  if (!timerHoursWheel || !timerMinutesWheel || !timerSecondsWheel) return 0;
+  const hours = getWheelValue(timerHoursWheel, 23);
+  const minutes = getWheelValue(timerMinutesWheel, 59);
+  const seconds = getWheelValue(timerSecondsWheel, 59);
+  return hours * 3600 + minutes * 60 + seconds;
+}
+
+function initTimePickerWheels(): void {
+  if (!timerHoursWheel || !timerMinutesWheel || !timerSecondsWheel) return;
+  buildTimeWheel(timerHoursWheel, 23);
+  buildTimeWheel(timerMinutesWheel, 59);
+  buildTimeWheel(timerSecondsWheel, 59);
+
+  const bindWheel = (wheel: HTMLElement, max: number) => {
+    let scrollTimeout: number | null = null;
+    wheel.addEventListener("scroll", () => {
+      if (scrollTimeout !== null) window.clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => {
+        const value = getWheelValue(wheel, max);
+        setWheelValue(wheel, max, value, true);
+        updateTimerControlsState();
+      }, 70);
+    });
+    wheel.addEventListener("click", (event) => {
+      const option = (event.target as HTMLElement).closest<HTMLElement>(".routine__time-option");
+      if (!option?.dataset.value) return;
+      const value = Number.parseInt(option.dataset.value, 10);
+      if (Number.isNaN(value)) return;
+      setWheelValue(wheel, max, value, true);
+      updateTimerControlsState();
+    });
+  };
+
+  bindWheel(timerHoursWheel, 23);
+  bindWheel(timerMinutesWheel, 59);
+  bindWheel(timerSecondsWheel, 59);
+  syncTimePickerFromSeconds(restTimerSeconds);
 }
 
 function updateRestTimerDisplay(): void {
@@ -659,7 +826,7 @@ function saveRestTimerState(): void {
     target: restTimerTarget,
     running: restTimerRunning,
     endAt: restTimerEndAt,
-    autoStart: autoStartTimer
+    autoStart: false
   };
   if (socialUserId) {
     remoteTimerState = { ...state };
@@ -712,6 +879,7 @@ function stopRestTimer(): void {
   }
   restTimerRunning = false;
   restTimerEndAt = null;
+  document.body.classList.remove("routine--timer-active");
   updateTimerControlsState();
   saveRestTimerState();
 }
@@ -722,12 +890,22 @@ function startRestTimer(): void {
     stopRestTimer();
     return;
   }
+  const pickerVisible = restTimePicker ? !restTimePicker.hidden : true;
+  if (pickerVisible) {
+    const pickedSeconds = readSecondsFromTimePicker();
+    restTimerSeconds = pickedSeconds;
+    restTimerTarget = pickedSeconds > 0 ? pickedSeconds : null;
+  }
   if (restTimerSeconds <= 0) return;
   if (!restTimerTarget || restTimerTarget <= 0) {
     restTimerTarget = restTimerSeconds;
   }
   restTimerRunning = true;
   restTimerEndAt = Date.now() + restTimerSeconds * 1000;
+  document.body.classList.add("routine--timer-active");
+  if (restTimePicker) restTimePicker.hidden = true;
+  if (restTimerCircle) restTimerCircle.hidden = false;
+  if (restTimerCancel) restTimerCancel.hidden = false;
   updateTimerControlsState();
   saveRestTimerState();
   restTimerId = window.setInterval(() => {
@@ -739,6 +917,7 @@ function resetRestTimer(): void {
   stopRestTimer();
   restTimerSeconds = 0;
   restTimerTarget = null;
+  syncTimePickerFromSeconds(restTimerSeconds);
   updateRestTimerDisplay();
   saveRestTimerState();
 }
@@ -1099,69 +1278,8 @@ restTimerToggle?.addEventListener("click", () => {
   startRestTimer();
 });
 
-restTimerReset?.addEventListener("click", () => {
+restTimerCancel?.addEventListener("click", () => {
   resetRestTimer();
-});
-
-restTimerPlus?.addEventListener("click", () => {
-  restTimerSeconds += 15;
-  restTimerTarget = restTimerSeconds;
-  if (restTimerRunning) {
-    restTimerEndAt = Date.now() + restTimerSeconds * 1000;
-  }
-  restTimerPresetButtons.forEach((b) => b.classList.remove("routine__timer-btn--preset-active"));
-  updateRestTimerDisplay();
-  saveRestTimerState();
-});
-
-restTimerMinus?.addEventListener("click", () => {
-  restTimerSeconds = Math.max(restTimerSeconds - 15, 0);
-  restTimerTarget = restTimerSeconds > 0 ? restTimerSeconds : null;
-  if (restTimerRunning) {
-    if (restTimerSeconds <= 0) {
-      stopRestTimer();
-      updateRestTimerDisplay();
-      return;
-    }
-    restTimerEndAt = Date.now() + restTimerSeconds * 1000;
-  }
-  restTimerPresetButtons.forEach((b) => b.classList.remove("routine__timer-btn--preset-active"));
-  updateRestTimerDisplay();
-  saveRestTimerState();
-});
-
-restTimerAuto?.addEventListener("click", () => {
-  autoStartTimer = !autoStartTimer;
-  restTimerAuto.textContent = autoStartTimer ? "Auto on" : "Auto off";
-  restTimerAuto.classList.toggle("routine__timer-btn--preset-active", autoStartTimer);
-  saveRestTimerState();
-});
-
-restTimerPresetButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const isAlreadyActive = btn.classList.contains("routine__timer-btn--preset-active");
-    if (isAlreadyActive) {
-      btn.classList.remove("routine__timer-btn--preset-active");
-      restTimerTarget = restTimerSeconds > 0 ? restTimerSeconds : null;
-      updateRestTimerDisplay();
-      saveRestTimerState();
-      return;
-    }
-
-    const value = btn.dataset.timerPreset;
-    if (!value) return;
-    const seconds = Number.parseInt(value, 10);
-    if (Number.isNaN(seconds)) return;
-    restTimerSeconds = seconds;
-    restTimerTarget = seconds;
-    if (restTimerRunning) {
-      restTimerEndAt = Date.now() + restTimerSeconds * 1000;
-    }
-    restTimerPresetButtons.forEach((b) => b.classList.remove("routine__timer-btn--preset-active"));
-    btn.classList.add("routine__timer-btn--preset-active");
-    updateRestTimerDisplay();
-    saveRestTimerState();
-  });
 });
 
 const dayLabel: Record<DayKey, string> = {
@@ -1522,11 +1640,6 @@ if (storedTimer) {
   restTimerTarget = storedTimer.target && storedTimer.target > 0 ? storedTimer.target : null;
   restTimerRunning = Boolean(storedTimer.running);
   restTimerEndAt = storedTimer.endAt || null;
-  autoStartTimer = Boolean(storedTimer.autoStart);
-  if (restTimerAuto) {
-    restTimerAuto.textContent = autoStartTimer ? "Auto on" : "Auto off";
-    restTimerAuto.classList.toggle("routine__timer-btn--preset-active", autoStartTimer);
-  }
   if (restTimerRunning && restTimerEndAt) {
     syncRestTimerFromClock(false);
     if (restTimerRunning) {
@@ -1535,9 +1648,11 @@ if (storedTimer) {
       }, 1000);
     }
   } else {
+    syncTimePickerFromSeconds(restTimerSeconds);
     updateRestTimerDisplay();
   }
 } else {
+  syncTimePickerFromSeconds(restTimerSeconds);
   updateRestTimerDisplay();
 }
 
@@ -1612,7 +1727,6 @@ items.forEach((item) => {
   const nameEl = item.querySelector(".routine__exercise-name");
   const exerciseName = nameEl?.textContent?.trim() || "";
   check?.addEventListener("click", () => {
-    if (autoStartTimer && restTimerTarget && !restTimerRunning) startRestTimer();
     updateDayProgress(dayKey);
     const allRows = dayCard?.querySelectorAll<HTMLElement>(".routine__exercise-item");
     if (allRows) {
@@ -1635,4 +1749,6 @@ items.forEach((item) => {
 });
 
 setupAudioUnlock();
+initTimePickerWheels();
 updateTimerControlsState();
+initThemeControls();

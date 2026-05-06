@@ -2,9 +2,17 @@
   <div class="routine__page-layout">
     <header class="routine__page-header">
       <div class="routine__auth-brand">
-        <span class="routine__auth-brand-mark">P</span>
+        <span class="routine__auth-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="routine__brand-mark-icon">
+            <path d="M3.5 9.5h1.8v5H3.5z"></path>
+            <path d="M5.8 8h2.2v8H5.8z"></path>
+            <path d="M8.6 11h6.8v2H8.6z"></path>
+            <path d="M16 8h2.2v8H16z"></path>
+            <path d="M18.7 9.5h1.8v5h-1.8z"></path>
+          </svg>
+        </span>
         <div class="routine__auth-brand-copy">
-          <h1 class="routine__auth-title">PPLA Routine</h1>
+          <h1 class="routine__auth-title">Routine</h1>
           <p class="routine__auth-text">Sign in to continue</p>
         </div>
       </div>
@@ -31,9 +39,6 @@
         </div>
       </div>
     </main>
-    <footer class="routine__page-footer">
-      <p>PPLA Routine · Secure access by Supabase Auth</p>
-    </footer>
   </div>
 </section>
 
@@ -56,9 +61,17 @@
       <div class="routine__header-row">
         <div class="routine__header-main">
           <div class="routine__logo">
-            <div class="routine__logo-mark">P</div>
+            <div class="routine__logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__brand-mark-icon">
+                <path d="M3.5 9.5h1.8v5H3.5z"></path>
+                <path d="M5.8 8h2.2v8H5.8z"></path>
+                <path d="M8.6 11h6.8v2H8.6z"></path>
+                <path d="M16 8h2.2v8H16z"></path>
+                <path d="M18.7 9.5h1.8v5h-1.8z"></path>
+              </svg>
+            </div>
             <div class="routine__logo-text">
-              <span class="routine__logo-title">PPLA Home</span>
+              <span class="routine__logo-title">Home</span>
               <span class="routine__logo-subtitle">Your training hub</span>
             </div>
           </div>
@@ -69,35 +82,60 @@
       <div class="routine__home-card-wrap">
         <div class="routine__home-grid">
           <button type="button" class="routine__home-card routine__home-card--accent-slate" id="homeStartToday">
-            <span class="routine__home-card-icon" aria-hidden="true">W</span>
+            <span class="routine__home-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__home-card-icon-svg">
+                <rect x="3.5" y="5.5" width="17" height="15" rx="3"></rect>
+                <path d="M8 3.5v4M16 3.5v4M7.5 11.5h9M7.5 15h5"></path>
+              </svg>
+            </span>
             <span class="routine__home-card-body">
               <span class="routine__home-card-title">Train today</span>
               <span class="routine__home-card-text">One day focus, checklist, and rest timer</span>
             </span>
           </button>
           <button type="button" class="routine__home-card routine__home-card--accent-gold" id="homeOpenRoutine">
-            <span class="routine__home-card-icon" aria-hidden="true">7</span>
+            <span class="routine__home-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__home-card-icon-svg">
+                <path d="M4 6.5h16M4 12h16M4 17.5h16"></path>
+                <path d="M8 4v16M16 4v16"></path>
+              </svg>
+            </span>
             <span class="routine__home-card-body">
               <span class="routine__home-card-title">Full week</span>
               <span class="routine__home-card-text">Scan or edit every block before you lift</span>
             </span>
           </button>
           <button type="button" class="routine__home-card routine__home-card--accent-violet" id="homeOpenLeaderboard">
-            <span class="routine__home-card-icon" aria-hidden="true">S</span>
+            <span class="routine__home-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__home-card-icon-svg">
+                <path d="M5 18.5h14"></path>
+                <path d="M7 18.5v-5M12 18.5v-9M17 18.5v-3"></path>
+              </svg>
+            </span>
             <span class="routine__home-card-body">
               <span class="routine__home-card-title">Social</span>
               <span class="routine__home-card-text">Check-ins, friends, monthly leaderboard</span>
             </span>
           </button>
           <a class="routine__home-card routine__home-card--accent-gold" href="./?page=reto">
-            <span class="routine__home-card-icon" aria-hidden="true">✓</span>
+            <span class="routine__home-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__home-card-icon-svg">
+                <path d="M7.5 12.5l3 3 6-7"></path>
+                <rect x="4.5" y="4.5" width="15" height="15" rx="3"></rect>
+              </svg>
+            </span>
             <span class="routine__home-card-body">
               <span class="routine__home-card-title">Challenge</span>
               <span class="routine__home-card-text">Run your plan and track goal days</span>
             </span>
           </a>
           <button type="button" class="routine__home-card routine__home-card--accent-muted" id="homeOpenSettings">
-            <span class="routine__home-card-icon" aria-hidden="true">⚙</span>
+            <span class="routine__home-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__home-card-icon-svg">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4.8a7 7 0 0 0-1.7-1L14.5 3h-5L9 5.8a7 7 0 0 0-1.7 1L4.9 6l-2 3.5 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-.8a7 7 0 0 0 1.7 1l.5 2.8h5l.5-2.8a7 7 0 0 0 1.7-1l2.4.8 2-3.5-2-1.5c.1-.3.1-.7.1-1z"></path>
+              </svg>
+            </span>
             <span class="routine__home-card-body">
               <span class="routine__home-card-title">Settings</span>
               <span class="routine__home-card-text">Username, session, and preferences</span>
@@ -106,9 +144,82 @@
         </div>
       </div>
     </main>
-    <footer class="routine__page-footer">
-      <p>PPLA Routine · Home</p>
-    </footer>
+    <div class="routine__home-footer">
+      <label class="routine__theme-switch" for="homeThemeToggle" aria-label="Toggle dark and light mode">
+        <input id="homeThemeToggle" class="routine__theme-switch-input" type="checkbox" />
+        <span class="routine__theme-switch-slider routine__theme-switch-slider--round" aria-hidden="true">
+          <span class="routine__theme-switch-sun-moon">
+            <svg class="routine__theme-switch-moon-dot routine__theme-switch-moon-dot--1" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-moon-dot routine__theme-switch-moon-dot--2" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-moon-dot routine__theme-switch-moon-dot--3" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-light-ray routine__theme-switch-light-ray--1" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-light-ray routine__theme-switch-light-ray--2" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-light-ray routine__theme-switch-light-ray--3" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-cloud routine__theme-switch-cloud--dark-1" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-cloud routine__theme-switch-cloud--dark-2" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg class="routine__theme-switch-cloud routine__theme-switch-cloud--dark-3" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg
+              class="routine__theme-switch-cloud routine__theme-switch-cloud--light routine__theme-switch-cloud--light-1"
+              viewBox="0 0 100 100"
+            >
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg
+              class="routine__theme-switch-cloud routine__theme-switch-cloud--light routine__theme-switch-cloud--light-2"
+              viewBox="0 0 100 100"
+            >
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg
+              class="routine__theme-switch-cloud routine__theme-switch-cloud--light routine__theme-switch-cloud--light-3"
+              viewBox="0 0 100 100"
+            >
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+          </span>
+          <span class="routine__theme-switch-stars">
+            <svg class="routine__theme-switch-star routine__theme-switch-star--1" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg class="routine__theme-switch-star routine__theme-switch-star--2" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg class="routine__theme-switch-star routine__theme-switch-star--3" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg class="routine__theme-switch-star routine__theme-switch-star--4" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+          </span>
+        </span>
+      </label>
+    </div>
   </div>
 </section>
 
@@ -118,9 +229,17 @@
       <div class="routine__header-row">
         <div class="routine__header-main">
           <div class="routine__logo">
-            <div class="routine__logo-mark">P</div>
+            <div class="routine__logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="routine__brand-mark-icon">
+                <path d="M3.5 9.5h1.8v5H3.5z"></path>
+                <path d="M5.8 8h2.2v8H5.8z"></path>
+                <path d="M8.6 11h6.8v2H8.6z"></path>
+                <path d="M16 8h2.2v8H16z"></path>
+                <path d="M18.7 9.5h1.8v5h-1.8z"></path>
+              </svg>
+            </div>
             <div class="routine__logo-text">
-              <span class="routine__logo-title">PPLA Settings</span>
+              <span class="routine__logo-title">Settings</span>
               <span class="routine__logo-subtitle">Profile, preferences, and session</span>
             </div>
           </div>
@@ -143,6 +262,16 @@
             <p class="routine__settings-status" id="socialAuthStatus" role="status" aria-live="polite">Ready.</p>
           </section>
 
+          <section class="routine__settings-card">
+            <h3 class="routine__editor-day-title">Theme</h3>
+            <p class="routine__editor-hint">Switch between dark and light mode.</p>
+            <label class="routine__theme-toggle" for="themeToggle">
+              <input type="checkbox" id="themeToggle" class="routine__theme-toggle-input" />
+              <span class="routine__theme-toggle-track" aria-hidden="true"></span>
+              <span class="routine__theme-toggle-label" id="themeToggleLabel">Theme: Dark</span>
+            </label>
+          </section>
+
           <section class="routine__settings-card routine__settings-card--danger">
             <h3 class="routine__editor-day-title">Session</h3>
             <p class="routine__editor-hint">Security actions for your current account session.</p>
@@ -155,10 +284,6 @@
         </div>
       </div>
     </main>
-    <footer class="routine__page-footer routine__page-footer--legal">
-      <p>Copyright © PPLA Routine. All rights reserved.</p>
-      <p>Security and privacy controls are managed through Supabase authentication and RLS policies.</p>
-    </footer>
   </div>
 </section>
 
