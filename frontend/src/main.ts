@@ -1701,14 +1701,14 @@ if (storedTimer) {
   updateRestTimerDisplay();
 }
 
-const initialPlannedDay = loadPlannedWorkoutDay();
-dayController.setActiveDayView(initialPlannedDay);
+const initialDayView = pageType === "workout" ? getTodayKey() : loadPlannedWorkoutDay();
+dayController.setActiveDayView(initialDayView);
 if (pageType === "full-routine") {
   document.body.classList.add("routine--full-routine-mode");
   showAllDays();
 } else {
   document.body.classList.remove("routine--full-routine-mode");
-  showDay(initialPlannedDay);
+  showDay(initialDayView);
 }
 if (pageType !== "reto") {
   void initAuthAutoSync();

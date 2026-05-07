@@ -90,6 +90,7 @@ export function createSocialRefresher(
   let activePeriod: "month" | "30d" | "all" = "month";
   let lastMonthlyModalTrigger: HTMLElement | null = null;
   let lastMotivationModalTrigger: HTMLElement | null = null;
+  let refreshVersion = 0;
 
   const closeMonthlyModal = (): void => {
     if (!socialMonthlyModal) return;
@@ -201,6 +202,8 @@ export function createSocialRefresher(
   });
 
   const refresh = async (): Promise<void> => {
+    const currentRefreshVersion = ++refreshVersion;
+    const isCurrentRefresh = (): boolean => currentRefreshVersion === refreshVersion;
     const setup = getClient();
     if (!setup) {
       if (socialAuthStatus) socialAuthStatus.textContent = "Missing Supabase env config.";
@@ -216,9 +219,24 @@ export function createSocialRefresher(
       socialLeaderboard.innerHTML =
         '<div class="routine__social-item routine__social-item--loading">Loading...</div>';
     }
+    const requestsWatchdog = window.setTimeout(() => {
+      if (!isCurrentRefresh()) return;
+      if (socialRequests?.querySelector(".routine__social-item--loading")) {
+        socialRequests.innerHTML =
+          '<div class="routine__social-item routine__social-item--empty">Request loading timeout. Try again.</div>';
+      }
+    }, 12000);
+    const leaderboardWatchdog = window.setTimeout(() => {
+      if (!isCurrentRefresh()) return;
+      if (socialLeaderboard?.querySelector(".routine__social-item--loading")) {
+        socialLeaderboard.innerHTML =
+          '<div class="routine__social-item routine__social-item--empty">Leaderboard loading timeout. Try again.</div>';
+      }
+    }, 12000);
 
     try {
       const { data: sessionData } = await client.auth.getSession();
+      if (!isCurrentRefresh()) return;
       const user = sessionData.session?.user || null;
       setUserId(user?.id || null);
       if (!user) {
@@ -428,6 +446,7 @@ export function createSocialRefresher(
       }
       const shouldShowMotivation = !shownToday || lastShownRank !== myRank;
       if (
+        isCurrentRefresh() &&
         socialMotivationCard &&
         socialMotivationRank &&
         socialMotivationTitle &&
@@ -457,6 +476,9 @@ export function createSocialRefresher(
           '<div class="routine__social-item routine__social-item--empty">Could not load leaderboard.</div>';
       }
       hideMotivationModal();
+    } finally {
+      window.clearTimeout(requestsWatchdog);
+      window.clearTimeout(leaderboardWatchdog);
     }
   };
 

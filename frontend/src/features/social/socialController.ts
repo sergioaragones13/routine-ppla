@@ -130,11 +130,15 @@ export function initSocialController(
   const socialCalendarWeekLabel = document.getElementById("socialCalendarWeekLabel") as HTMLElement | null;
   const socialCalendarPrevBtn = document.getElementById("socialCalendarPrevWeek") as HTMLButtonElement | null;
   const socialCalendarNextBtn = document.getElementById("socialCalendarNextWeek") as HTMLButtonElement | null;
+  const socialFriendsOpen = document.getElementById("socialFriendsOpen") as HTMLButtonElement | null;
+  const socialFriendsModal = document.getElementById("socialFriendsModal") as HTMLElement | null;
+  const socialFriendsClose = document.getElementById("socialFriendsClose") as HTMLButtonElement | null;
   let selectedDateIso = toLocalIsoDate(new Date());
   let weekCursor = startOfWeek(new Date());
   let weekStatusByIso: Record<string, CheckinMode | null> = {};
   let weekLabelByIso: Record<string, string> = {};
   let lastSportPickerTrigger: HTMLElement | null = null;
+  let lastFriendsTrigger: HTMLElement | null = null;
 
   function renderCheckinCalendar(): void {
     if (!socialCalendar || !socialCalendarWeekLabel) return;
@@ -253,6 +257,26 @@ export function initSocialController(
     socialSportPicker.classList.remove("routine__sport-picker--open");
     socialSportPicker.setAttribute("aria-hidden", "true");
     lastSportPickerTrigger?.focus();
+  }
+
+  function openFriendsModal(event?: Event): void {
+    if (!socialFriendsModal) return;
+    const trigger = event?.currentTarget;
+    lastFriendsTrigger = trigger instanceof HTMLElement ? trigger : socialFriendsOpen;
+    socialFriendsModal.classList.add("routine__confirm-modal--open");
+    socialFriendsModal.setAttribute("aria-hidden", "false");
+    socialFriendUsername?.focus();
+  }
+
+  function closeFriendsModal(): void {
+    if (!socialFriendsModal) return;
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && socialFriendsModal.contains(active)) {
+      active.blur();
+    }
+    socialFriendsModal.classList.remove("routine__confirm-modal--open");
+    socialFriendsModal.setAttribute("aria-hidden", "true");
+    lastFriendsTrigger?.focus();
   }
 
   function resolveSelectedCheckinDate(): string {
@@ -456,6 +480,11 @@ export function initSocialController(
   });
 
   socialCheckinOpenSports?.addEventListener("click", openSportPicker);
+  socialFriendsOpen?.addEventListener("click", openFriendsModal);
+  socialFriendsClose?.addEventListener("click", closeFriendsModal);
+  socialFriendsModal?.addEventListener("click", (event) => {
+    if (event.target === socialFriendsModal) closeFriendsModal();
+  });
   socialCalendarPrevBtn?.addEventListener("click", () => {
     weekCursor = addDays(weekCursor, -7);
     void syncWeekStatuses();

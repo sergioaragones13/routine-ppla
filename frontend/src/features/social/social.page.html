@@ -101,7 +101,20 @@
           </div>
         </div>
         <div class="routine__editor-day routine__social-panel">
-          <h3 class="routine__editor-day-title" id="socialLeaderboardTitle">Leaderboard · Current month</h3>
+          <div class="routine__social-leaderboard-head">
+            <h3 class="routine__editor-day-title" id="socialLeaderboardTitle">Leaderboard · Current month</h3>
+            <button
+              type="button"
+              class="routine__social-add-friend-btn"
+              id="socialFriendsOpen"
+              aria-label="Add friend"
+              title="Add friend"
+            >
+              <svg viewBox="0 0 24 24" class="routine__social-add-friend-icon" aria-hidden="true">
+                <path d="M12 12a4.2 4.2 0 1 0-4.2-4.2A4.2 4.2 0 0 0 12 12Zm-7.2 7a7.2 7.2 0 0 1 14.4 0v.7H4.8Zm15.4-8.9V8.7H18.8V7.3h1.4V5.9h1.4v1.4H23v1.4h-1.4v1.4Z"></path>
+              </svg>
+            </button>
+          </div>
           <div class="routine__social-periods" role="group" aria-label="Leaderboard period">
             <button type="button" class="routine__social-period routine__social-period--active" data-social-period="month">
               This month
@@ -110,14 +123,6 @@
             <button type="button" class="routine__social-period" data-social-period="all">All time</button>
           </div>
           <div id="socialLeaderboard" class="routine__social-list" aria-live="polite"></div>
-        </div>
-        <div class="routine__editor-day routine__social-panel">
-          <h3 class="routine__editor-day-title">Friends</h3>
-          <div class="routine__editor-row">
-            <input id="socialFriendUsername" class="routine__editor-input" placeholder="friend username" />
-            <button type="button" class="routine__notes-save" id="socialSendRequest">Send request</button>
-          </div>
-          <div id="socialRequests" class="routine__social-list" aria-live="polite"></div>
         </div>
       </div>
     </main>
@@ -165,5 +170,24 @@
     <div class="routine__editor-actions">
       <button type="button" class="routine__session-btn" id="socialMonthlyClose">Close</button>
     </div>
+  </div>
+</section>
+
+<section class="routine__confirm-modal" id="socialFriendsModal" aria-hidden="true">
+  <div class="routine__confirm-modal-card routine__social-friends-modal-card">
+    <button
+      type="button"
+      class="routine__sport-picker-close routine__social-friends-close"
+      id="socialFriendsClose"
+      aria-label="Close"
+    >
+      ×
+    </button>
+    <h3 class="routine__editor-day-title">Friends</h3>
+    <div class="routine__editor-row">
+      <input id="socialFriendUsername" class="routine__editor-input" placeholder="friend username" />
+      <button type="button" class="routine__notes-save" id="socialSendRequest">Send request</button>
+    </div>
+    <div id="socialRequests" class="routine__social-list" aria-live="polite"></div>
   </div>
 </section>
