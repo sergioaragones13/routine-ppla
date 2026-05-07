@@ -1188,6 +1188,217 @@ body.routine--workout-mode {
   background: rgba(255, 255, 255, 0.02);
 }
 
+.routine__social-motivation {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  gap: 8px;
+  border-color: color-mix(in srgb, var(--warning-border) 80%, var(--border-soft));
+  background: var(--surface-modal);
+}
+
+.routine__social-motivation--hidden {
+  display: none;
+}
+
+.routine__social-motivation-modal-card {
+  width: min(560px, 100%);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--warning-border) 65%, var(--border-soft));
+  box-shadow: var(--shadow-strong);
+  padding: 24px 18px 18px;
+}
+
+.routine__social-motivation-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+}
+
+.routine__social-motivation-fire {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+}
+
+.routine__social-motivation-flame {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  background: url("/assets/fire-girft.gif") center / cover no-repeat;
+  animation: routineSocialFlameFlicker 1.4s ease-in-out infinite;
+}
+
+.routine__social-motivation-glow {
+  position: absolute;
+  inset: 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 82, 82, 0.82), transparent 72%);
+  filter: blur(9px);
+  animation: routineSocialFlameGlow 1.4s ease-in-out infinite;
+}
+
+.routine__social-motivation-confetti {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #ff5252;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+}
+
+.routine__social-motivation-confetti--1 { --confetti-dx: -170px; --confetti-dy: -180px; }
+.routine__social-motivation-confetti--2 { background: #ffd54f; --confetti-dx: -120px; --confetti-dy: -210px; }
+.routine__social-motivation-confetti--3 { background: #ff8a80; --confetti-dx: -85px; --confetti-dy: -165px; }
+.routine__social-motivation-confetti--4 { background: #ff7043; --confetti-dx: -48px; --confetti-dy: -220px; }
+.routine__social-motivation-confetti--5 { background: #ffa726; --confetti-dx: -18px; --confetti-dy: -190px; }
+.routine__social-motivation-confetti--6 { background: #ff1744; --confetti-dx: 14px; --confetti-dy: -240px; }
+.routine__social-motivation-confetti--7 { background: #ff7043; --confetti-dx: 42px; --confetti-dy: -175px; }
+.routine__social-motivation-confetti--8 { background: #ffd54f; --confetti-dx: 74px; --confetti-dy: -215px; }
+.routine__social-motivation-confetti--9 { background: #ff8a80; --confetti-dx: 104px; --confetti-dy: -185px; }
+.routine__social-motivation-confetti--10 { background: #ff1744; --confetti-dx: 138px; --confetti-dy: -205px; }
+.routine__social-motivation-confetti--11 { background: #ffa726; --confetti-dx: 168px; --confetti-dy: -170px; }
+.routine__social-motivation-confetti--12 { background: #ffd54f; --confetti-dx: -145px; --confetti-dy: -125px; }
+.routine__social-motivation-confetti--13 { background: #ff8a80; --confetti-dx: -64px; --confetti-dy: -115px; }
+.routine__social-motivation-confetti--14 { background: #ff7043; --confetti-dx: 62px; --confetti-dy: -122px; }
+.routine__social-motivation-confetti--15 { background: #ff1744; --confetti-dx: 128px; --confetti-dy: -132px; }
+.routine__social-motivation-confetti--16 { background: #ffa726; --confetti-dx: 0px; --confetti-dy: -260px; }
+
+.routine__social-motivation-copy {
+  display: grid;
+  gap: 4px;
+  z-index: 2;
+}
+
+.routine__social-motivation-rank {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(2.4rem, 10vw, 3.6rem);
+  line-height: 0.95;
+  font-weight: 800;
+}
+
+.routine__social-motivation-rank-text {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.routine__social-motivation-title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(1.7rem, 6vw, 2.2rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.routine__social-motivation-text {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1.1rem;
+  line-height: 1.35;
+  max-width: 28ch;
+}
+
+@keyframes routineSocialFlameFlicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(-2deg);
+  }
+  25% {
+    transform: scale(0.96) rotate(1deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(-1deg);
+  }
+  75% {
+    transform: scale(0.98) rotate(2deg);
+  }
+}
+
+@keyframes routineSocialFlameGlow {
+  0%,
+  100% {
+    opacity: 0.48;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+.routine__social-motivation--burst .routine__social-motivation-confetti--1 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--2 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 120ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--3 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 220ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--4 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 80ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--5 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 300ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--6 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 380ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--7 {
+  animation: routineSocialConfettiBurst 1850ms ease-out 120ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--8 {
+  animation: routineSocialConfettiBurst 1750ms ease-out 200ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--9 {
+  animation: routineSocialConfettiBurst 1800ms ease-out 310ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--10 {
+  animation: routineSocialConfettiBurst 1900ms ease-out 160ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--11 {
+  animation: routineSocialConfettiBurst 1700ms ease-out 360ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--12 {
+  animation: routineSocialConfettiBurst 1800ms ease-out 240ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--13 {
+  animation: routineSocialConfettiBurst 1750ms ease-out 90ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--14 {
+  animation: routineSocialConfettiBurst 1850ms ease-out 280ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--15 {
+  animation: routineSocialConfettiBurst 1950ms ease-out 340ms 1;
+}
+.routine__social-motivation--burst .routine__social-motivation-confetti--16 {
+  animation: routineSocialConfettiBurst 2000ms ease-out 420ms 1;
+}
+
+@keyframes routineSocialConfettiBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--confetti-dx)), calc(-50% + var(--confetti-dy))) scale(1) rotate(260deg);
+    opacity: 0;
+  }
+}
+
 .routine__challenge {
   max-width: 980px;
   margin: 0 auto;
@@ -1202,6 +1413,44 @@ body.routine--workout-mode {
   padding: 14px;
 }
 
+.routine__challenge-tools {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.routine__challenge-settings-btn {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-raised);
+  color: var(--text);
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.routine__challenge-settings-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-soft);
+  background: var(--interactive-hover);
+}
+
+.routine__challenge-settings-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.routine__challenge-settings-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
 .routine__challenge-setup {
   margin-top: 10px;
   display: flex;
@@ -1211,6 +1460,22 @@ body.routine--workout-mode {
 
 .routine__challenge-setup--hidden {
   display: none;
+}
+
+.routine__challenge-setup--open {
+  display: flex;
+}
+
+.routine__challenge-settings-modal-card {
+  width: min(620px, 100%);
+}
+
+.routine__challenge-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
 .routine__challenge-status {
@@ -1339,6 +1604,8 @@ body.routine--workout-mode {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition:
     border-color 0.18s ease,
     background 0.18s ease,
@@ -1351,6 +1618,12 @@ body.routine--workout-mode {
 
 .routine__challenge-day--outside {
   opacity: 0.5;
+}
+
+.routine__challenge-day--empty {
+  border-color: transparent;
+  background: transparent;
+  cursor: default;
 }
 
 .routine__challenge-day--disabled {
@@ -1368,8 +1641,23 @@ body.routine--workout-mode {
 
 .routine__challenge-day-number {
   font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.04em;
+  font-size: 1.06rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--text-strong);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--surface-contrast) 65%, transparent);
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-contrast-2) 22%, transparent);
+}
+
+.routine__challenge-day--outside .routine__challenge-day-number {
+  opacity: 0.72;
+}
+
+.routine__challenge-day--disabled .routine__challenge-day-number {
+  color: var(--text-soft);
 }
 
 .routine__challenge-day-activity {
@@ -1453,6 +1741,54 @@ body.routine--workout-mode {
   color: rgba(226, 232, 240, 0.95);
   font-weight: 700;
   letter-spacing: 0.08em;
+}
+
+.routine__challenge-day-sleep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.routine__challenge-day-z {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--text-strong) 70%, var(--muted));
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.routine__challenge-day-z--1 {
+  animation: routineChallengeSwayUpToRight 2s ease-out infinite;
+}
+
+.routine__challenge-day-z--2 {
+  animation: routineChallengeSwayUpToRight 2s ease-out 0.5s infinite;
+}
+
+.routine__challenge-day-z--3 {
+  animation: routineChallengeSwayUpToRight 2s ease-out 1s infinite;
+}
+
+.routine__challenge-day-z--4 {
+  animation: routineChallengeSwayUpToRight 2s ease-out 1.5s infinite;
+}
+
+@keyframes routineChallengeSwayUpToRight {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + 14px), calc(-50% - 18px)) rotate(20deg);
+    opacity: 0;
+  }
 }
 
 .routine__challenge-day--extra {
@@ -2680,6 +3016,8 @@ body.routine--timer-active .routine__time-picker {
   align-items: center;
   justify-content: center;
   gap: 3px;
+  position: relative;
+  overflow: hidden;
 }
 
 .routine__social-calendar-label {
@@ -2736,6 +3074,61 @@ body.routine--timer-active .routine__time-picker {
   font-weight: 700;
 }
 
+.routine__social-calendar-day--rest {
+  border-color: color-mix(in srgb, var(--border-soft) 86%, transparent);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--surface-contrast-2) 24%, transparent) 0 4px,
+      color-mix(in srgb, var(--surface-raised) 84%, transparent) 4px 8px
+    ),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.routine__social-calendar-sleep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 22px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.routine__social-calendar-z {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.5rem;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--text-strong) 65%, var(--muted));
+  opacity: 0;
+}
+
+.routine__social-calendar-z--1 {
+  animation: routineSocialSwayUpToRight 1.8s ease-out infinite;
+}
+
+.routine__social-calendar-z--2 {
+  animation: routineSocialSwayUpToRight 1.8s ease-out 0.5s infinite;
+}
+
+.routine__social-calendar-z--3 {
+  animation: routineSocialSwayUpToRight 1.8s ease-out 1s infinite;
+}
+
+@keyframes routineSocialSwayUpToRight {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + 10px), calc(-50% - 12px)) rotate(18deg);
+    opacity: 0;
+  }
+}
+
 .routine__social-calendar-day--missed {
   border-color: var(--danger-border);
   background: var(--danger-soft);
@@ -2773,12 +3166,12 @@ body.routine--timer-active .routine__time-picker {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface-raised);
-  padding: 8px 10px;
+  padding: 10px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  font-size: 0.74rem;
+  font-size: 0.88rem;
 }
 
 .routine__social-item--me {
@@ -2800,6 +3193,248 @@ body.routine--timer-active .routine__time-picker {
 .routine__social-item--loading {
   justify-content: center;
   color: rgba(240, 237, 232, 0.72);
+}
+
+.routine__leaderboard-metrics {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.92rem;
+}
+
+.routine__social-item--leaderboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.routine__leaderboard-user {
+  min-width: 0;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.routine__leaderboard-score {
+  min-width: 64px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.routine__leaderboard-fire-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 48px;
+  justify-content: flex-end;
+}
+
+.routine__leaderboard-fire-count {
+  font-weight: 700;
+  font-size: 0.96rem;
+  min-width: 1ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.routine__leaderboard-extra {
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.routine__leaderboard-extra-icon.loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  user-select: none;
+}
+
+.routine__leaderboard-extra-icon .star {
+  opacity: 1;
+  fill: #f8de7e;
+  transform-origin: center;
+  animation: routineLeaderboardStarSpin 1.8s linear infinite;
+}
+
+@keyframes routineLeaderboardStarSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.routine__leaderboard-fire.fire {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background-color: transparent;
+}
+
+@keyframes routineLeaderboardScaleUpDown {
+  0%,
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50%,
+  90% {
+    transform: scaleY(1.1);
+  }
+  75% {
+    transform: scaleY(0.95);
+  }
+  80% {
+    transform: scaleX(0.95);
+  }
+}
+
+@keyframes routineLeaderboardShake {
+  0%,
+  100% {
+    transform: skewX(0) scale(1);
+  }
+  50% {
+    transform: skewX(5deg) scale(0.9);
+  }
+}
+
+@keyframes routineLeaderboardParticleUp {
+  0% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    top: -100%;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes routineLeaderboardGlow {
+  0%,
+  100% {
+    background-color: #ef5a00;
+  }
+  50% {
+    background-color: #ff7800;
+  }
+}
+
+.routine__leaderboard-fire .fire-center {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: routineLeaderboardScaleUpDown 3s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-center .main-fire {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(farthest-corner at 3px 0, #d43300 0%, #ef5a00 95%);
+  transform: scaleX(0.8) rotate(45deg);
+  border-radius: 0 40% 60% 40%;
+  filter: drop-shadow(0 0 2px #d43322);
+}
+
+.routine__leaderboard-fire .fire-center .particle-fire {
+  position: absolute;
+  top: 60%;
+  left: 45%;
+  width: 3px;
+  height: 3px;
+  background-color: #ef5a00;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 2px #d43322);
+  animation: routineLeaderboardParticleUp 2s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-right {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  animation: routineLeaderboardShake 2s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-right .main-fire {
+  position: absolute;
+  top: 15%;
+  right: -25%;
+  width: 80%;
+  height: 80%;
+  background-color: #ef5a00;
+  transform: scaleX(0.8) rotate(45deg);
+  border-radius: 0 40% 60% 40%;
+  filter: drop-shadow(0 0 2px #d43322);
+}
+
+.routine__leaderboard-fire .fire-right .particle-fire {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background-color: #ef5a00;
+  transform: scaleX(0.8) rotate(45deg);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 2px #d43322);
+  animation: routineLeaderboardParticleUp 2s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-left {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: routineLeaderboardShake 3s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-left .main-fire {
+  position: absolute;
+  top: 15%;
+  left: -20%;
+  width: 80%;
+  height: 80%;
+  background-color: #ef5a00;
+  transform: scaleX(0.8) rotate(45deg);
+  border-radius: 0 40% 60% 40%;
+  filter: drop-shadow(0 0 2px #d43322);
+}
+
+.routine__leaderboard-fire .fire-left .particle-fire {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 10%;
+  height: 10%;
+  background-color: #ef5a00;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 2px #d43322);
+  animation: routineLeaderboardParticleUp 3s ease-out infinite both;
+}
+
+.routine__leaderboard-fire .fire-bottom .main-fire {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  width: 75%;
+  height: 75%;
+  background-color: #ff7800;
+  transform: scaleX(0.8) rotate(45deg);
+  border-radius: 0 40% 100% 40%;
+  filter: blur(3px);
+  animation: routineLeaderboardGlow 2s ease-out infinite both;
 }
 
 .routine__settings-grid {

@@ -26,36 +26,12 @@
   </header>
 
   <main class="routine__challenge">
-    <section class="routine__challenge-card">
-      <h2 class="routine__home-title">Challenge calendar</h2>
-      <p class="routine__home-subtitle">Define start and end dates. Track your progress from Social check-ins.</p>
-      <div class="routine__challenge-status" id="challengeStatusBar">
-        <span class="routine__challenge-status-pill" id="challengeStatusPill">No active challenge</span>
-        <span class="routine__challenge-status-days" id="challengeDaysLeft">0 days left</span>
-      </div>
-      <div class="routine__challenge-setup" id="challengeSetup">
-        <label class="routine__notes-label" for="challengeStartInput">Challenge start date</label>
-        <div class="routine__challenge-setup-row">
-          <input
-            id="challengeStartInput"
-            class="routine__editor-input"
-            type="date"
-          />
-          <input
-            id="challengeEndInput"
-            class="routine__editor-input"
-            type="date"
-          />
-          <button type="button" class="routine__timer-btn routine__timer-btn--primary" id="challengeStartBtn">
-            Save range
-          </button>
-        </div>
-        <p class="routine__editor-hint" id="challengeMeta">No active challenge yet.</p>
-      </div>
-      <div class="routine__challenge-edit" id="challengeEditActions">
-        <button type="button" class="routine__timer-btn" id="challengeEditBtn">Edit challenge</button>
-      </div>
-    </section>
+    <div class="routine__challenge-tools">
+      <button type="button" class="routine__challenge-settings-btn" id="challengeOpenSettings" aria-label="Edit challenge dates">
+        <span class="routine__challenge-settings-icon" aria-hidden="true">⚙</span>
+        <span>Edit challenge</span>
+      </button>
+    </div>
 
     <section class="routine__challenge-card">
       <div class="routine__challenge-progress-row">
@@ -74,3 +50,24 @@
     </section>
   </main>
 </div>
+
+<section class="routine__confirm-modal" id="challengeSettingsModal" aria-hidden="true">
+  <div class="routine__confirm-modal-card routine__challenge-settings-modal-card">
+    <div class="routine__challenge-settings-header">
+      <h3 class="routine__editor-day-title">Challenge settings</h3>
+      <button type="button" class="routine__session-btn" id="challengeSettingsClose">Close</button>
+    </div>
+    <p class="routine__editor-hint">Define start and end dates. Progress is read-only from Social check-ins.</p>
+    <div class="routine__challenge-setup routine__challenge-setup--open" id="challengeSetup">
+      <label class="routine__notes-label" for="challengeStartInput">Challenge start date</label>
+      <div class="routine__challenge-setup-row">
+        <input id="challengeStartInput" class="routine__editor-input" type="date" />
+        <input id="challengeEndInput" class="routine__editor-input" type="date" />
+        <button type="button" class="routine__timer-btn routine__timer-btn--primary" id="challengeStartBtn">
+          Save range
+        </button>
+      </div>
+      <p class="routine__editor-hint" id="challengeMeta">No active challenge yet.</p>
+    </div>
+  </div>
+</section>

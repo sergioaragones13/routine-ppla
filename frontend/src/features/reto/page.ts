@@ -95,11 +95,10 @@ export function initRetoPage(): void {
   const prevMonthBtn = document.getElementById("challengePrevMonth") as HTMLButtonElement | null;
   const nextMonthBtn = document.getElementById("challengeNextMonth") as HTMLButtonElement | null;
   const monthLabel = document.getElementById("challengeMonthLabel") as HTMLElement | null;
+  const openSettingsBtn = document.getElementById("challengeOpenSettings") as HTMLButtonElement | null;
+  const settingsModal = document.getElementById("challengeSettingsModal") as HTMLElement | null;
+  const settingsCloseBtn = document.getElementById("challengeSettingsClose") as HTMLButtonElement | null;
   const setupSection = document.getElementById("challengeSetup") as HTMLElement | null;
-  const editActions = document.getElementById("challengeEditActions") as HTMLElement | null;
-  const editBtn = document.getElementById("challengeEditBtn") as HTMLButtonElement | null;
-  const statusPill = document.getElementById("challengeStatusPill") as HTMLElement | null;
-  const daysLeftLabel = document.getElementById("challengeDaysLeft") as HTMLElement | null;
 
   if (
     !startInput ||
@@ -111,11 +110,10 @@ export function initRetoPage(): void {
     !prevMonthBtn ||
     !nextMonthBtn ||
     !monthLabel ||
-    !setupSection ||
-    !editActions ||
-    !editBtn ||
-    !statusPill ||
-    !daysLeftLabel
+    !openSettingsBtn ||
+    !settingsModal ||
+    !settingsCloseBtn ||
+    !setupSection
   )
     return;
 
@@ -130,18 +128,28 @@ export function initRetoPage(): void {
 
   if (state) {
     const startDate = fromIsoToLocalDate(state.startDateIso);
-    monthCursor = firstDayOfMonth(startDate.getFullYear(), startDate.getMonth());
+    const endDate = fromIsoToLocalDate(state.endDateIso);
+    const todayDate = fromIsoToLocalDate(todayIso);
+    const todayInChallengeRange =
+      todayDate.getTime() >= startDate.getTime() && todayDate.getTime() <= endDate.getTime();
+    monthCursor = todayInChallengeRange
+      ? firstDayOfMonth(todayDate.getFullYear(), todayDate.getMonth())
+      : firstDayOfMonth(startDate.getFullYear(), startDate.getMonth());
   }
 
-  const render = (): void => {
-    const todayDate = fromIsoToLocalDate(todayIso);
+  const closeSettingsModal = (): void => {
+    settingsModal.classList.remove("routine__confirm-modal--open");
+    settingsModal.setAttribute("aria-hidden", "true");
+  };
 
+  const openSettingsModal = (): void => {
+    settingsModal.classList.add("routine__confirm-modal--open");
+    settingsModal.setAttribute("aria-hidden", "false");
+    startInput.focus();
+  };
+
+  const render = (): void => {
     if (!state) {
-      setupSection.classList.remove("routine__challenge-setup--hidden");
-      editActions.classList.remove("routine__challenge-edit--visible");
-      statusPill.textContent = "No active challenge";
-      statusPill.classList.remove("routine__challenge-status-pill--live", "routine__challenge-status-pill--done");
-      daysLeftLabel.textContent = "0 days left";
       calendar.innerHTML = `<div class="routine__challenge-empty">Set a date range to build your challenge calendar.</div>`;
       meta.textContent = "No active challenge yet.";
       progress.textContent = `0/${challengeGoalDays} goal · 0 failed`;
@@ -150,33 +158,6 @@ export function initRetoPage(): void {
     }
 
     const activeState = state;
-    const endDate = fromIsoToLocalDate(activeState.endDateIso);
-    const startDate = fromIsoToLocalDate(activeState.startDateIso);
-    const daysLeftRaw = Math.floor((endDate.getTime() - todayDate.getTime()) / 86400000) + 1;
-    const daysLeft = Math.max(daysLeftRaw, 0);
-    const challengeIsLive = todayDate.getTime() <= endDate.getTime() && todayDate.getTime() >= startDate.getTime();
-    const challengeIsDone = todayDate.getTime() > endDate.getTime();
-
-    if (challengeIsLive || challengeIsDone) {
-      setupSection.classList.add("routine__challenge-setup--hidden");
-      editActions.classList.add("routine__challenge-edit--visible");
-    } else {
-      setupSection.classList.remove("routine__challenge-setup--hidden");
-      editActions.classList.remove("routine__challenge-edit--visible");
-    }
-    statusPill.classList.remove("routine__challenge-status-pill--live", "routine__challenge-status-pill--done");
-    if (challengeIsDone) {
-      statusPill.textContent = "Challenge completed";
-      statusPill.classList.add("routine__challenge-status-pill--done");
-      daysLeftLabel.textContent = "0 days left";
-    } else if (challengeIsLive) {
-      statusPill.textContent = "Challenge active";
-      statusPill.classList.add("routine__challenge-status-pill--live");
-      daysLeftLabel.textContent = `${daysLeft} ${daysLeft === 1 ? "day" : "days"} left`;
-    } else {
-      statusPill.textContent = "Challenge scheduled";
-      daysLeftLabel.textContent = `${daysLeft} ${daysLeft === 1 ? "day" : "days"} left`;
-    }
 
     const days = rangeDates(activeState.startDateIso, activeState.endDateIso);
     const scheduledDays = days.filter((iso) => routineTrainingWeekdays.includes(isoWeekdayMon0(iso)));
@@ -193,10 +174,7 @@ export function initRetoPage(): void {
     const scheduledFutureDays = futureOrTodayDays.filter((iso) =>
       routineTrainingWeekdays.includes(isoWeekdayMon0(iso))
     );
-    const extraFutureDays = futureOrTodayDays.filter(
-      (iso) => !routineTrainingWeekdays.includes(isoWeekdayMon0(iso))
-    );
-    const requiredTargetDays = [...scheduledFutureDays, ...extraFutureDays].slice(0, remainingForGoal);
+    const requiredTargetDays = [...scheduledFutureDays].slice(0, remainingForGoal);
     const requiredByIso = new Set(requiredTargetDays);
 
     const trained = trackedDays.filter((iso) => resolveStatus(iso) === "trained").length;
@@ -210,14 +188,19 @@ export function initRetoPage(): void {
     const cursorYear = monthCursor.getFullYear();
     const cursorMonth = monthCursor.getMonth();
     const monthStart = firstDayOfMonth(cursorYear, cursorMonth);
+    const monthEnd = firstDayOfMonth(cursorYear, cursorMonth + 1);
+    monthEnd.setDate(0);
     const offset = mondayIndex(monthStart);
-    const gridStart = addDays(monthStart, -offset);
+    const totalDaysInMonth = monthEnd.getDate();
+    const totalCells = Math.ceil((offset + totalDaysInMonth) / 7) * 7;
 
-    const cells = Array.from({ length: 42 }, (_, idx) => addDays(gridStart, idx));
-    calendar.innerHTML = cells
-      .map((dateObj) => {
+    calendar.innerHTML = Array.from({ length: totalCells }, (_, idx) => {
+      if (idx < offset || idx >= offset + totalDaysInMonth) {
+        return `<div class="routine__challenge-day routine__challenge-day--empty" aria-hidden="true"></div>`;
+      }
+      const dayNumber = idx - offset + 1;
+      const dateObj = new Date(cursorYear, cursorMonth, dayNumber);
         const iso = toLocalIso(dateObj);
-        const inCurrentMonth = dateObj.getMonth() === cursorMonth;
         const inRange = iso >= activeState.startDateIso && iso <= activeState.endDateIso;
         const scheduled = routineTrainingWeekdays.includes(isoWeekdayMon0(iso));
         const extraFromSocial = socialStatusByIso[iso] === "trained" && !scheduled;
@@ -226,9 +209,16 @@ export function initRetoPage(): void {
         const status = resolveStatus(iso);
         const requiredForGoal = requiredByIso.has(iso) && status !== "trained";
         const activityLabel = socialActivityLabelByIso[iso] || "";
+        const restSleepMarkup = isRestDay
+          ? `<span class="routine__challenge-day-sleep" aria-hidden="true">
+              <span class="routine__challenge-day-z routine__challenge-day-z--1">Z</span>
+              <span class="routine__challenge-day-z routine__challenge-day-z--2">Z</span>
+              <span class="routine__challenge-day-z routine__challenge-day-z--3">Z</span>
+              <span class="routine__challenge-day-z routine__challenge-day-z--4">Z</span>
+            </span>`
+          : "";
         const classes = [
           "routine__challenge-day",
-          inCurrentMonth ? "" : "routine__challenge-day--outside",
           inRange ? "routine__challenge-day--in-range" : "routine__challenge-day--disabled",
           isRestDay ? "routine__challenge-day--rest" : "",
           informative ? `routine__challenge-day--${status}` : "",
@@ -248,8 +238,9 @@ export function initRetoPage(): void {
           >
             <span class="routine__challenge-day-number">${dateObj.getDate()}</span>
             <span class="routine__challenge-day-activity">${
-              activityLabel || (requiredForGoal ? "Goal" : isRestDay ? "Rest day" : "")
+              activityLabel || (requiredForGoal ? "Goal" : "")
             }</span>
+            ${restSleepMarkup}
             <span class="routine__challenge-day-dot"></span>
           </button>
         `;
@@ -269,11 +260,21 @@ export function initRetoPage(): void {
     saveChallengeState(state);
     void syncSocialRange(true);
     render();
+    closeSettingsModal();
   });
 
-  editBtn.addEventListener("click", () => {
-    setupSection.classList.remove("routine__challenge-setup--hidden");
-    startInput.focus();
+  openSettingsBtn.addEventListener("click", () => {
+    openSettingsModal();
+  });
+
+  settingsCloseBtn.addEventListener("click", () => {
+    closeSettingsModal();
+  });
+
+  settingsModal.addEventListener("click", (event) => {
+    if (event.target === settingsModal) {
+      closeSettingsModal();
+    }
   });
 
   prevMonthBtn.addEventListener("click", () => {
@@ -328,5 +329,8 @@ export function initRetoPage(): void {
   });
 
   render();
+  if (!state) {
+    openSettingsModal();
+  }
   void syncSocialRange(true);
 }

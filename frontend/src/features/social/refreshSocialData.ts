@@ -9,7 +9,13 @@ type SocialElements = {
   socialMonthlyTitle: HTMLElement | null;
   socialMonthlyBody: HTMLElement | null;
   socialMonthlyClose: HTMLButtonElement | null;
+  socialMotivationModal: HTMLElement | null;
   socialUsername: HTMLInputElement | null;
+  socialMotivationCard: HTMLElement | null;
+  socialMotivationClose: HTMLButtonElement | null;
+  socialMotivationRank: HTMLElement | null;
+  socialMotivationTitle: HTMLElement | null;
+  socialMotivationText: HTMLElement | null;
 };
 
 type ClientFactory = () => { client: SupabaseClient } | null;
@@ -20,6 +26,17 @@ function toLocalIsoDate(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function getMotivationStorageKey(userId: string, localDateIso: string): string {
+  return `social_motivation_state:${userId}:${localDateIso}`;
+}
+
+function resolveMotivationMessage(rank: number | null): string {
+  if (rank === 1) return "You're leading the board. Keep the fire alive.";
+  if (rank === 2) return "You're #2. One more push to take #1.";
+  if (rank !== null && rank >= 3) return "You're in the chase. Time to level up today.";
+  return "New day, new chance. Keep your streak alive.";
 }
 
 function getMonthRange(now: Date): { from: string; to: string; label: string } {
@@ -62,9 +79,29 @@ export function createSocialRefresher(
     socialMonthlyTitle,
     socialMonthlyBody,
     socialMonthlyClose,
-    socialUsername
+    socialMotivationModal,
+    socialUsername,
+    socialMotivationCard,
+    socialMotivationClose,
+    socialMotivationRank,
+    socialMotivationTitle,
+    socialMotivationText
   } = elements;
   let activePeriod: "month" | "30d" | "all" = "month";
+  let lastMonthlyModalTrigger: HTMLElement | null = null;
+  let lastMotivationModalTrigger: HTMLElement | null = null;
+
+  const closeMonthlyModal = (): void => {
+    if (!socialMonthlyModal) return;
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && socialMonthlyModal.contains(active)) {
+      active.blur();
+    }
+    socialMonthlyModal.classList.remove("routine__confirm-modal--open");
+    socialMonthlyModal.setAttribute("aria-hidden", "true");
+    lastMonthlyModalTrigger?.focus();
+  };
+
   const periodButtons = document.querySelectorAll<HTMLButtonElement>("[data-social-period]");
   periodButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -80,19 +117,22 @@ export function createSocialRefresher(
   const openMonthlyModal = async (
     client: SupabaseClient,
     targetUserId: string,
-    targetUsername: string
+    targetUsername: string,
+    trigger?: HTMLElement | null
   ): Promise<void> => {
     if (!socialMonthlyModal || !socialMonthlyTitle || !socialMonthlyBody) return;
-    const { from, to, label } = getMonthRange(new Date());
+    lastMonthlyModalTrigger = trigger || null;
+    const { from, to, label } = getPeriodRange(activePeriod, new Date());
     socialMonthlyTitle.textContent = `${targetUsername} · ${label}`;
     socialMonthlyBody.innerHTML =
       '<div class="routine__social-item routine__social-item--loading">Loading monthly record...</div>';
     socialMonthlyModal.classList.add("routine__confirm-modal--open");
     socialMonthlyModal.setAttribute("aria-hidden", "false");
+    socialMonthlyClose?.focus();
 
     const { data: activities, error } = await client
       .from("workout_activity_logs")
-      .select("activity_type,points")
+      .select("activity_type")
       .eq("user_id", targetUserId)
       .gte("activity_date", from)
       .lte("activity_date", to);
@@ -102,27 +142,62 @@ export function createSocialRefresher(
       return;
     }
 
+    const { data: ranked, error: rankedError } = await client.rpc("get_friend_leaderboard_period", {
+      p_from: from,
+      p_to: to
+    });
+    const targetRanked = rankedError
+      ? null
+      : (ranked || []).find(
+          (entry: Record<string, unknown>) => String(entry.user_id || "") === targetUserId
+        ) || null;
+
     const gym = (activities || []).filter((row) => String(row.activity_type || "") === "gym").length;
     const extra = (activities || []).filter((row) => String(row.activity_type || "") === "extra").length;
     const missed = (activities || []).filter((row) => String(row.activity_type || "") === "missed").length;
-    const points = (activities || []).reduce((acc, row) => acc + Number(row.points || 0), 0);
+    const points = targetRanked ? Number(targetRanked.score || 0) : 0;
+    const streak = targetRanked ? Number(targetRanked.streak || 0) : 0;
 
     socialMonthlyBody.innerHTML = `
       <div class="routine__social-item"><span>Gym activities</span><span>${gym}</span></div>
       <div class="routine__social-item"><span>Extra activities</span><span>${extra}</span></div>
       <div class="routine__social-item"><span>Missed days</span><span>${missed}</span></div>
-      <div class="routine__social-item routine__social-item--me"><span>Monthly points</span><span>${points}</span></div>
+      <div class="routine__social-item"><span>Streak in period</span><span>${streak}</span></div>
+      <div class="routine__social-item routine__social-item--me"><span>Period points (with streak)</span><span>${points}</span></div>
     `;
   };
 
-  socialMonthlyClose?.addEventListener("click", () => {
-    socialMonthlyModal?.classList.remove("routine__confirm-modal--open");
-    socialMonthlyModal?.setAttribute("aria-hidden", "true");
-  });
+  socialMonthlyClose?.addEventListener("click", closeMonthlyModal);
   socialMonthlyModal?.addEventListener("click", (event) => {
     if (event.target !== socialMonthlyModal) return;
-    socialMonthlyModal.classList.remove("routine__confirm-modal--open");
-    socialMonthlyModal.setAttribute("aria-hidden", "true");
+    closeMonthlyModal();
+  });
+
+  const hideMotivationModal = (): void => {
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && socialMotivationModal?.contains(active)) {
+      active.blur();
+    }
+    socialMotivationModal?.classList.remove("routine__confirm-modal--open");
+    socialMotivationModal?.setAttribute("aria-hidden", "true");
+    lastMotivationModalTrigger?.focus();
+  };
+
+  const showMotivationModal = (): void => {
+    lastMotivationModalTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    socialMotivationCard?.classList.remove("routine__social-motivation--burst");
+    void socialMotivationCard?.offsetWidth;
+    socialMotivationCard?.classList.add("routine__social-motivation--burst");
+    socialMotivationModal?.classList.add("routine__confirm-modal--open");
+    socialMotivationModal?.setAttribute("aria-hidden", "false");
+    socialMotivationClose?.focus();
+  };
+
+  socialMotivationClose?.addEventListener("click", hideMotivationModal);
+  socialMotivationModal?.addEventListener("click", (event) => {
+    if (event.target === socialMotivationModal) {
+      hideMotivationModal();
+    }
   });
 
   const refresh = async (): Promise<void> => {
@@ -156,6 +231,7 @@ export function createSocialRefresher(
           socialLeaderboard.innerHTML =
             '<div class="routine__social-item routine__social-item--empty">No leaderboard data.</div>';
         }
+        hideMotivationModal();
         return;
       }
 
@@ -281,15 +357,98 @@ export function createSocialRefresher(
           const isMe = entryUserId === user.id;
           const row = document.createElement("div");
           row.className = isMe
-            ? "routine__social-item routine__social-item--me"
-            : "routine__social-item";
-          row.innerHTML = `<span>#${index + 1} ${isMe ? "You" : entryUsername}</span><span>${entryScore} pts · 🔥 ${entryStreak} · ✨ ${entryExtra}</span>`;
+            ? "routine__social-item routine__social-item--leaderboard routine__social-item--me"
+            : "routine__social-item routine__social-item--leaderboard";
+          row.innerHTML = `
+            <span class="routine__leaderboard-user">#${index + 1} ${isMe ? "You" : entryUsername}</span>
+            <span class="routine__leaderboard-score">${entryScore} pts</span>
+            <span class="routine__leaderboard-fire-wrap">
+                <span class="routine__leaderboard-fire-count">${entryStreak}</span>
+                <span class="routine__leaderboard-fire fire" aria-hidden="true">
+                  <span class="fire-left">
+                    <span class="main-fire"></span>
+                    <span class="particle-fire"></span>
+                  </span>
+                  <span class="fire-center">
+                    <span class="main-fire"></span>
+                    <span class="particle-fire"></span>
+                  </span>
+                  <span class="fire-right">
+                    <span class="main-fire"></span>
+                    <span class="particle-fire"></span>
+                  </span>
+                  <span class="fire-bottom">
+                    <span class="main-fire"></span>
+                  </span>
+                </span>
+            </span>
+            <span class="routine__leaderboard-extra">
+              <span class="routine__leaderboard-extra-icon loader" aria-hidden="true">
+                <svg
+                  viewBox="0 0 256 256"
+                  class="star star1"
+                  height="16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                </svg>
+              </span>
+              <span>${entryExtra}</span>
+            </span>
+          `;
           row.addEventListener("click", () => {
-            void openMonthlyModal(client, entryUserId, isMe ? "You" : entryUsername);
+            void openMonthlyModal(client, entryUserId, isMe ? "You" : entryUsername, row);
           });
           row.style.cursor = "pointer";
           socialLeaderboard.appendChild(row);
         });
+      }
+
+      const myRankEntryIndex = (ranked || []).findIndex(
+        (entry: Record<string, unknown>) => String(entry.user_id || "") === user.id
+      );
+      const myRank = myRankEntryIndex >= 0 ? myRankEntryIndex + 1 : null;
+      const myStreak =
+        myRankEntryIndex >= 0 ? Number((ranked || [])[myRankEntryIndex]?.streak || 0) : 0;
+      const localDateIso = toLocalIsoDate(new Date());
+      const storageKey = getMotivationStorageKey(user.id, localDateIso);
+      const rawState = window.localStorage.getItem(storageKey);
+      let lastShownRank: number | null = null;
+      let shownToday = false;
+      if (rawState) {
+        try {
+          const parsed = JSON.parse(rawState) as { shown?: boolean; lastShownRank?: number | null };
+          shownToday = Boolean(parsed?.shown);
+          lastShownRank = typeof parsed?.lastShownRank === "number" ? parsed.lastShownRank : null;
+        } catch {
+          shownToday = false;
+          lastShownRank = null;
+        }
+      }
+      const shouldShowMotivation = !shownToday || lastShownRank !== myRank;
+      if (
+        socialMotivationCard &&
+        socialMotivationRank &&
+        socialMotivationTitle &&
+        socialMotivationText
+      ) {
+        if (shouldShowMotivation) {
+          socialMotivationRank.textContent = myRank ? String(myRank) : "-";
+          socialMotivationTitle.textContent = `${Math.max(myStreak, 0)} day${myStreak === 1 ? "" : "s"} streak`;
+          socialMotivationText.textContent = resolveMotivationMessage(myRank);
+          showMotivationModal();
+          window.localStorage.setItem(
+            storageKey,
+            JSON.stringify({
+              shown: true,
+              lastShownRank: myRank,
+              lastShownAt: new Date().toISOString()
+            })
+          );
+        } else {
+          hideMotivationModal();
+        }
       }
     } catch {
       if (socialAuthStatus) socialAuthStatus.textContent = "Failed to load social data.";
@@ -297,6 +456,7 @@ export function createSocialRefresher(
         socialLeaderboard.innerHTML =
           '<div class="routine__social-item routine__social-item--empty">Could not load leaderboard.</div>';
       }
+      hideMotivationModal();
     }
   };
 

@@ -134,6 +134,7 @@ export function initSocialController(
   let weekCursor = startOfWeek(new Date());
   let weekStatusByIso: Record<string, CheckinMode | null> = {};
   let weekLabelByIso: Record<string, string> = {};
+  let lastSportPickerTrigger: HTMLElement | null = null;
 
   function renderCheckinCalendar(): void {
     if (!socialCalendar || !socialCalendarWeekLabel) return;
@@ -158,19 +159,29 @@ export function initSocialController(
         const isFuture = iso > todayIso;
         const status = weekStatusByIso[iso] || null;
         const label = weekLabelByIso[iso] || "";
+        const isRoutineDay = isRoutineTrainingDay(iso);
+        const isRestDay = !isRoutineDay && !status;
+        const restSleepMarkup = isRestDay
+          ? `<span class="routine__social-calendar-sleep" aria-hidden="true">
+              <span class="routine__social-calendar-z routine__social-calendar-z--1">Z</span>
+              <span class="routine__social-calendar-z routine__social-calendar-z--2">Z</span>
+              <span class="routine__social-calendar-z routine__social-calendar-z--3">Z</span>
+            </span>`
+          : "";
         const className = [
           "routine__social-calendar-day",
           isToday ? "routine__social-calendar-day--today" : "",
           isSelected ? "routine__social-calendar-day--selected" : "",
           status === "gym" || status === "extra" ? "routine__social-calendar-day--trained" : "",
           status === "missed" ? "routine__social-calendar-day--missed" : "",
+          isRestDay ? "routine__social-calendar-day--rest" : "",
           !status && !isFuture ? "routine__social-calendar-day--pending" : ""
         ]
           .filter(Boolean)
           .join(" ");
         return `<button type="button" class="${className}" data-social-date="${iso}" ${
           isFuture ? "disabled" : ""
-        }><span>${dateObj.getDate()}</span><span class="routine__social-calendar-label">${label}</span><span class="routine__social-calendar-dot"></span></button>`;
+        }><span>${dateObj.getDate()}</span><span class="routine__social-calendar-label">${label}</span>${restSleepMarkup}<span class="routine__social-calendar-dot"></span></button>`;
       })
       .join("");
   }
@@ -217,8 +228,10 @@ export function initSocialController(
     );
   }
 
-  function openSportPicker(): void {
+  function openSportPicker(event?: Event): void {
     if (!socialSportPicker) return;
+    const trigger = event?.currentTarget;
+    lastSportPickerTrigger = trigger instanceof HTMLElement ? trigger : socialCheckinOpenSports;
     socialSportPicker.classList.add("routine__sport-picker--open");
     socialSportPicker.setAttribute("aria-hidden", "false");
     socialSportEmpty?.classList.add("routine__sport-empty--hidden");
@@ -233,8 +246,13 @@ export function initSocialController(
 
   function closeSportPicker(): void {
     if (!socialSportPicker) return;
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && socialSportPicker.contains(active)) {
+      active.blur();
+    }
     socialSportPicker.classList.remove("routine__sport-picker--open");
     socialSportPicker.setAttribute("aria-hidden", "true");
+    lastSportPickerTrigger?.focus();
   }
 
   function resolveSelectedCheckinDate(): string {

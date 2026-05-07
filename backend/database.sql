@@ -204,24 +204,41 @@ declare
   v_best_streak int := 0;
   v_extra_sessions int := 0;
   v_last_checkin_date date := null;
+  v_prev_date date := null;
+  v_base_points int := 0;
 begin
   for v_row in
-    select activity_date, activity_type, points
+    select activity_date, activity_type
     from public.workout_activity_logs
     where user_id = p_user_id
     order by activity_date asc, created_at asc
   loop
     v_last_checkin_date := v_row.activity_date;
-    v_score := v_score + coalesce(v_row.points, 0);
     if v_row.activity_type in ('gym', 'extra') then
-      v_streak := v_streak + 1;
+      if v_prev_date is null or v_row.activity_date = v_prev_date + 1 then
+        v_streak := v_streak + 1;
+      else
+        v_streak := 1;
+      end if;
+
+      v_base_points := case
+        when v_row.activity_type = 'gym' then 10
+        when v_row.activity_type = 'extra' then 6
+        else 0
+      end;
+
+      -- Streak bonus starts on day 2 (day 1 gets no bonus).
+      v_score := v_score + v_base_points + greatest(v_streak - 1, 0);
+
       v_best_streak := greatest(v_best_streak, v_streak);
       if v_row.activity_type = 'extra' then
         v_extra_sessions := v_extra_sessions + 1;
       end if;
     else
+      v_score := v_score - 12;
       v_streak := 0;
     end if;
+    v_prev_date := v_row.activity_date;
   end loop;
 
   insert into public.user_stats (user_id, score, streak, best_streak, extra_sessions, last_checkin_date, updated_at)
@@ -308,28 +325,89 @@ as $$
     from public.friendships f
     join me on me.viewer_id = f.user_id
   ),
-  period_activity as (
+  logs as (
     select
       l.user_id,
-      coalesce(sum(l.points), 0)::int as score,
-      count(*) filter (where l.activity_type in ('gym', 'extra'))::int as trained_days,
-      count(*) filter (where l.activity_type = 'extra')::int as extra_sessions,
-      max(l.activity_date) as last_activity_date
+      l.activity_date,
+      l.activity_type,
+      l.created_at,
+      lag(l.activity_date) over (partition by l.user_id order by l.activity_date asc, l.created_at asc) as prev_date,
+      lag(l.activity_type) over (partition by l.user_id order by l.activity_date asc, l.created_at asc) as prev_type
     from public.workout_activity_logs l
     where l.activity_date between p_from and p_to
       and l.user_id in (select user_id from peers)
-    group by l.user_id
+  ),
+  streak_marks as (
+    select
+      user_id,
+      activity_date,
+      activity_type,
+      case
+        when activity_type in ('gym', 'extra') then
+          case
+            when prev_date is null then 1
+            when prev_type not in ('gym', 'extra') then 1
+            when activity_date = prev_date + 1 then 0
+            else 1
+          end
+        else 1
+      end as is_new_streak
+    from logs
+  ),
+  segments as (
+    select
+      user_id,
+      activity_date,
+      activity_type,
+      sum(is_new_streak) over (
+        partition by user_id
+        order by activity_date asc
+        rows between unbounded preceding and current row
+      ) as segment_id
+    from streak_marks
+  ),
+  streak_len_per_row as (
+    select
+      user_id,
+      activity_date,
+      activity_type,
+      case
+        when activity_type in ('gym', 'extra')
+        then row_number() over (
+          partition by user_id, segment_id
+          order by activity_date asc
+        )
+        else 0
+      end as streak_len
+    from segments
+  ),
+  period_agg as (
+    select
+      r.user_id,
+      sum(
+        case
+          when r.activity_type = 'gym' then 10 + greatest(r.streak_len - 1, 0)
+          when r.activity_type = 'extra' then 6 + greatest(r.streak_len - 1, 0)
+          else -12
+        end
+      )::int as score,
+      count(*) filter (where r.activity_type in ('gym', 'extra'))::int as trained_days,
+      count(*) filter (where r.activity_type = 'extra')::int as extra_sessions,
+      max(r.activity_date) as last_activity_date,
+      coalesce(max(r.streak_len), 0)::int as streak
+    from streak_len_per_row r
+    group by r.user_id
   )
   select
     p.id as user_id,
     p.username,
     coalesce(a.score, 0) as score,
-    coalesce(a.trained_days, 0) as streak,
+    coalesce(a.streak, 0) as streak,
     coalesce(a.extra_sessions, 0) as extra_sessions,
     coalesce(a.trained_days, 0) as trained_days,
     a.last_activity_date
   from peers pr
   join public.profiles p on p.id = pr.user_id
-  left join period_activity a on a.user_id = pr.user_id
+  left join period_agg a on a.user_id = pr.user_id
   order by coalesce(a.score, 0) desc, p.username asc;
 $$;

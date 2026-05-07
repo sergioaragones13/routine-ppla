@@ -218,6 +218,12 @@ const socialMonthlyModal = document.getElementById("socialMonthlyModal") as HTML
 const socialMonthlyTitle = document.getElementById("socialMonthlyTitle") as HTMLElement | null;
 const socialMonthlyBody = document.getElementById("socialMonthlyBody") as HTMLElement | null;
 const socialMonthlyClose = document.getElementById("socialMonthlyClose") as HTMLButtonElement | null;
+const socialMotivationModal = document.getElementById("socialMotivationModal") as HTMLElement | null;
+const socialMotivationCard = document.getElementById("socialMotivationCard") as HTMLElement | null;
+const socialMotivationClose = document.getElementById("socialMotivationClose") as HTMLButtonElement | null;
+const socialMotivationRank = document.getElementById("socialMotivationRank") as HTMLElement | null;
+const socialMotivationTitle = document.getElementById("socialMotivationTitle") as HTMLElement | null;
+const socialMotivationText = document.getElementById("socialMotivationText") as HTMLElement | null;
 const socialCheckinOpenSports = document.getElementById(
   "socialCheckinOpenSports"
 ) as HTMLButtonElement | null;
@@ -605,7 +611,13 @@ const refreshSocialData = createSocialRefresher(
     socialMonthlyTitle,
     socialMonthlyBody,
     socialMonthlyClose,
-    socialUsername
+    socialMotivationModal,
+    socialUsername,
+    socialMotivationCard,
+    socialMotivationClose,
+    socialMotivationRank,
+    socialMotivationTitle,
+    socialMotivationText
   },
   (userId: string | null) => {
     socialUserId = userId;
